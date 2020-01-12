@@ -1,0 +1,14 @@
+Package: RRRR
+Type: Package
+Title: Online Robust Reduced-Rank Regression Estimation
+Version: 0.1.0
+Author@R: c(
+     person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre")), 
+     person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut")) 
+    )
+Description: Methods for estimating online Robust Reduced-Rank Regression.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/FinYang/RRRR
+BugReports: https://github.com/FinYang/RRRR/issues/
