@@ -1,0 +1,16 @@
+.navbar-fixed-top {
+  background-color: #3F555D;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  background-color: #3F555D;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: #192e2e;
+}
+
+/*
+  body {
+    background-color: #EDE3DA;
+  }
+*/

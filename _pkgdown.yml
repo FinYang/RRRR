@@ -1,0 +1,15 @@
+destination: docs
+
+development:
+  mode: auto
+
+template:
+  params:
+    ganalytics: UA-129140417-1
+    bootswatch: flatly
+
+authors:
+  Yangzhuoran Yang:
+    href: https://yangzhuoranyang.com
+  Ziping Zhao:
+    href: http://zzhaoae.student.ust.hk/

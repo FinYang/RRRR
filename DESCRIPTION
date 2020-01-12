@@ -1,8 +1,8 @@
 Package: RRRR
 Type: Package
 Title: Online Robust Reduced-Rank Regression Estimation
-Version: 0.1.0
-Author@R: c(
+Version: 0.0.0.9000
+Authors@R: c(
      person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre")), 
      person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut")) 
     )
