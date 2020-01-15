@@ -54,7 +54,7 @@ RRR_sim(
 \item{z}{Matrix with dimension N*R. Can be used to specify \eqn{z} instead of simulating form a normal distribution.}
 }
 \value{
-A list of the inputed specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}.
+A list of the inputed specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}, of class \code{RRR_data}.
 \describe{
 \item{y}{Matrix of dimension N*P}
 \item{x}{Matrix of dimension N*Q}
@@ -81,7 +81,8 @@ that will not be projected,
 \eqn{B} is the so called factor matrix with dimension \eqn{Q*r}.
 The matrix resulted from \eqn{AB'} will be a reduced rank coefficient matrix with rank of \eqn{r}.
 The function simulates \eqn{x}, \eqn{z} from multivariate normal distribution and \eqn{y} by specifying
-parameters \eqn{\mu}, \eqn{A}, \eqn{B}, and \eqn{D}. The constant \eqn{\mu} and the term \eqn{Dz} can be
+parameters \eqn{\mu}, \eqn{A}, \eqn{B}, \eqn{D}, and \eqn{varcov}, the covariance matrix of
+the innovation's distribution.  The constant \eqn{\mu} and the term \eqn{Dz} can be
 droped by setting \code{NULL} for arguments \code{mu} and \code{D}. The \code{innov} in the argument is
 the collection of innovations of all the realizations.
 }

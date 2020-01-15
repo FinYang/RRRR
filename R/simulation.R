@@ -19,7 +19,8 @@
 #' \eqn{B} is the so called factor matrix with dimension \eqn{Q*r}.
 #' The matrix resulted from \eqn{AB'} will be a reduced rank coefficient matrix with rank of \eqn{r}.
 #' The function simulates \eqn{x}, \eqn{z} from multivariate normal distribution and \eqn{y} by specifying
-#' parameters \eqn{\mu}, \eqn{A}, \eqn{B}, and \eqn{D}. The constant \eqn{\mu} and the term \eqn{Dz} can be
+#' parameters \eqn{\mu}, \eqn{A}, \eqn{B}, \eqn{D}, and \eqn{varcov}, the covariance matrix of
+#' the innovation's distribution.  The constant \eqn{\mu} and the term \eqn{Dz} can be
 #' droped by setting \code{NULL} for arguments \code{mu} and \code{D}. The \code{innov} in the argument is
 #' the collection of innovations of all the realizations.
 #'
@@ -39,7 +40,7 @@
 #' @param x Matrix with dimension N*Q. Can be used to specify \eqn{x} instead of simulating form a normal distribution.
 #' @param z Matrix with dimension N*R. Can be used to specify \eqn{z} instead of simulating form a normal distribution.
 #'
-#' @return A list of the inputed specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}.
+#' @return A list of the inputed specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}, of class \code{RRR_data}.
 #' \describe{
 #' \item{y}{Matrix of dimension N*P}
 #' \item{x}{Matrix of dimension N*Q}
@@ -65,7 +66,11 @@ RRR_sim <- function(N = 1000, P = 3, Q = 3, R = 1, r = 1,
 ) {
   if(P != NROW(A)) stop("P is not the same with the row number of matrix A.")
   if(Q != NROW(B)) stop("Q is not the same with the row number of matrix B.")
-  if(R != NCOL(D)) stop("R is not the same with the column number of matrix D.")
+  if(R==0 || is.null(D)){
+    R <- 0
+  } else {
+    if(R != NCOL(D)) stop("R is not the same with the column number of matrix D.")
+  }
 
   if(is.null(x))  x <- mvtnorm::rmvnorm(N, mean = rep(mean_x, Q))
 
@@ -85,17 +90,17 @@ RRR_sim <- function(N = 1000, P = 3, Q = 3, R = 1, r = 1,
   }
   if(is.null(D)){
     y <- constant + x %*% t(C) + innov
-    output <- list(spec = list(
-      P = P, N = N, Q = Q, R = R, A = A, B = B, C = C, mu = mu, r = r,
-      Sigma = varcov
-    ), y = y, x = x)
+    # output <- list(spec = list(
+    #   P = P, N = N, Q = Q, R = R, A = A, B = B, mu = mu, r = r,
+    #   Sigma = varcov
+    # ), y = y, x = x)
   } else {
     y <- constant + x %*% t(C) + z %*% t(D) + innov
-    output <- list(spec = list(
-      P = P, N = N, Q = Q, R = R, A = A, B = B, mu = mu, D = D,  r = r,
-      Sigma = varcov, innov = innov
-    ), y = y, x = x, z = z)
   }
-
+  output <- list(spec = list(
+    P = P, N = N, Q = Q, R = R, A = A, B = B, mu = mu, D = D,  r = r,
+    Sigma = varcov, innov = innov
+  ), y = y, x = x, z = z)
+  class(output) <- c("RRR_data", "list")
   return(output)
 }

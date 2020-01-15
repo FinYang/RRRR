@@ -5,7 +5,8 @@ Version: 0.0.0.9000
 Authors@R: c(
      person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1232-8017")), 
      person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut")))
-Description: Methods for estimating online Robust Reduced-Rank Regression.
+Description: Methods for estimating online Robust Reduced-Rank Regression. 
+    The Gaussian Maximum Likelihood Estimation method is described in Johansen (1991) <doi:10.2307/2938278>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -13,5 +14,6 @@ URL: https://pkg.yangzhuoranyang.com/RRRR/, https://github.com/FinYang/RRRR
 BugReports: https://github.com/FinYang/RRRR/issues/
 Imports:
     mvtnorm, 
-    stats
+    stats, 
+    expm
 RoxygenNote: 7.0.2
