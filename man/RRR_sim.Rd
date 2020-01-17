@@ -87,6 +87,7 @@ droped by setting \code{NULL} for arguments \code{mu} and \code{D}. The \code{in
 the collection of innovations of all the realizations.
 }
 \examples{
+set.seed(2222)
 data <- RRR_sim()
 
 }

@@ -48,6 +48,7 @@
 #' }
 #'
 #' @examples
+#' set.seed(2222)
 #' data <- RRR_sim()
 #'
 #' @author Yangzhuoran Yang

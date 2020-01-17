@@ -6,7 +6,8 @@ Authors@R: c(
      person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1232-8017")), 
      person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut")))
 Description: Methods for estimating online Robust Reduced-Rank Regression. 
-    The Gaussian Maximum Likelihood Estimation method is described in Johansen (1991) <doi:10.2307/2938278>.
+    The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (1991) <doi:10.2307/2938278>.
+    The Majorization-Minimization estimation method is partly described in Zhao, Z., & Palomar, D. P. (2017) <doi:10.1109/GlobalSIP.2017.8309093>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
