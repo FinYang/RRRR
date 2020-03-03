@@ -52,20 +52,46 @@
 #' res <- RRRR(y=data$y, x=data$x, z = data$z)
 #' res
 #'
-#' @author Yangzhuoran Yang
-#' @source Z. Zhao and D. P. Palomar, “Robust maximum likelihood estimation of sparse vector error correction model,” in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp.  913—-917,IEEE, 2017.
+#' @author Yangzhuoran Fin Yang
+#' @source Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
+#' @importFrom magrittr %>%
 #' @export
 RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
                  itr = 100, earlystop = 1e-4,
                  initial_A = matrix(rnorm(P*r), ncol =  r),
                  initial_B = matrix(rnorm(Q*r), ncol =  r),
-                 initial_D = matrix(rnorm(P*(R+1)), ncol =  R+1),
+                 initial_D = matrix(rnorm(P*R), ncol =  R),
                  initial_Sigma = diag(P)){
 
   N <- nrow(y)
+
+  if(!is.null(z)){
+    z <- as.matrix(z)
+    R <- ncol(z)
+    z <- t(z)
+    if(mu){
+      z <- rbind(z, 1)
+      initial_D <- cbind(initial_D, rnorm(P))
+    }
+
+    znull <- FALSE
+  } else {
+    R <- 0
+    znull <- TRUE
+    if (mu){
+      z <- matrix(rep(1, N), nrow = 1)
+      initial_D <- matrix(rnorm(P))
+    }
+  }
+  muorz <- mu || !znull
+
+  if(nrow(y) != nrow(x)){
+    if(!is.null(z) && nrow(y) != ncol(z))
+      stop("The numbers of realizations are not consistant in the inputs.")
+  }
+
   P <- ncol(y)
   Q <- ncol(x)
-  R <- ncol(z)
 
 
   ##
@@ -93,43 +119,65 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
 
   y <- t(y)
   x <- t(x)
-  z <- t(z)
-  z <- rbind(z, 1)
+  # z <- t(z)
+  # z <- rbind(z, 1)
   for (k in seq_len(itr)) {
-    temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
+    if(muorz){
+      temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
+    } else {
+      temp <- t(y - Pi[[k]] %*% x) %>% split(seq_len(nrow(.)))
+    }
     xk[[k]] <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k]]) %*% tem)
     wk[[k]] <- 1/(1 + xk[[k]])
 
     dwk <- diag(sqrt(wk[[k]]))
     ybar[[k]] <- y %*% dwk
     xbar[[k]] <- x %*% dwk
-    zbar[[k]] <- z %*% dwk
+    if(muorz)
+      zbar[[k]] <- z %*% dwk
+    if(muorz){
 
-    Mbar[[k]] <- diag(1, N) - t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]])) %*% zbar[[k]]
+      Mbar[[k]] <- diag(1, N) - t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]])) %*% zbar[[k]]
+      ##
+      R_0 <- ybar[[k]] %*% Mbar[[k]]
+      R_1 <- xbar[[k]] %*% Mbar[[k]]
+    } else {
+      R_0 <- ybar[[k]]
+      R_1 <- xbar[[k]]
 
-    ##
-    R_0 <- ybar[[k]] %*% Mbar[[k]]
-    R_1 <- xbar[[k]] %*% Mbar[[k]]
+    }
 
     S_01 <- 1/(N - 2) * R_0 %*% t(R_1)
     S_10 <- 1/(N - 2) * R_1 %*% t(R_0)
     S_00 <- 1/(N - 2) * R_0 %*% t(R_0)
     S_11 <- 1/(N - 2) * R_1 %*% t(R_1)
 
-    SSSSS <- solve(sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(sqrtm(S_11))
+    SSSSS <- solve(expm::sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(expm::sqrtm(S_11))
     V <- eigen(SSSSS)$vectors[, seq_len(r)]
 
-    B[[k + 1]] <- solve(sqrtm(S_11)) %*% V
+    B[[k + 1]] <- solve(expm::sqrtm(S_11)) %*% V
     # beta_hat <- beta_hat * (1/beta_hat[[1]])
 
     # alpha_hat <- S_01 %*% (beta_hat) %*% solve(t(beta_hat) %*% S_11 %*% (beta_hat))
     A[[k + 1]] <- S_01 %*% B[[k + 1]]
     Pi[[k + 1]] <- A[[k + 1]] %*% t(B[[k + 1]])
-    D[[k + 1]] <- (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]]) %*% t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]]))
-    # out$spec$Gamma
-    Sigma[[k + 1]] <- (P + 1)/(N - 2) * (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]] - D[[k + 1]] %*% zbar[[k]]) %*% t(ybar[[k]] -
-                                                                                                                                    A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]] - D[[k + 1]] %*% zbar[[k]])
 
+    if(muorz){
+      D[[k + 1]] <- (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]]) %*% t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]]))
+      # out$spec$Gamma
+      Sigma[[k + 1]] <- (P + 1)/(N - 2) *
+        (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+           xbar[[k]] - D[[k + 1]] %*% zbar[[k]]) %*%
+        t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+            xbar[[k]] - D[[k + 1]] %*% zbar[[k]])
+    } else {
+      Sigma[[k + 1]] <- (P + 1)/(N - 2) *
+        (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+           xbar[[k]]) %*%
+        t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+            xbar[[k]])
+
+    }
 
     obj[[k]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
     last <- k
@@ -142,14 +190,25 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
 
     }
   }
-  return(list(spec = list(N = N, P = P, R=R,  r = r, method = "MM"),
-              history = list(alpha = A, beta = B, Pi = Pi, Gamma = D, Sigma = Sigma, obj = obj),
-              A = A[[last]],
-              B = B[[last]],
-              D = D[[last]],
-              Sigma = Sigma[[last]],
-              obj = obj[[last]]))
-
-
-
+  if(mu){
+    mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
+    if(!znull)
+      D <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,seq_len(ncol(x)-1)])
+  } else {
+    mu <- NULL
+  }
+  if(znull){
+    D <- NULL
+  }
+  history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj) %>%
+    lapply(function(x) x[!is.null(x)])
+  output <- list(spec = list(N = N, P = P,Q=Q, R=R,  r = r),
+                 history = history,
+                 mu = mu[[last]],
+                 A = A[[last]],
+                 B = B[[last]],
+                 D = D[[last]],
+                 Sigma = Sigma[[last]],
+                 obj = obj[[last]])
+  return(new_RRRR(output))
 }

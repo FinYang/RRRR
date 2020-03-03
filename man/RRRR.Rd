@@ -4,7 +4,7 @@
 \alias{RRRR}
 \title{Robust Reduced-Rank Regression using Majorization-Minimization}
 \source{
-Z. Zhao and D. P. Palomar, “Robust maximum likelihood estimation of sparse vector error correction model,” in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp.  913—-917,IEEE, 2017.
+Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 }
 \usage{
 RRRR(
@@ -17,7 +17,7 @@ RRRR(
   earlystop = 1e-04,
   initial_A = matrix(rnorm(P * r), ncol = r),
   initial_B = matrix(rnorm(Q * r), ncol = r),
-  initial_D = matrix(rnorm(P * (R + 1)), ncol = R + 1),
+  initial_D = matrix(rnorm(P * R), ncol = R),
   initial_Sigma = diag(P)
 )
 }
@@ -36,16 +36,28 @@ RRRR(
 
 \item{earlystop}{Scalar. The criteria to stop the algorithm early. The algorithm will stop if the improvement
 on objective function is small than \eqn{earlystop * objective_from_last_iteration}.}
+
+\item{initial_A}{Matrix of dimension P*r. The initial value for matrix \eqn{A}. See \code{Detail}.}
+
+\item{initial_B}{Matrix of dimension Q*r. The initial value for matrix \eqn{B}. See \code{Detail}.}
+
+\item{initial_D}{Matrix of dimension P*R. The initial value for matrix \eqn{D}. See \code{Detail}.}
+
+\item{initial_Sigma}{Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.}
+
+\item{initial_mu}{Vector of length P. The initial value for constant \eqn{\mu} See \code{Detail}.}
 }
 \value{
-A list of the estimated parameters of class \code{RRR}.
+A list of the estimated parameters of class \code{RRRR}.
 \describe{
 \item{spec}{The input specifications. \eqn{N} is the sample size.}
+\item{history}{The path of all the parameters during optimization and the path of the objective value.}
 \item{mu}{The estimated constant vector. Can be \code{NULL}.}
 \item{A}{The estimated exposure matrix.}
 \item{B}{The estimated factor matrix.}
 \item{D}{The estimated coefficient matrix of \code{z}.}
 \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+\item{obj}{The final objective value.}
 }
 }
 \description{
@@ -68,15 +80,15 @@ that will not be projected,
 \eqn{B} is the so called factor matrix with dimension \eqn{Q*r}.
 The matrix resulted from \eqn{AB'} will be a reduced rank coefficient matrix with rank of \eqn{r}.
 The function estimates parameters \eqn{\mu}, \eqn{A}, \eqn{B}, \eqn{D}, and \eqn{Sigma}, the covariance matrix of
-the innovation's distribution, assuming the innovation has a Gaussian distribution.
+the innovation's distribution, assuming the innovation has a Cauchy distribution.
 }
 \examples{
 set.seed(2222)
 data <- RRR_sim()
-res <- RRR(y=data$y, x=data$x, z = data$z)
+res <- RRRR(y=data$y, x=data$x, z = data$z)
 res
 
 }
 \author{
-Yangzhuoran Yang
+Yangzhuoran Fin Yang
 }

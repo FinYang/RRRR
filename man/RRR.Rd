@@ -27,7 +27,7 @@ A list of the estimated parameters of class \code{RRR}.
 \item{mu}{The estimated constant vector. Can be \code{NULL}.}
 \item{A}{The estimated exposure matrix.}
 \item{B}{The estimated factor matrix.}
-\item{D}{The estimated coefficient matrix of \code{z}.}
+\item{D}{The estimated coefficient matrix of \code{z}. Can be \code{NULL}.}
 \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
 }
 }

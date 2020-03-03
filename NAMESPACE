@@ -2,11 +2,11 @@
 
 S3method(coef,RRR)
 S3method(print,RRR)
+S3method(print,RRRR)
 S3method(print,RRR_data)
-S3method(print,summary.RRR)
-S3method(summary,RRR)
 export(RRR)
 export(RRRR)
 export(RRR_sim)
+importFrom(magrittr,"%>%")
 importFrom(stats,coef)
 importFrom(stats,rnorm)
