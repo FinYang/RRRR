@@ -1,4 +1,6 @@
-#' Robust Reduced-Rank Regression using Majorization-Minimization
+#' Online Robust Reduced-Rank Regression
+#'
+#'
 #'
 #' Majorization-Minimization based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption
 #' This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
@@ -56,13 +58,21 @@
 #' @source Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 #' @importFrom magrittr %>%
 #' @export
-RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
-                 itr = 100, earlystop = 1e-4,
-                 initial_A = matrix(rnorm(P*r), ncol =  r),
-                 initial_B = matrix(rnorm(Q*r), ncol =  r),
-                 initial_D = matrix(rnorm(P*R), ncol =  R),
-                 initial_Sigma = diag(P)){
-
+ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
+                  initial_size = 100, addon = 10,
+                  method = c("SMM", "SAA"),
+                  submethod = c("optim", "MM", "GMLE"),
+                  ...,
+                  initial_A = matrix(rnorm(P*r), ncol =  r),
+                  initial_B = matrix(rnorm(Q*r), ncol =  r),
+                  initial_D = matrix(rnorm(P*R), ncol =  R),
+                  initial_Sigma = diag(P),
+                  ProgressBar = requireNamespace("dplyr")){
+  if (ProgressBar && !requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Package \"dplyr\" needed for progress bar to work. Please install it.",
+         call. = FALSE)
+  }
+  method <- method[[1]]
   N <- nrow(y)
 
   # check if z is NULL
@@ -70,18 +80,16 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   if(!is.null(z)){
     z <- as.matrix(z)
     R <- ncol(z)
-    z <- t(z)
     if(mu){
-      z <- rbind(z, 1)
+      z <- cbind(z, 1)
       initial_D <- cbind(initial_D, rnorm(P))
     }
-
     znull <- FALSE
   } else {
     R <- 0
     znull <- TRUE
     if (mu){
-      z <- matrix(rep(1, N), nrow = 1)
+      z <- matrix(rep(1, N))
       initial_D <- matrix(rnorm(P))
     }
   }
@@ -95,36 +103,56 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   P <- ncol(y)
   Q <- ncol(x)
 
+  yy <- y
+  xx <- x
+  zz <- z
 
-  ##
-  A <- vector("list", itr + 1)
-  B <- vector("list", itr + 1)
-  Pi <- vector("list", itr + 1)
-  D <- vector("list", itr + 1)
-  Sigma <- vector("list", itr + 1)
+  A <- list()
+  B <- list()
+  Pi <- list()
+  D <- list()
+  Sigma <- list()
   A[[1]] <- initial_A
   B[[1]] <- initial_B
   Pi[[1]] <- A[[1]] %*% t(B[[1]])
   D[[1]] <- initial_D
   Sigma[[1]] <- initial_Sigma
 
+  itr <- (N-initial_size)/addon +1
+  if(ProgressBar)
+    pb <- dplyr::progress_estimated(itr)
   obj <- numeric(itr+1)
 
-  ybar <- vector("list", itr)
-  xbar <- vector("list", itr)
-  zbar <- vector("list", itr)
-  Mbar <- vector("list", itr)
+  ybar <- list()
+  xbar <- list()
+  zbar <- list()
+  Mbar <- list()
 
-  xk <- vector("list", itr)
-  wk <- vector("list", itr)
-  # pb <- progress_estimated(itr)
-  runtime <- vector("list", itr+1)
+  xk <- list()
+  wk <- list()
+
+  runtime <- vector("list",itr+1)
   runtime[[1]] <- Sys.time()
-  y <- t(y)
-  x <- t(x)
-  # z <- t(z)
-  # z <- rbind(z, 1)
   for (k in seq_len(itr)) {
+    if(k==1){
+      y <- t(yy[seq(1, k*initial_size), ])
+      x <- t(xx[seq(1, k*initial_size), ])
+      if(muorz)
+        z <- t(zz[seq(1, k*initial_size), ])
+    } else {
+      if(floor(itr) < itr && k==floor(itr)){
+        y <- t(yy)
+        x <- t(xx)
+        if(muorz)
+          z <- t(zz)
+      } else {
+        y <- t(yy[seq(1, initial_size+(k-1)*addon),])
+        x <- t(xx[seq(1, initial_size+(k-1)*addon),])
+        if(muorz)
+          z <- t(zz[seq(1, initial_size+(k-1)*addon),])
+      }
+    }
+    N <- ncol(y)
     if(muorz){
       temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
     } else {
@@ -177,20 +205,13 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
            xbar[[k]]) %*%
         t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
             xbar[[k]])
-
     }
+    # obj
     obj[[k]] <- 1/2 * log(det(Sigma[[k]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
-    # obj[[k]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
-    last <- k+1
-    # pb$tick()$print()
+    if(ProgressBar)
+      pb$tick()$print()
     runtime[[k+1]] <- Sys.time()
-    if(k>1){
-      if(abs((obj[[k]]-obj[[k-1]])/obj[[k-1]]) <= 1e-5){
-        break()
-      }
-    }
   }
-
 
   if(muorz){
     temp <- t(y - Pi[[k+1]] %*% x - D[[k+1]] %*% z) %>% split(seq_len(nrow(.)))
@@ -210,16 +231,19 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   if(znull){
     D <- NULL
   }
+
   history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime)))) %>%
     # lapply(function(x) x[sapply(x, function(z) !is.null(z))])
     lapply(function(x) x[seq_len(last)])
-  output <- list(spec = list(N = N, P = P,Q=Q, R=R,  r = r),
+  output <- list(method = method,
+                 spec = list(N = N, P = P, R = R, r = r),
                  history = history,
-                 mu = mu[[last]],
-                 A = A[[last]],
-                 B = B[[last]],
-                 D = D[[last]],
-                 Sigma = Sigma[[last]],
-                 obj = obj[[last]])
-  return(new_RRRR(output))
+                 mu = mu[[length(mu)]],
+                 A = A[[length(A)]],
+                 B = B[[length(B)]],
+                 D = D[[length(D)]],
+                 Sigma = Sigma[[length(Sigma)]],
+                 obj = obj[[length(obj)]])
+
+  return(new_ORRRR(output))
 }

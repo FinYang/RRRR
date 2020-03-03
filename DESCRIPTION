@@ -20,4 +20,6 @@ Imports:
     magrittr,
     mvtnorm, 
     stats 
+Suggests:
+    dplyr
 RoxygenNote: 7.0.2
