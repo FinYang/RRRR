@@ -14,7 +14,10 @@ LazyData: true
 URL: https://pkg.yangzhuoranyang.com/RRRR/, https://github.com/FinYang/RRRR
 BugReports: https://github.com/FinYang/RRRR/issues/
 Imports:
+    expm, 
+    ggplot2, 
+    graphics,
+    magrittr,
     mvtnorm, 
-    stats, 
-    expm
+    stats 
 RoxygenNote: 7.0.2

@@ -106,7 +106,7 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   D[[1]] <- initial_D
   Sigma[[1]] <- initial_Sigma
 
-  obj <- numeric(itr)
+  obj <- numeric(itr+1)
 
   ybar <- vector("list", itr)
   xbar <- vector("list", itr)
@@ -116,7 +116,8 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   xk <- vector("list", itr)
   wk <- vector("list", itr)
   # pb <- progress_estimated(itr)
-
+  runtime <- vector("list", itr+1)
+  runtime[[1]] <- Sys.time()
   y <- t(y)
   x <- t(x)
   # z <- t(z)
@@ -178,18 +179,27 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
             xbar[[k]])
 
     }
-
-    obj[[k]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
-    last <- k
+    obj[[k]] <- 1/2 * log(det(Sigma[[k]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
+    # obj[[k]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
+    last <- k+1
     # pb$tick()$print()
+    runtime[[k+1]] <- Sys.time()
     if(k>1){
       if(abs((obj[[k]]-obj[[k-1]])/obj[[k-1]]) <= 1e-5){
         break()
-
       }
-
     }
   }
+
+
+  if(muorz){
+    temp <- t(y - Pi[[k+1]] %*% x - D[[k+1]] %*% z) %>% split(seq_len(nrow(.)))
+  } else {
+    temp <- t(y - Pi[[k+1]] %*% x) %>% split(seq_len(nrow(.)))
+  }
+  xkk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k+1]]) %*% tem)
+  obj[[k+1]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xkk))
+
   if(mu){
     mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
     if(!znull)
@@ -200,8 +210,9 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   if(znull){
     D <- NULL
   }
-  history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj) %>%
-    lapply(function(x) x[!is.null(x)])
+  history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime)))) %>%
+    # lapply(function(x) x[sapply(x, function(z) !is.null(z))])
+    lapply(function(x) x[seq_len(last)])
   output <- list(spec = list(N = N, P = P,Q=Q, R=R,  r = r),
                  history = history,
                  mu = mu[[last]],

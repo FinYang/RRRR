@@ -15,3 +15,32 @@ print.RRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   cat("\nCoefficients:\n")
   print.default(coef(x), digits = digits)
 }
+
+#' Plot Objective value of a Robust Reduced-Rank Regression
+#'
+#' @param x An RRRR object.
+#' @param aes_x Either "iteration" or "runtime". The x axis in the plot.
+#' @param xlog10 Logical, indicates whether the scale of x axis is log 10 transformed.
+#' @return An ggplot2 object
+#' @author Yangzhuoran Fin Yang
+#' @examples
+#' set.seed(2222)
+#' data <- RRR_sim()
+#' res <- RRRR(y=data$y, x=data$x, z = data$z)
+#' plot(res)
+#' @importFrom graphics plot
+#' @export
+plot.RRRR <- function(x,
+                      aes_x = c("iteration", "runtime"),
+                      xlog10 = TRUE){
+
+  plot_data <- data.frame(runtime = x$history$runtime,
+                          obj = x$history$obj,
+                          iteration = seq_along(x$history$obj))
+  if(xlog10) plot_data$runtime[[1]] <- 0.001
+  output <- ggplot2::ggplot(plot_data) +
+    ggplot2::geom_line(ggplot2::aes_string(x=aes_x[[1]], y="obj")) +
+    ggplot2::ylab("Objective value")
+  if(xlog10) output <- output + ggplot2::coord_trans(x="log10")
+  return(output)
+}
