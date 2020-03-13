@@ -27,9 +27,10 @@
 #' @param z Matrix of dimension N*R. The matrix for the explanatory variables not to be projected. See \code{Detail}.
 #' @param mu Logical. Indicating if a constant term is included.
 #' @param r Integer. The rank for the reduced-rank matrix \eqn{AB'}. See \code{Detail}.
-#' @param itr Interger. The maximum number of iteration.
-#' @param earlystop Scalar. The criteria to stop the algorithm early. The algorithm will stop if the improvement
-#'     on objective function is small than \eqn{earlystop * objective_from_last_iteration}.
+#' @param initial_size
+#' @param addon
+#' @param ... Additional auguemnts to function \code{optim} when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"
+#'
 #' @param initial_mu Vector of length P. The initial value for constant \eqn{\mu} See \code{Detail}.
 #' @param initial_A Matrix of dimension P*r. The initial value for matrix \eqn{A}. See \code{Detail}.
 #' @param initial_B Matrix of dimension Q*r. The initial value for matrix \eqn{B}. See \code{Detail}.
@@ -61,7 +62,7 @@
 ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
                   initial_size = 100, addon = 10,
                   method = c("SMM", "SAA"),
-                  submethod = c("optim", "MM", "GMLE"),
+                  SAAmethod = c("optim", "MM", "GMLE"),
                   ...,
                   initial_A = matrix(rnorm(P*r), ncol =  r),
                   initial_B = matrix(rnorm(Q*r), ncol =  r),
@@ -73,6 +74,10 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
          call. = FALSE)
   }
   method <- method[[1]]
+  if(method == "SAA")  SAAmethod <- SAAmethod[[1]]
+
+
+
   N <- nrow(y)
 
   P <- ncol(y)
@@ -108,30 +113,49 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   xx <- x
   zz <- z
 
-  A <- list()
-  B <- list()
-  Pi <- list()
-  D <- list()
-  Sigma <- list()
-  A[[1]] <- initial_A
-  B[[1]] <- initial_B
-  Pi[[1]] <- A[[1]] %*% t(B[[1]])
-  if(muorz)
-    D[[1]] <- initial_D
-  Sigma[[1]] <- initial_Sigma
+  if(method=="SMM"){
+    A <- list()
+    B <- list()
+    Pi <- list()
+    D <- list()
+    Sigma <- list()
+    A[[1]] <- initial_A
+    B[[1]] <- initial_B
+    Pi[[1]] <- A[[1]] %*% t(B[[1]])
+    if(muorz)
+      D[[1]] <- initial_D
+    Sigma[[1]] <- initial_Sigma
+
+
+    ybar <- list()
+    xbar <- list()
+    zbar <- list()
+    Mbar <- list()
+  } else if(method=="SAA"){
+    if(SAAmethod == "optim"){
+      make_symm <- function(m) {
+        m[upper.tri(m)] <- t(m)[upper.tri(m)]
+        return(m)
+      }
+
+      para <- list()
+      if(muorz){
+        para[[1]] <- c(initial_A, initial_B, initial_D,
+                       initial_Sigma[lower.tri(initial_Sigma, diag = TRUE)])
+      } else {
+        para[[1]] <- c(initial_A, initial_B,
+                       initial_Sigma[lower.tri(initial_Sigma, diag = TRUE)])
+      }
+
+    }
+  }
+  xk <- list()
+  wk <- list()
 
   itr <- (N-initial_size)/addon +1
   if(ProgressBar)
     pb <- dplyr::progress_estimated(itr)
   obj <- numeric(itr+1)
-
-  ybar <- list()
-  xbar <- list()
-  zbar <- list()
-  Mbar <- list()
-
-  xk <- list()
-  wk <- list()
 
   runtime <- vector("list",itr+1)
   runtime[[1]] <- Sys.time()
@@ -155,74 +179,158 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
       }
     }
     N <- ncol(y)
-    if(muorz){
-      temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
-    } else {
-      temp <- t(y - Pi[[k]] %*% x) %>% split(seq_len(nrow(.)))
+
+    if(method == "SMM"){
+      if(muorz){
+        temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
+      } else {
+        temp <- t(y - Pi[[k]] %*% x) %>% split(seq_len(nrow(.)))
+      }
+      xk[[k]] <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k]]) %*% tem)
+      wk[[k]] <- 1/(1 + xk[[k]])
+
+      dwk <- diag(sqrt(wk[[k]]))
+      ybar[[k]] <- y %*% dwk
+      xbar[[k]] <- x %*% dwk
+      if(muorz){
+        zbar[[k]] <- z %*% dwk
+
+        Mbar[[k]] <- diag(1, N) - t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]])) %*% zbar[[k]]
+        ##
+        R_0 <- ybar[[k]] %*% Mbar[[k]]
+        R_1 <- xbar[[k]] %*% Mbar[[k]]
+      } else {
+        R_0 <- ybar[[k]]
+        R_1 <- xbar[[k]]
+      }
+
+      S_01 <- 1/N * R_0 %*% t(R_1)
+      S_10 <- 1/N * R_1 %*% t(R_0)
+      S_00 <- 1/N * R_0 %*% t(R_0)
+      S_11 <- 1/N * R_1 %*% t(R_1)
+
+      SSSSS <- solve(expm::sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(expm::sqrtm(S_11))
+      V <- eigen(SSSSS)$vectors[, seq_len(r)]
+
+      B[[k + 1]] <- solve(expm::sqrtm(S_11)) %*% V
+      # beta_hat <- beta_hat * (1/beta_hat[[1]])
+
+      # alpha_hat <- S_01 %*% (beta_hat) %*% solve(t(beta_hat) %*% S_11 %*% (beta_hat))
+      A[[k + 1]] <- S_01 %*% B[[k + 1]]
+      Pi[[k + 1]] <- A[[k + 1]] %*% t(B[[k + 1]])
+
+      if(muorz){
+        D[[k + 1]] <- (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]]) %*% t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]]))
+        # out$spec$Gamma
+        Sigma[[k + 1]] <- (P + 1)/(N - 2) *
+          (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+             xbar[[k]] - D[[k + 1]] %*% zbar[[k]]) %*%
+          t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+              xbar[[k]] - D[[k + 1]] %*% zbar[[k]])
+      } else {
+        Sigma[[k + 1]] <- (P + 1)/(N - 2) *
+          (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+             xbar[[k]]) %*%
+          t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
+              xbar[[k]])
+      }
+      # obj
+      obj[[k]] <- 1/2 * log(det(Sigma[[k]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
+
+    } else if(method=="SAA"){
+      if(SAAmethod == "optim"){
+        if(muorz){
+          ne_log_likihood_loss <- function(para){
+            A <- matrix(para[1:(P*r)], nrow = P)
+            B <- matrix(para[(P*r+1):(2*P*r)], nrow = P)
+            D <- matrix(para[(2*P*r+1):(P*r*2+length(initial_D))], nrow = P)
+            Sigma <- matrix(nrow = P, ncol = P)
+            Sigma[lower.tri(Sigma,diag=TRUE)] <- para[(P*r*2+length(initial_D)+1):(length(para))]
+            Sigma <- make_symm(Sigma)
+            if(!matrixcalc::is.positive.definite(Sigma))
+              return(Inf)
+            Pi <- A %*% t(B)
+            temp <- t(y - Pi %*% x - D %*% z) %>% split(seq_len(nrow(.)))
+            xk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma) %*% tem)
+
+            return(1/2 * log(det(Sigma)) +(1+P)/(2*(N-2)) * sum(log(1+xk)))
+
+          }
+        } else {
+          ne_log_likihood_loss <- function(para){
+            A <- matrix(para[1:(P*r)], nrow = P)
+            B <- matrix(para[(P*r+1):(2*P*r)], nrow = P)
+            Sigma <- matrix(nrow = P, ncol = P)
+            Sigma[lower.tri(Sigma,diag=TRUE)] <- para[(2*P*r+1):(length(para))]
+            Sigma <- make_symm(Sigma)
+            if(!matrixcalc::is.positive.definite(Sigma))
+              return(Inf)
+            Pi <- A %*% t(B)
+            temp <- t(y - Pi %*% x ) %>% split(seq_len(nrow(.)))
+            xk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma) %*% tem)
+
+            return(1/2 * log(det(Sigma)) +(1+P)/(2*(N)) * sum(log(1+xk)))
+
+          }
+        }
+
+        sub_res <- optim(para[[k]], ne_log_likihood_loss, ...)
+        para[[k+1]] <- sub_res$par
+        if(k==1){
+
+          initial_Pi <- initial_A %*% t(initial_B)
+          if(muorz){
+            temp <- t(y - initial_Pi %*% x - initial_D %*% z) %>% split(seq_len(nrow(.)))
+          } else {
+            temp <- t(y - initial_Pi %*% x ) %>% split(seq_len(nrow(.)))
+          }
+          xk <- sapply(temp, function(tem) t(tem) %*% solve(initial_Sigma) %*% tem)
+
+          obj[[1]] <- 1/2 * log(det(initial_Sigma)) +(1+P)/(2*(N)) * sum(log(1+xk))
+        }
+
+        obj[[k+1]] <- sub_res$value
+      }
     }
-    xk[[k]] <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k]]) %*% tem)
-    wk[[k]] <- 1/(1 + xk[[k]])
-
-    dwk <- diag(sqrt(wk[[k]]))
-    ybar[[k]] <- y %*% dwk
-    xbar[[k]] <- x %*% dwk
-    if(muorz){
-      zbar[[k]] <- z %*% dwk
-
-      Mbar[[k]] <- diag(1, N) - t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]])) %*% zbar[[k]]
-      ##
-      R_0 <- ybar[[k]] %*% Mbar[[k]]
-      R_1 <- xbar[[k]] %*% Mbar[[k]]
-    } else {
-      R_0 <- ybar[[k]]
-      R_1 <- xbar[[k]]
-    }
-
-    S_01 <- 1/N * R_0 %*% t(R_1)
-    S_10 <- 1/N * R_1 %*% t(R_0)
-    S_00 <- 1/N * R_0 %*% t(R_0)
-    S_11 <- 1/N * R_1 %*% t(R_1)
-
-    SSSSS <- solve(expm::sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(expm::sqrtm(S_11))
-    V <- eigen(SSSSS)$vectors[, seq_len(r)]
-
-    B[[k + 1]] <- solve(expm::sqrtm(S_11)) %*% V
-    # beta_hat <- beta_hat * (1/beta_hat[[1]])
-
-    # alpha_hat <- S_01 %*% (beta_hat) %*% solve(t(beta_hat) %*% S_11 %*% (beta_hat))
-    A[[k + 1]] <- S_01 %*% B[[k + 1]]
-    Pi[[k + 1]] <- A[[k + 1]] %*% t(B[[k + 1]])
-
-    if(muorz){
-      D[[k + 1]] <- (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*% xbar[[k]]) %*% t(zbar[[k]]) %*% solve(zbar[[k]] %*% t(zbar[[k]]))
-      # out$spec$Gamma
-      Sigma[[k + 1]] <- (P + 1)/(N - 2) *
-        (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
-           xbar[[k]] - D[[k + 1]] %*% zbar[[k]]) %*%
-        t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
-            xbar[[k]] - D[[k + 1]] %*% zbar[[k]])
-    } else {
-      Sigma[[k + 1]] <- (P + 1)/(N - 2) *
-        (ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
-           xbar[[k]]) %*%
-        t(ybar[[k]] - A[[k + 1]] %*% t(B[[k + 1]]) %*%
-            xbar[[k]])
-    }
-    # obj
-    obj[[k]] <- 1/2 * log(det(Sigma[[k]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
     if(ProgressBar)
       pb$tick()$print()
     runtime[[k+1]] <- Sys.time()
   }
 
-  if(muorz){
-    temp <- t(y - Pi[[k+1]] %*% x - D[[k+1]] %*% z) %>% split(seq_len(nrow(.)))
-  } else {
-    temp <- t(y - Pi[[k+1]] %*% x) %>% split(seq_len(nrow(.)))
-  }
-  xkk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k+1]]) %*% tem)
-  obj[[k+1]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xkk))
+  if(method == "SMM"){
+    if(muorz){
+      temp <- t(y - Pi[[k+1]] %*% x - D[[k+1]] %*% z) %>% split(seq_len(nrow(.)))
+    } else {
+      temp <- t(y - Pi[[k+1]] %*% x) %>% split(seq_len(nrow(.)))
+    }
+    xkk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k+1]]) %*% tem)
+    obj[[k+1]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xkk))
 
+  } else if(method == "SAA"){
+    if(SAAmethod == "optim"){
+      A <- lapply(para, function(para) matrix(para[1:(P*r)], nrow = P))
+      B <- lapply(para, function(para) matrix(para[(P*r+1):(2*P*r)], nrow = P))
+      if(muorz){
+
+        D <- lapply(para, function(para) matrix(para[(2*P*r+1):(P*r*2+length(initial_D))], nrow = P))
+        Sigma <- lapply(para,
+                        function(para){
+                          Sigma <- matrix(nrow = P, ncol = P)
+                          Sigma[lower.tri(Sigma,diag=TRUE)] <- para[(P*r*2+length(initial_D)+1):(length(para))]
+                          Sigma <- make_symm(Sigma)
+                          return(Sigma)
+                        })
+      } else {
+        Sigma <- lapply(para,
+                        function(para){
+                          Sigma <- matrix(nrow = P, ncol = P)
+                          Sigma[lower.tri(Sigma,diag=TRUE)] <- para[(2*P*r+1):(length(para))]
+                          Sigma <- make_symm(Sigma)
+                          return(Sigma)
+                        })
+      }
+    }
+  }
   if(mu){
     mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
     if(!znull)
@@ -233,7 +341,6 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   if(znull){
     D <- NULL
   }
-
   history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime))))
   output <- list(method = method,
                  spec = list(N = N, P = P, R = R, r = r),

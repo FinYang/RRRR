@@ -9,9 +9,9 @@ new_ORRRR <- function(x = list()){
 print.ORRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   cat("Online Robust Reduced-Rank Regression\n")
   switch(x$method,
-         "SMM" = cat("Stochastic Majorization Minimization\n"),
+         "SMM" = cat("Stochastic Majorization Minimization"),
          "SAA" = cat("Sample Average Approximation"))
-  cat("------------\n")
+  cat("\n------------\n")
   cat("Specifications:\n")
   print(do.call(base::c, x$spec))
   cat("\nCoefficients:\n")
