@@ -75,6 +75,8 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   method <- method[[1]]
   N <- nrow(y)
 
+  P <- ncol(y)
+  Q <- ncol(x)
   # check if z is NULL
   # add column of ones for mu
   if(!is.null(z)){
@@ -100,8 +102,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
       stop("The numbers of realizations are not consistant in the inputs.")
   }
 
-  P <- ncol(y)
-  Q <- ncol(x)
+
 
   yy <- y
   xx <- x
@@ -115,7 +116,8 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   A[[1]] <- initial_A
   B[[1]] <- initial_B
   Pi[[1]] <- A[[1]] %*% t(B[[1]])
-  D[[1]] <- initial_D
+  if(muorz)
+    D[[1]] <- initial_D
   Sigma[[1]] <- initial_Sigma
 
   itr <- (N-initial_size)/addon +1
@@ -232,9 +234,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
     D <- NULL
   }
 
-  history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime)))) %>%
-    # lapply(function(x) x[sapply(x, function(z) !is.null(z))])
-    lapply(function(x) x[seq_len(last)])
+  history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime))))
   output <- list(method = method,
                  spec = list(N = N, P = P, R = R, r = r),
                  history = history,
