@@ -8,7 +8,8 @@ new_RRRR <- function(x = list()){
 #' @export
 print.RRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   cat("Robust Reduced-Rank Regression\n")
-  cat("Majorization-Minimization\n")
+  cat("------\n")
+  cat("Majorisation-Minimisation\n")
   cat("------------\n")
   cat("Specifications:\n")
   print(do.call(base::c, x$spec))

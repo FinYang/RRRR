@@ -7,10 +7,18 @@ new_ORRRR <- function(x = list()){
 #' @importFrom stats coef
 #' @export
 print.ORRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
-  cat("Online Robust Reduced-Rank Regression\n")
+  cat("Online Robust Reduced-Rank Regression")
+  cat("\n------\n")
   switch(x$method,
-         "SMM" = cat("Stochastic Majorization Minimization"),
+         "SMM" = cat("Stochastic Majorisation-Minimisation"),
          "SAA" = cat("Sample Average Approximation"))
+  if(x$method == "SAA"){
+    cat("\nSub solver: ")
+    switch(x$SAAmethod,
+           "optim" = cat("stats::optim"),
+           "MM" = cat("Majorisation Minimisation"),
+           "GMLE" = cat("Gaussian MLE"))
+  }
   cat("\n------------\n")
   cat("Specifications:\n")
   print(do.call(base::c, x$spec))
