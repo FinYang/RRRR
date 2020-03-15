@@ -1,10 +1,13 @@
 #' Online Robust Reduced-Rank Regression
 #'
 #'
+#' Online robust reduced-rank regression with two major estimation methods:
+#' \describe{
+#' \item{SMM}{Stochastic Majorisation-Minimisation}
+#' \item{SAA}{Sample Average Approximation}
+#' }
 #'
-#' Majorisation-Minimisation based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption
-#' This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
-#' for the innovations. This method is an iterative optimization algorithm. See \code{source} for a similar setting.
+#'
 #'
 #' The fomulation of the reduced-rank regression is as follow:
 #' \deqn{y = \mu +AB'  x + D z+innov,}
@@ -20,25 +23,49 @@
 #' \eqn{B} is the so called factor matrix with dimension \eqn{Q*r}.
 #' The matrix resulted from \eqn{AB'} will be a reduced rank coefficient matrix with rank of \eqn{r}.
 #' The function estimates parameters \eqn{\mu}, \eqn{A}, \eqn{B}, \eqn{D}, and \eqn{Sigma}, the covariance matrix of
-#' the innovation's distribution, assuming the innovation has a Cauchy distribution.
+#' the innovation's distribution.
+#'
+#' The algorithm is online in the sense that the data is continuously incorporated
+#' and the algorithm can update the parameters accordingly. See \code{?update.RRRR} for more details.
+#'
+#' At each iteration of SAA, a new realisation of the parameters is achieved by
+#' solving the minimisation problem of the sample average of
+#' the desired objective function using the data currently incorparated.
+#' This can be computationally expensive when the objective function is highly nonconvex.
+#' The SMM method overcomes this difficulty by replacing the objective function
+#' by a well-chosen majorising surrogate function which can be much easier to optimise.
+#'
+#' SMM method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
+#' for the innovations.
+#'
 #'
 #' @param y Matrix of dimension N*P. The matrix for the response variables. See \code{Detail}.
 #' @param x Matrix of dimension N*Q. The matrix for the explanatory variables to be projected. See \code{Detail}.
 #' @param z Matrix of dimension N*R. The matrix for the explanatory variables not to be projected. See \code{Detail}.
 #' @param mu Logical. Indicating if a constant term is included.
 #' @param r Integer. The rank for the reduced-rank matrix \eqn{AB'}. See \code{Detail}.
-#' @param initial_size
-#' @param addon
-#' @param ... Additional auguemnts to function \code{optim} when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"
-#'
+#' @param initial_size Integer. The number of data points to be used in the first itearion.
+#' @param addon Integer. The number of data points to be added in the algorithm in each iteration after the first.
+#' @param method Character. The estimation method. Either "SMM" or "SAA". See \code{Description} and \code{Detail}.
+#' @param SAAmethod Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.
+#' @param ... Additional auguemnts to function
+#' \describe{
+#' \item{\code{optim}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"}
+#' \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
+#' }
 #' @param initial_mu Vector of length P. The initial value for constant \eqn{\mu} See \code{Detail}.
 #' @param initial_A Matrix of dimension P*r. The initial value for matrix \eqn{A}. See \code{Detail}.
 #' @param initial_B Matrix of dimension Q*r. The initial value for matrix \eqn{B}. See \code{Detail}.
 #' @param initial_D Matrix of dimension P*R. The initial value for matrix \eqn{D}. See \code{Detail}.
+#' @param initial_mu Matrix of dimension P*1. The initial value for the constant \eqn{mu}. See \code{Detail}.
 #' @param initial_Sigma Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.
+#' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
+#' The proress bar requires package \code{dplyr} to work.
 #'
-#' @return A list of the estimated parameters of class \code{RRRR}.
+#' @return A list of the estimated parameters of class \code{ORRRR}.
 #' \describe{
+#' \item{method}{The estimation method being used}
+#' \item{SAAmethod}{If SAA is the major estimation method, what is the sub solver in each iteration.}
 #' \item{spec}{The input specifications. \eqn{N} is the sample size.}
 #' \item{history}{The path of all the parameters during optimization and the path of the objective value.}
 #' \item{mu}{The estimated constant vector. Can be \code{NULL}.}
@@ -48,15 +75,14 @@
 #' \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
 #' \item{obj}{The final objective value.}
 #' }
-#'
+#' @seealso \code{update.RRRR}, \code{RRRR}, \code{RRR}
 #' @examples
 #' set.seed(2222)
 #' data <- RRR_sim()
-#' res <- RRRR(y=data$y, x=data$x, z = data$z)
+#' res <- ORRRR(y=data$y, x=data$x, z = data$z)
 #' res
 #'
 #' @author Yangzhuoran Yang
-#' @source Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 #' @importFrom magrittr %>%
 #' @export
 ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
@@ -433,7 +459,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime))))
   output <- list(method = method,
                  SAAmethod = SAAmethod,
-                 spec = list(N = N, P = P, R = R, r = r),
+                 spec = list(N = N, P = P, R = R, r = r, initial_size = initial_size, addon = addon),
                  history = history,
                  mu = mu[[length(mu)]],
                  A = A[[length(A)]],

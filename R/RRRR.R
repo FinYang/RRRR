@@ -32,6 +32,7 @@
 #' @param initial_A Matrix of dimension P*r. The initial value for matrix \eqn{A}. See \code{Detail}.
 #' @param initial_B Matrix of dimension Q*r. The initial value for matrix \eqn{B}. See \code{Detail}.
 #' @param initial_D Matrix of dimension P*R. The initial value for matrix \eqn{D}. See \code{Detail}.
+#' @param initial_mu Matrix of dimension P*1. The initial value for the constant \eqn{mu}. See \code{Detail}.
 #' @param initial_Sigma Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.
 #'
 #' @return A list of the estimated parameters of class \code{RRRR}.

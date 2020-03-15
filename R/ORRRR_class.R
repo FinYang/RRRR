@@ -1,6 +1,6 @@
 new_ORRRR <- function(x = list()){
   stopifnot(is.list(x))
-  stopifnot(all(c("method","spec","history", "mu", "A", "B", "D", "Sigma", "obj") %in% names(x)))
+  stopifnot(all(c("method","SAAmethod","spec","history", "mu", "A", "B", "D", "Sigma", "obj") %in% names(x)))
   structure(x, class = c("ORRRR", "RRRR","RRR"))
 }
 
@@ -16,8 +16,7 @@ print.ORRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
     cat("\nSub solver: ")
     switch(x$SAAmethod,
            "optim" = cat("stats::optim"),
-           "MM" = cat("Majorisation Minimisation"),
-           "GMLE" = cat("Gaussian MLE"))
+           "MM" = cat("Majorisation Minimisation"))
   }
   cat("\n------------\n")
   cat("Specifications:\n")
