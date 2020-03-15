@@ -32,7 +32,7 @@ A list of the estimated parameters of class \code{RRR}.
 }
 }
 \description{
-Gaussian Maximum Likelihood Estimation method for Reduced-Rank Regression,
+Gaussian Maximum Likelihood Estimation method for Reduced-Rank Regression.
 This method is not robust in the sense that it assumes a Gaussian distribution
 for the innovations
 which does not take into account the heavy-tailedness of the true distribution and

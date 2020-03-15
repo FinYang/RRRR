@@ -63,13 +63,14 @@
 #'
 #' @seealso \code{ORRRR}, \code{RRRR}, \code{RRR}
 #' @examples
+#' \donttest{
 #' set.seed(2222)
 #' data <- RRR_sim()
 #' newdata <- RRR_sim()
 #' res <- ORRRR(y=data$y, x=data$x, z = data$z)
-#' res <- update(res, y=data$y, x=data$x. z=data$z)
+#' res <- update(res, y=newdata$y, x=newdata$x, z=newdata$z)
 #' res
-#'
+#' }
 #' @author Yangzhuoran Yang
 #' @importFrom magrittr %>%
 #' @importFrom stats update

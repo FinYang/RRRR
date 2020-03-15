@@ -89,13 +89,14 @@ the innovation's distribution.
 See \code{?ORRRR} for details about the estimation methods.
 }
 \examples{
+\donttest{
 set.seed(2222)
 data <- RRR_sim()
 newdata <- RRR_sim()
 res <- ORRRR(y=data$y, x=data$x, z = data$z)
-res <- update(res, y=data$y, x=data$x. z=data$z)
+res <- update(res, y=newdata$y, x=newdata$x, z=newdata$z)
 res
-
+}
 }
 \seealso{
 \code{ORRRR}, \code{RRRR}, \code{RRR}

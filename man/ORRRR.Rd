@@ -120,11 +120,12 @@ SMM method is robust in the sense that it assumes a heavy-tailed Cauchy distribu
 for the innovations.
 }
 \examples{
+\donttest{
 set.seed(2222)
 data <- RRR_sim()
 res <- ORRRR(y=data$y, x=data$x, z = data$z)
 res
-
+}
 }
 \seealso{
 \code{update.RRRR}, \code{RRRR}, \code{RRR}

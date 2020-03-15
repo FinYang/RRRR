@@ -52,7 +52,7 @@ res <- ORRRR(y=data$y, x=data$x, z=data$z)
 plot(res)
 ```
 
-![](READMEfigs/unnamed-chunk-2-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 
@@ -61,7 +61,7 @@ res2 <- ORRRR(y=newdata$y, x=newdata$x, z=newdata$z)
 plot(res2)
 ```
 
-![](READMEfigs/unnamed-chunk-2-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-2-2.png)<!-- -->
 
 ## License
 

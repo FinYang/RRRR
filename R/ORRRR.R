@@ -81,11 +81,12 @@
 #' }
 #' @seealso \code{update.RRRR}, \code{RRRR}, \code{RRR}
 #' @examples
+#' \donttest{
 #' set.seed(2222)
 #' data <- RRR_sim()
 #' res <- ORRRR(y=data$y, x=data$x, z = data$z)
 #' res
-#'
+#' }
 #' @author Yangzhuoran Yang
 #' @importFrom magrittr %>%
 #' @export
