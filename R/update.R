@@ -8,7 +8,7 @@
 #' \item{SAA}{Sample Average Approximation}
 #' }
 #'
-#' The fomulation of the reduced-rank regression is as follow:
+#' The formulation of the reduced-rank regression is as follow:
 #' \deqn{y = \mu +AB'  x + D z+innov,}
 #' where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 #' \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to
@@ -28,16 +28,13 @@
 #'
 #'
 #' @param object A model with class \code{RRRR}(\code{ORRRR})
-#' @param newdata List with matrix element y, x, and z.
-#' The dimensions of these matrix elements need to be the same as
-#' the data stored in the \code{object} model.
 #' @param y Matrix of dimension N*P, the new data y. The matrix for the response variables. See \code{Detail}.
 #' @param x Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See \code{Detail}.
 #' @param z Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See \code{Detail}.
 #' @param addon Integer. The number of data points to be added in the algorithm in each iteration after the first.
 #' @param method Character. The estimation method. Either "SMM" or "SAA". See \code{Description}.
 #' @param SAAmethod Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.
-#' @param ... Additional auguemnts to function
+#' @param ... Additional arguments to function
 #' \describe{
 #' \item{\code{optim}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"}
 #' \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
@@ -55,7 +52,7 @@
 #' \item{A}{The estimated exposure matrix.}
 #' \item{B}{The estimated factor matrix.}
 #' \item{D}{The estimated coefficient matrix of \code{z}.}
-#' \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+#' \item{Sigma}{The estimated covariance matrix of the innovation distribution.}
 #' \item{obj}{The final objective value.}
 #' \item{data}{The data used in estimation.}
 #' }

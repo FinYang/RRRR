@@ -6,7 +6,7 @@
 #' which does not take into account the heavy-tailedness of the true distribution and
 #' outliers.
 #'
-#' The fomulation of the reduced-rank regression is as follow:
+#' The formulation of the reduced-rank regression is as follow:
 #' \deqn{y = \mu +AB'  x + D z+innov,}
 #' where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 #' \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to
@@ -35,7 +35,7 @@
 #' \item{A}{The estimated exposure matrix.}
 #' \item{B}{The estimated factor matrix.}
 #' \item{D}{The estimated coefficient matrix of \code{z}. Can be \code{NULL}.}
-#' \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+#' \item{Sigma}{The estimated covariance matrix of the innovation distribution.}
 #' }
 #'
 #' @examples
@@ -45,7 +45,7 @@
 #' res
 #' @seealso For robust reduced-rank regression estimation see function \code{\link{RRRR}}.
 #' @author Yangzhuoran Yang
-#' @source S. Johansen, "stimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models,"Econometrica, vol. 59,p. 1551, Nov. 1991.
+#' @references S. Johansen, "Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models,"Econometrica, vol. 59,p. 1551, Nov. 1991.
 #' @export
 RRR <- function(y, x, z = NULL, mu = TRUE, r=1){
 

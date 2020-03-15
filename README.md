@@ -3,6 +3,12 @@
 
 # RRRR
 
+<!-- badges: start -->
+
+[![Build
+Status](https://travis-ci.org/FinYang/RRRR.svg?branch=master)](https://travis-ci.org/FinYang/RRRR)
+<!-- badges: end -->
+
 The R package *RRRR* provides methods for estimating online Robust
 Reduced-Rank Regression.
 

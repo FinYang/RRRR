@@ -3,9 +3,6 @@
 \name{RRRR}
 \alias{RRRR}
 \title{Robust Reduced-Rank Regression using Majorisation-Minimisation}
-\source{
-Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
-}
 \usage{
 RRRR(
   y,
@@ -34,7 +31,7 @@ RRRR(
 
 \item{r}{Integer. The rank for the reduced-rank matrix \eqn{AB'}. See \code{Detail}.}
 
-\item{itr}{Interger. The maximum number of iteration.}
+\item{itr}{Integer. The maximum number of iteration.}
 
 \item{earlystop}{Scalar. The criteria to stop the algorithm early. The algorithm will stop if the improvement
 on objective function is small than \eqn{earlystop * objective_from_last_iteration}.}
@@ -62,7 +59,7 @@ A list of the estimated parameters of class \code{RRRR}.
 \item{A}{The estimated exposure matrix.}
 \item{B}{The estimated factor matrix.}
 \item{D}{The estimated coefficient matrix of \code{z}.}
-\item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+\item{Sigma}{The estimated covariance matrix of the innovation distribution.}
 \item{obj}{The final objective value.}
 \item{data}{The data used in estimation if \code{return_data} is set to \code{TRUE}. \code{NULL} otherwise.}
 }
@@ -70,10 +67,10 @@ A list of the estimated parameters of class \code{RRRR}.
 \description{
 Majorisation-Minimisation based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption.
 This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
-for the innovations. This method is an iterative optimization algorithm. See \code{source} for a similar setting.
+for the innovations. This method is an iterative optimization algorithm. See \code{References} for a similar setting.
 }
 \details{
-The fomulation of the reduced-rank regression is as follow:
+The formulation of the reduced-rank regression is as follow:
 \deqn{y = \mu +AB'  x + D z+innov,}
 where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to
@@ -95,6 +92,9 @@ data <- RRR_sim()
 res <- RRRR(y=data$y, x=data$x, z = data$z)
 res
 
+}
+\references{
+Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 }
 \author{
 Yangzhuoran Yang

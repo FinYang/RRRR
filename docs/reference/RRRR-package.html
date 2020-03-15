@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot Objective value of a Robust Reduced-Rank Regression — plot.RRRR • RRRR</title>
+<title>Online Robust Reduced-Rank Regression Estimation — RRRR-package • RRRR</title>
 
 
 <!-- jquery -->
@@ -37,8 +37,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Plot Objective value of a Robust Reduced-Rank Regression — plot.RRRR" />
-<meta property="og:description" content="Plot Objective value of a Robust Reduced-Rank Regression" />
+<meta property="og:title" content="Online Robust Reduced-Rank Regression Estimation — RRRR-package" />
+<meta property="og:description" content="Methods for estimating online Robust Reduced-Rank Regression." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,59 +120,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot Objective value of a Robust Reduced-Rank Regression</h1>
-    <small class="dont-index">Source: <a href='https://github.com/FinYang/RRRR/blob/master/R/RRRR_class.R'><code>R/RRRR_class.R</code></a></small>
-    <div class="hidden name"><code>plot.RRRR.Rd</code></div>
+    <h1>Online Robust Reduced-Rank Regression Estimation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/FinYang/RRRR/blob/master/R/RRRR-package.R'><code>R/RRRR-package.R</code></a></small>
+    <div class="hidden name"><code>RRRR-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot Objective value of a Robust Reduced-Rank Regression</p>
+    <p>Methods for estimating online Robust Reduced-Rank Regression.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for RRRR</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>aes_x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"iteration"</span>, <span class='st'>"runtime"</span>), <span class='kw'>xlog10</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>An RRRR object.</p></td>
-    </tr>
-    <tr>
-      <th>aes_x</th>
-      <td><p>Either "iteration" or "runtime". The x axis in the plot.</p></td>
-    </tr>
-    <tr>
-      <th>xlog10</th>
-      <td><p>Logical, indicates whether the scale of x axis is log 10 transformed.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional argument to <code>ggplot2</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An ggplot2 object</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2222</span>)
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>()
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRRR.html'>RRRR</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>y</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>x</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>z</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>res</span>)</div><div class='img'><img src='plot.RRRR-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Yangzhuoran Fin Yang</p>
+    <p>Yangzhuoran Yang. <a href='mailto:Fin.Yang@monash.edu'>Fin.Yang@monash.edu</a></p>
+<p>Ziping Zhao. <a href='mailto:zhaoziping@hanghaitech.edu.cn'>zhaoziping@hanghaitech.edu.cn</a></p>
   </div>
 </div>
 

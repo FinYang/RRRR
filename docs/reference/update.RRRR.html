@@ -189,7 +189,7 @@ Estimation methods:</p><dl class='dl-horizontal'>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional auguemnts to function</p><dl class='dl-horizontal'>
+      <td><p>Additional arguments to function</p><dl class='dl-horizontal'>
 <dt><code>optim</code></dt><dd><p>when the <code>method</code> is "SAA" and the <code>SAAmethod</code> is "optim"</p></dd>
 <dt><code>RRRR</code></dt><dd><p>when the <code>method</code> is "SAA" and the <code>SAAmethod</code> is "MM"</p></dd>
 
@@ -199,12 +199,6 @@ Estimation methods:</p><dl class='dl-horizontal'>
       <th>ProgressBar</th>
       <td><p>Logical. Indicating if a progress bar is shown during the estimation process.
 The proress bar requires package <code>dplyr</code> to work.</p></td>
-    </tr>
-    <tr>
-      <th>newdata</th>
-      <td><p>List with matrix element y, x, and z.
-The dimensions of these matrix elements need to be the same as
-the data stored in the <code>object</code> model.</p></td>
     </tr>
     </table>
 
@@ -219,7 +213,7 @@ the data stored in the <code>object</code> model.</p></td>
 <dt>A</dt><dd><p>The estimated exposure matrix.</p></dd>
 <dt>B</dt><dd><p>The estimated factor matrix.</p></dd>
 <dt>D</dt><dd><p>The estimated coefficient matrix of <code>z</code>.</p></dd>
-<dt>Sigma</dt><dd><p>The estimated covariance matrix of the innovarion distribution.</p></dd>
+<dt>Sigma</dt><dd><p>The estimated covariance matrix of the innovation distribution.</p></dd>
 <dt>obj</dt><dd><p>The final objective value.</p></dd>
 <dt>data</dt><dd><p>The data used in estimation.</p></dd>
 
@@ -227,7 +221,7 @@ the data stored in the <code>object</code> model.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The fomulation of the reduced-rank regression is as follow:
+    <p>The formulation of the reduced-rank regression is as follow:
 $$y = \mu +AB'  x + D z+innov,$$
 where for each realization \(y\) is a vector of dimension \(P\) for the \(P\) response variables,
 \(x\) is a vector of dimension \(Q\) for the \(Q\) explanatory variables that will be projected to
@@ -287,7 +281,7 @@ the innovation's distribution.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='http://zzhaoae.student.ust.hk/'>Ziping Zhao</a>.</p>
+  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='https://zipingzhao.github.io/'>Ziping Zhao</a>.</p>
 </div>
 
 <div class="pkgdown">

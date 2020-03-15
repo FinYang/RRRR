@@ -9,7 +9,7 @@
 #'
 #'
 #'
-#' The fomulation of the reduced-rank regression is as follow:
+#' The formulation of the reduced-rank regression is as follow:
 #' \deqn{y = \mu +AB'  x + D z+innov,}
 #' where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 #' \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to
@@ -30,7 +30,7 @@
 #'
 #' At each iteration of SAA, a new realisation of the parameters is achieved by
 #' solving the minimisation problem of the sample average of
-#' the desired objective function using the data currently incorparated.
+#' the desired objective function using the data currently incorporated.
 #' This can be computationally expensive when the objective function is highly nonconvex.
 #' The SMM method overcomes this difficulty by replacing the objective function
 #' by a well-chosen majorising surrogate function which can be much easier to optimise.
@@ -44,11 +44,11 @@
 #' @param z Matrix of dimension N*R. The matrix for the explanatory variables not to be projected. See \code{Detail}.
 #' @param mu Logical. Indicating if a constant term is included.
 #' @param r Integer. The rank for the reduced-rank matrix \eqn{AB'}. See \code{Detail}.
-#' @param initial_size Integer. The number of data points to be used in the first itearion.
+#' @param initial_size Integer. The number of data points to be used in the first iteration.
 #' @param addon Integer. The number of data points to be added in the algorithm in each iteration after the first.
 #' @param method Character. The estimation method. Either "SMM" or "SAA". See \code{Description} and \code{Detail}.
 #' @param SAAmethod Character. The sub solver used in each iteration when the \code{method} is chosen to be "SAA". See \code{Detail}.
-#' @param ... Additional auguemnts to function
+#' @param ... Additional arguments to function
 #' \describe{
 #' \item{\code{optim}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"}
 #' \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
@@ -60,7 +60,7 @@
 #' @param initial_mu Matrix of dimension P*1. The initial value for the constant \eqn{mu}. See \code{Detail}.
 #' @param initial_Sigma Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.
 #' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
-#' The proress bar requires package \code{dplyr} to work.
+#' The progress bar requires package \code{dplyr} to work.
 #' @param return_data Logical. Indicating if the data used is return in the output.
 #' If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.
 #' Set to \code{FALSE} to save output size.
@@ -75,7 +75,7 @@
 #' \item{A}{The estimated exposure matrix.}
 #' \item{B}{The estimated factor matrix.}
 #' \item{D}{The estimated coefficient matrix of \code{z}.}
-#' \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+#' \item{Sigma}{The estimated covariance matrix of the innovation distribution.}
 #' \item{obj}{The final objective value.}
 #' \item{data}{The data used in estimation if \code{return_data} is set to \code{TRUE}. \code{NULL} otherwise.}
 #' }
@@ -335,7 +335,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
         }
 
 
-        sub_res <- optim(para[[k]], ne_log_likihood_loss, ...)
+        sub_res <- stats::optim(para[[k]], ne_log_likihood_loss, ...)
         para[[k+1]] <- sub_res$par
 
 

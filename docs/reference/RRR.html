@@ -164,9 +164,6 @@ outliers.</p>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>S. Johansen, "stimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models,"Econometrica, vol. 59,p. 1551, Nov. 1991.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of the estimated parameters of class <code>RRR</code>.</p><dl class='dl-horizontal'>
@@ -175,13 +172,13 @@ outliers.</p>
 <dt>A</dt><dd><p>The estimated exposure matrix.</p></dd>
 <dt>B</dt><dd><p>The estimated factor matrix.</p></dd>
 <dt>D</dt><dd><p>The estimated coefficient matrix of <code>z</code>. Can be <code>NULL</code>.</p></dd>
-<dt>Sigma</dt><dd><p>The estimated covariance matrix of the innovarion distribution.</p></dd>
+<dt>Sigma</dt><dd><p>The estimated covariance matrix of the innovation distribution.</p></dd>
 
 </dl>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The fomulation of the reduced-rank regression is as follow:
+    <p>The formulation of the reduced-rank regression is as follow:
 $$y = \mu +AB'  x + D z+innov,$$
 where for each realization \(y\) is a vector of dimension \(P\) for the \(P\) response variables,
 \(x\) is a vector of dimension \(Q\) for the \(Q\) explanatory variables that will be projected to
@@ -196,6 +193,9 @@ that will not be projected,
 The matrix resulted from \(AB'\) will be a reduced rank coefficient matrix with rank of \(r\).
 The function estimates parameters \(\mu\), \(A\), \(B\), \(D\), and \(Sigma\), the covariance matrix of
 the innovation's distribution, assuming the innovation has a Gaussian distribution.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>S. Johansen, "Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models,"Econometrica, vol. 59,p. 1551, Nov. 1991.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>For robust reduced-rank regression estimation see function <code><a href='RRRR.html'>RRRR</a></code>.</p></div>
@@ -220,9 +220,9 @@ the innovation's distribution, assuming the innovation has a Gaussian distributi
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#source">Source</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -235,7 +235,7 @@ the innovation's distribution, assuming the innovation has a Gaussian distributi
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='http://zzhaoae.student.ust.hk/'>Ziping Zhao</a>.</p>
+  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='https://zipingzhao.github.io/'>Ziping Zhao</a>.</p>
 </div>
 
 <div class="pkgdown">

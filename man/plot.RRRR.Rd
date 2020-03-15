@@ -4,7 +4,7 @@
 \alias{plot.RRRR}
 \title{Plot Objective value of a Robust Reduced-Rank Regression}
 \usage{
-\method{plot}{RRRR}(x, aes_x = c("iteration", "runtime"), xlog10 = TRUE)
+\method{plot}{RRRR}(x, aes_x = c("iteration", "runtime"), xlog10 = TRUE, ...)
 }
 \arguments{
 \item{x}{An RRRR object.}
@@ -12,6 +12,8 @@
 \item{aes_x}{Either "iteration" or "runtime". The x axis in the plot.}
 
 \item{xlog10}{Logical, indicates whether the scale of x axis is log 10 transformed.}
+
+\item{...}{Additional argument to \code{ggplot2}.}
 }
 \value{
 An ggplot2 object

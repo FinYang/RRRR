@@ -5,7 +5,7 @@
 #' of the simulated data.
 #'
 #' The data simulated can be used for the standard reduced-rank regression testing
-#' with the following fomulation
+#' with the following formulation
 #' \deqn{y = \mu +AB'  x + D z+innov,}
 #' where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 #' \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to
@@ -21,26 +21,26 @@
 #' The function simulates \eqn{x}, \eqn{z} from multivariate normal distribution and \eqn{y} by specifying
 #' parameters \eqn{\mu}, \eqn{A}, \eqn{B}, \eqn{D}, and \eqn{varcov}, the covariance matrix of
 #' the innovation's distribution.  The constant \eqn{\mu} and the term \eqn{Dz} can be
-#' droped by setting \code{NULL} for arguments \code{mu} and \code{D}. The \code{innov} in the argument is
+#' dropped by setting \code{NULL} for arguments \code{mu} and \code{D}. The \code{innov} in the argument is
 #' the collection of innovations of all the realizations.
 #'
 #' @param N Integer. The total number of simulated realizations.
 #' @param P Integer. The dimension of the response variable matrix. See \code{Detail}.
-#' @param Q Integer. The dimension of the explantory variable matrix to be projected. See \code{Detail}.
-#' @param R Integer. The dimension of the explantory variable matrix not to be projected. See \code{Detail}.
+#' @param Q Integer. The dimension of the explanatory variable matrix to be projected. See \code{Detail}.
+#' @param R Integer. The dimension of the explanatory variable matrix not to be projected. See \code{Detail}.
 #' @param r Integer. The rank of the reduced rank coefficient matrix. See \code{Detail}.
 #' @param mu Vector with length P. The constants. Can be \code{NULL} to drop the term. See \code{Detail}.
 #' @param A Matrix with dimension P*r. The exposure matrix. See \code{Detail}.
 #' @param B Matrix with dimension Q*r. The factor matrix. See \code{Detail}.
 #' @param D Matrix with dimension P*R. The coefficient matrix for \code{z}. Can be \code{NULL} to drop the term. See \code{Detail}.
-#' @param varcov Matrix with dimension P*P. The covaraince matrix of the innovation. See \code{Detail}.
+#' @param varcov Matrix with dimension P*P. The covariance matrix of the innovation. See \code{Detail}.
 #' @param innov Matrix with dimension N*P. The innovations. Default to be simulated from a Student t distribution, See \code{Detail}.
-#' @param mean_x Integer. The mean of the normal distribution \eqn{x} is sumulated from.
-#' @param mean_z Integer. The mean of the normal distribution \eqn{z} is sumulated from.
+#' @param mean_x Integer. The mean of the normal distribution \eqn{x} is simulated from.
+#' @param mean_z Integer. The mean of the normal distribution \eqn{z} is simulated from.
 #' @param x Matrix with dimension N*Q. Can be used to specify \eqn{x} instead of simulating form a normal distribution.
 #' @param z Matrix with dimension N*R. Can be used to specify \eqn{z} instead of simulating form a normal distribution.
 #'
-#' @return A list of the inputed specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}, of class \code{RRR_data}.
+#' @return A list of the input specifications and the data \eqn{y}, \eqn{x}, and \eqn{z}, of class \code{RRR_data}.
 #' \describe{
 #' \item{y}{Matrix of dimension N*P}
 #' \item{x}{Matrix of dimension N*Q}

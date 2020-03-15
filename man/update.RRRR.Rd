@@ -31,7 +31,7 @@
 
 \item{SAAmethod}{Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.}
 
-\item{...}{Additional auguemnts to function
+\item{...}{Additional arguments to function
 \describe{
 \item{\code{optim}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"}
 \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
@@ -39,10 +39,6 @@
 
 \item{ProgressBar}{Logical. Indicating if a progress bar is shown during the estimation process.
 The proress bar requires package \code{dplyr} to work.}
-
-\item{newdata}{List with matrix element y, x, and z.
-The dimensions of these matrix elements need to be the same as
-the data stored in the \code{object} model.}
 }
 \value{
 A list of the estimated parameters of class \code{ORRRR}.
@@ -55,7 +51,7 @@ A list of the estimated parameters of class \code{ORRRR}.
 \item{A}{The estimated exposure matrix.}
 \item{B}{The estimated factor matrix.}
 \item{D}{The estimated coefficient matrix of \code{z}.}
-\item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
+\item{Sigma}{The estimated covariance matrix of the innovation distribution.}
 \item{obj}{The final objective value.}
 \item{data}{The data used in estimation.}
 }
@@ -70,7 +66,7 @@ Estimation methods:
 }
 }
 \details{
-The fomulation of the reduced-rank regression is as follow:
+The formulation of the reduced-rank regression is as follow:
 \deqn{y = \mu +AB'  x + D z+innov,}
 where for each realization \eqn{y} is a vector of dimension \eqn{P} for the \eqn{P} response variables,
 \eqn{x} is a vector of dimension \eqn{Q} for the \eqn{Q} explanatory variables that will be projected to

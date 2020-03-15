@@ -162,11 +162,11 @@ of the simulated data.</p>
     </tr>
     <tr>
       <th>Q</th>
-      <td><p>Integer. The dimension of the explantory variable matrix to be projected. See <code>Detail</code>.</p></td>
+      <td><p>Integer. The dimension of the explanatory variable matrix to be projected. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
       <th>R</th>
-      <td><p>Integer. The dimension of the explantory variable matrix not to be projected. See <code>Detail</code>.</p></td>
+      <td><p>Integer. The dimension of the explanatory variable matrix not to be projected. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
       <th>r</th>
@@ -190,7 +190,7 @@ of the simulated data.</p>
     </tr>
     <tr>
       <th>varcov</th>
-      <td><p>Matrix with dimension P*P. The covaraince matrix of the innovation. See <code>Detail</code>.</p></td>
+      <td><p>Matrix with dimension P*P. The covariance matrix of the innovation. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
       <th>innov</th>
@@ -198,11 +198,11 @@ of the simulated data.</p>
     </tr>
     <tr>
       <th>mean_x</th>
-      <td><p>Integer. The mean of the normal distribution \(x\) is sumulated from.</p></td>
+      <td><p>Integer. The mean of the normal distribution \(x\) is simulated from.</p></td>
     </tr>
     <tr>
       <th>mean_z</th>
-      <td><p>Integer. The mean of the normal distribution \(z\) is sumulated from.</p></td>
+      <td><p>Integer. The mean of the normal distribution \(z\) is simulated from.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -216,7 +216,7 @@ of the simulated data.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the inputed specifications and the data \(y\), \(x\), and \(z\), of class <code>RRR_data</code>.</p><dl class='dl-horizontal'>
+    <p>A list of the input specifications and the data \(y\), \(x\), and \(z\), of class <code>RRR_data</code>.</p><dl class='dl-horizontal'>
 <dt>y</dt><dd><p>Matrix of dimension N*P</p></dd>
 <dt>x</dt><dd><p>Matrix of dimension N*Q</p></dd>
 <dt>z</dt><dd><p>Matrix of dimension N*R</p></dd>
@@ -226,7 +226,7 @@ of the simulated data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The data simulated can be used for the standard reduced-rank regression testing
-with the following fomulation
+with the following formulation
 $$y = \mu +AB'  x + D z+innov,$$
 where for each realization \(y\) is a vector of dimension \(P\) for the \(P\) response variables,
 \(x\) is a vector of dimension \(Q\) for the \(Q\) explanatory variables that will be projected to
@@ -242,7 +242,7 @@ The matrix resulted from \(AB'\) will be a reduced rank coefficient matrix with 
 The function simulates \(x\), \(z\) from multivariate normal distribution and \(y\) by specifying
 parameters \(\mu\), \(A\), \(B\), \(D\), and \(varcov\), the covariance matrix of
 the innovation's distribution.  The constant \(\mu\) and the term \(Dz\) can be
-droped by setting <code>NULL</code> for arguments <code>mu</code> and <code>D</code>. The <code>innov</code> in the argument is
+dropped by setting <code>NULL</code> for arguments <code>mu</code> and <code>D</code>. The <code>innov</code> in the argument is
 the collection of innovations of all the realizations.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -266,7 +266,7 @@ the collection of innovations of all the realizations.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='http://zzhaoae.student.ust.hk/'>Ziping Zhao</a>.</p>
+  <p>Developed by <a href='https://yangzhuoranyang.com'>Yangzhuoran Yang</a>, <a href='https://zipingzhao.github.io/'>Ziping Zhao</a>.</p>
 </div>
 
 <div class="pkgdown">

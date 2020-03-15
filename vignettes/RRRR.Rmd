@@ -30,7 +30,7 @@ This vignette aims to provide illustrations to estimate and update (Online) Redu
 
 ## Formulation
 
-The fomulation of the reduced-rank regression is as follow:
+The formulation of the reduced-rank regression is as follow:
 $$y = \mu +AB'  x + D z+innov,$$
 where for each realization 
 
@@ -66,7 +66,7 @@ The returned list of `RRR_sim` contains the input specifications and the data po
 
 ## Reduced-Rank Regression using Gaussian MLE : `RRR`
 
-The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (1991). This method is not robust in the sense that it assumes a Gaussian distribution for the innovations which does not take into account the heavy-tailedness of the true distribution and outliers. 
+The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. ([1991](#ref)). This method is not robust in the sense that it assumes a Gaussian distribution for the innovations which does not take into account the heavy-tailedness of the true distribution and outliers. 
 
 ```{r}
 res_gmle <- RRR(y=data$y, x=data$x, z = data$z)
@@ -87,7 +87,7 @@ res_gmle <- RRR(y=data$y, x=data$x, z=NULL, mu = FALSE)
 
 ## Robust Reduced-Rank Regression using Majorisation-Minimisation: `RRRR`
 
-The Majorisation-Minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. (2017). This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution for the innovations. 
+The Majorisation-Minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. ([2017](#ref)). This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution for the innovations. 
 As before the matrix $z$ and the constant term $\mu$ are optional.
 
 ```{r}
@@ -97,10 +97,10 @@ res_mm <- RRRR(y=data$y, x=data$x, z = data$z,
 res_mm
 ```
 
-Additional arguments that are worth noticing are `itr`, which control the maximum number of iteration, and `earlystop`, which is the aciteria to stop the algorithm early. The algorithm will stop if the improvement on objective value is small than 
-`earlystop` $\times\ objective_from_last_iteration$. 
+Additional arguments that are worth noticing are `itr`, which control the maximum number of iteration, and `earlystop`, which is the criteria to stop the algorithm early. The algorithm will stop if the improvement on objective value is small than 
+`earlystop` $\times\ objective\_from\_last\_iteration$. 
 
-This method is an iterative optimization algorithm so we can use the inbulit `plot.RRRR` method to see the convergence plot of the algorithm.
+This method is an iterative optimization algorithm so we can use the inbuilt `plot.RRRR` method to see the convergence plot of the algorithm.
 
 ```{r}
 plot(res_mm, aes_x = "iteration", xlog10 = TRUE)
@@ -113,7 +113,7 @@ Argument `aes_x` can set the x axis to be the number of iteration or the run tim
 
 ## Online Robust Reduced-Rank Regression: `ORRRR`
 
-The description of the generic Stochastic Succesive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. (2016).
+The description of the generic Stochastic Succesive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. ([2016](#ref)).
 
 There are two major estimation methods supported:
 * SMM: Stochastic Majorisation-Minimisation
@@ -121,7 +121,7 @@ There are two major estimation methods supported:
 
 The algorithm is online in the sense that the data is continuously incorporated and the algorithm can update the parameters accordingly. As before the matrix $z$ and the constant term $\mu$ are optional.
 
-At each iteration of SAA, a new realisation of the parameters is achieved by solving the minimisation problem of the sample average of the desired objective function using the data currently incorparated. This can be computationally expensive when the objective function is highly nonconvex. The SMM method overcomes this difficulty by replacing the objective function by a well-chosen majorising surrogate function which can be much easier to optimise.
+At each iteration of SAA, a new realisation of the parameters is achieved by solving the minimisation problem of the sample average of the desired objective function using the data currently incorporated. This can be computationally expensive when the objective function is highly nonconvex. The SMM method overcomes this difficulty by replacing the objective function by a well-chosen majorising surrogate function which can be much easier to optimise.
 
 ### SMM: Stochastic Majorisation-Minimisation
 
@@ -132,7 +132,7 @@ res_smm <- ORRRR(y=data$y, x=data$x, z=data$z,
                  initial_size = 100, addon = 10)
 res_smm
 ```
-The simulated data set is of size 1000. In the above command, in the first iteration 100 realisations are used in the estimation with 10 more data points in each of the following iteraion. 
+The simulated data set is of size 1000. In the above command, in the first iteration 100 realisations are used in the estimation with 10 more data points in each of the following iteration. 
 Because of the increasing data size, the estimation will be slower the longer the algorithm run. Therefore, the estimated time left in the progress bar is not very accurate in this sense.
 
 The output from `ORRRR` can also plotted using `plot.RRRR`.
@@ -145,7 +145,7 @@ plot(res_smm)
 ### SAA: Sample Average Approximation
 
 When using SAA, there are two sub solver supported in each iteration.
-* optim: the `optim` fuction from the `stats` package, and
+* optim: the `optim` function from the `stats` package, and
 * MM: Majorisation-Minimisation method with ten subiterations by default.
 
 ```{r, eval = FALSE}
@@ -156,7 +156,7 @@ res_saa_mm <- ORRRR(y=data$y, x=data$x, z=data$z,
 ```
 
 `optim` is a general purpose solver which means it will be quite slow for this specific problem, especially when the number of parameters is large.
-Embeding majorisation-minimisation into subiteration of SAA is more like a heuristic without solid theory backing up its efficiency.
+Embedding majorisation-minimisation into subiteration of SAA is more like a heuristic without solid theory backing up its efficiency.
 Due to the time constraint we do not show the estimated result here.
 
 
@@ -172,11 +172,11 @@ res2_smm <- update(res_smm, y=newdata$y, x=newdata$x, z=newdata$z)
 res2_smm
 ```
 
-Without other aruguments specified, `update` will just take the original specification in the model. If it applies to output of `RRRR`, then the default would be the default aruguments in `ORRRR`, i.e., with `method` set to "SMM" and `addon` set to 10.
+Without other arguments specified, `update` will just take the original specification in the model. If it applies to output of `RRRR`, then the default would be the default arguments in `ORRRR`, i.e., with `method` set to "SMM" and `addon` set to 10.
 
 
 
-## Source
+## References {#ref}
 
 [Johansen, S{\o}ren. 1991. “Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models.” Econometrica: Journal of the Econometric Society 59 (6): 1551.](https://www.jstor.org/stable/2938278?origin=crossref)
 
