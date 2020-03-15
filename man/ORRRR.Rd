@@ -20,7 +20,8 @@ ORRRR(
   initial_D = matrix(rnorm(P * R), ncol = R),
   initial_mu = matrix(rnorm(P)),
   initial_Sigma = diag(P),
-  ProgressBar = requireNamespace("dplyr")
+  ProgressBar = requireNamespace("dplyr"),
+  return_data = TRUE
 )
 }
 \arguments{
@@ -40,7 +41,7 @@ ORRRR(
 
 \item{method}{Character. The estimation method. Either "SMM" or "SAA". See \code{Description} and \code{Detail}.}
 
-\item{SAAmethod}{Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.}
+\item{SAAmethod}{Character. The sub solver used in each iteration when the \code{method} is chosen to be "SAA". See \code{Detail}.}
 
 \item{...}{Additional auguemnts to function
 \describe{
@@ -60,6 +61,10 @@ ORRRR(
 
 \item{ProgressBar}{Logical. Indicating if a progress bar is shown during the estimation process.
 The proress bar requires package \code{dplyr} to work.}
+
+\item{return_data}{Logical. Indicating if the data used is return in the output.
+If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.
+Set to \code{FALSE} to save output size.}
 }
 \value{
 A list of the estimated parameters of class \code{ORRRR}.
@@ -74,6 +79,7 @@ A list of the estimated parameters of class \code{ORRRR}.
 \item{D}{The estimated coefficient matrix of \code{z}.}
 \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
 \item{obj}{The final objective value.}
+\item{data}{The data used in estimation if \code{return_data} is set to \code{TRUE}. \code{NULL} otherwise.}
 }
 }
 \description{

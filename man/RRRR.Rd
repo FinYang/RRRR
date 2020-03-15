@@ -19,7 +19,8 @@ RRRR(
   initial_B = matrix(rnorm(Q * r), ncol = r),
   initial_D = matrix(rnorm(P * R), ncol = R),
   initial_mu = matrix(rnorm(P)),
-  initial_Sigma = diag(P)
+  initial_Sigma = diag(P),
+  return_data = TRUE
 )
 }
 \arguments{
@@ -47,6 +48,10 @@ on objective function is small than \eqn{earlystop * objective_from_last_iterati
 \item{initial_mu}{Matrix of dimension P*1. The initial value for the constant \eqn{mu}. See \code{Detail}.}
 
 \item{initial_Sigma}{Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.}
+
+\item{return_data}{Logical. Indicating if the data used is return in the output.
+If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.
+Set to \code{FALSE} to save output size.}
 }
 \value{
 A list of the estimated parameters of class \code{RRRR}.
@@ -59,6 +64,7 @@ A list of the estimated parameters of class \code{RRRR}.
 \item{D}{The estimated coefficient matrix of \code{z}.}
 \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
 \item{obj}{The final objective value.}
+\item{data}{The data used in estimation if \code{return_data} is set to \code{TRUE}. \code{NULL} otherwise.}
 }
 }
 \description{

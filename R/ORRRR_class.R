@@ -25,8 +25,4 @@ print.ORRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   print.default(coef(x), digits = digits)
 }
 
-#' @importFrom stats update
-#' @export
-update.ORRRR <- function(x){
 
-}

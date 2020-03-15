@@ -47,7 +47,7 @@
 #' @param initial_size Integer. The number of data points to be used in the first itearion.
 #' @param addon Integer. The number of data points to be added in the algorithm in each iteration after the first.
 #' @param method Character. The estimation method. Either "SMM" or "SAA". See \code{Description} and \code{Detail}.
-#' @param SAAmethod Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.
+#' @param SAAmethod Character. The sub solver used in each iteration when the \code{method} is chosen to be "SAA". See \code{Detail}.
 #' @param ... Additional auguemnts to function
 #' \describe{
 #' \item{\code{optim}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "optim"}
@@ -61,6 +61,9 @@
 #' @param initial_Sigma Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.
 #' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
 #' The proress bar requires package \code{dplyr} to work.
+#' @param return_data Logical. Indicating if the data used is return in the output.
+#' If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.
+#' Set to \code{FALSE} to save output size.
 #'
 #' @return A list of the estimated parameters of class \code{ORRRR}.
 #' \describe{
@@ -74,6 +77,7 @@
 #' \item{D}{The estimated coefficient matrix of \code{z}.}
 #' \item{Sigma}{The estimated covariance matrix of the innovarion distribution.}
 #' \item{obj}{The final objective value.}
+#' \item{data}{The data used in estimation if \code{return_data} is set to \code{TRUE}. \code{NULL} otherwise.}
 #' }
 #' @seealso \code{update.RRRR}, \code{RRRR}, \code{RRR}
 #' @examples
@@ -95,19 +99,27 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
                   initial_D = matrix(rnorm(P*R), ncol =  R),
                   initial_mu = matrix(rnorm(P)),
                   initial_Sigma = diag(P),
-                  ProgressBar = requireNamespace("dplyr")){
+                  ProgressBar = requireNamespace("dplyr"),
+                  return_data = TRUE){
   if (ProgressBar && !requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for progress bar to work. Please install it.",
          call. = FALSE)
   }
   method <- method[[1]]
+  if(!method %in% c("SMM", "SAA")) stop("Unrecognised method")
   if(method == "SAA")  SAAmethod <- SAAmethod[[1]] else SAAmethod <- "NULL"
+  if(method == "SAA" && !SAAmethod %in% c("optim", "MM")) stop("Unrecognised SAAmethod")
 
   if(SAAmethod == "MM"){
     RRRR_argument <- list(...)
     if(is.null(RRRR_argument$itr)) RRRR_argument$itr <- 10
     if(is.null(RRRR_argument$earlystop)) RRRR_argument$earlystop <- 1e-4
 
+  }
+  if(return_data){
+    returned_data <- list(y=y, x=x, z=z)
+  } else {
+    returned_data <- NULL
   }
 
   N <- nrow(y)
@@ -466,7 +478,8 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
                  B = B[[length(B)]],
                  D = D[[length(D)]],
                  Sigma = Sigma[[length(Sigma)]],
-                 obj = obj[[length(obj)]])
+                 obj = obj[[length(obj)]],
+                 data = returned_data)
 
   return(new_ORRRR(output))
 }
