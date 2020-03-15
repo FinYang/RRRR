@@ -2,7 +2,7 @@
 #'
 #'
 #'
-#' Majorization-Minimization based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption
+#' Majorisation-Minimisation based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption
 #' This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
 #' for the innovations. This method is an iterative optimization algorithm. See \code{source} for a similar setting.
 #'
@@ -55,18 +55,19 @@
 #' res <- RRRR(y=data$y, x=data$x, z = data$z)
 #' res
 #'
-#' @author Yangzhuoran Fin Yang
+#' @author Yangzhuoran Yang
 #' @source Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 #' @importFrom magrittr %>%
 #' @export
 ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
                   initial_size = 100, addon = 10,
                   method = c("SMM", "SAA"),
-                  SAAmethod = c("optim", "MM", "GMLE"),
+                  SAAmethod = c("optim", "MM"),
                   ...,
                   initial_A = matrix(rnorm(P*r), ncol =  r),
                   initial_B = matrix(rnorm(Q*r), ncol =  r),
                   initial_D = matrix(rnorm(P*R), ncol =  R),
+                  initial_mu = matrix(rnorm(P)),
                   initial_Sigma = diag(P),
                   ProgressBar = requireNamespace("dplyr")){
   if (ProgressBar && !requireNamespace("dplyr", quietly = TRUE)) {
@@ -74,9 +75,14 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
          call. = FALSE)
   }
   method <- method[[1]]
-  if(method == "SAA")  SAAmethod <- SAAmethod[[1]]
+  if(method == "SAA")  SAAmethod <- SAAmethod[[1]] else SAAmethod <- "NULL"
 
+  if(SAAmethod == "MM"){
+    RRRR_argument <- list(...)
+    if(is.null(RRRR_argument$itr)) RRRR_argument$itr <- 10
+    if(is.null(RRRR_argument$earlystop)) RRRR_argument$earlystop <- 1e-4
 
+  }
 
   N <- nrow(y)
 
@@ -84,20 +90,24 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   Q <- ncol(x)
   # check if z is NULL
   # add column of ones for mu
+  # if SAA-MM, pass z as it is
   if(!is.null(z)){
     z <- as.matrix(z)
     R <- ncol(z)
     if(mu){
-      z <- cbind(z, 1)
-      initial_D <- cbind(initial_D, rnorm(P))
+      if(SAAmethod != "MM"){
+        z <- cbind(z, 1)
+        initial_D <- cbind(initial_D, initial_mu)
+      }
     }
     znull <- FALSE
   } else {
     R <- 0
     znull <- TRUE
     if (mu){
-      z <- matrix(rep(1, N))
-      initial_D <- matrix(rnorm(P))
+      if(SAAmethod != "MM")
+        z <- matrix(rep(1, N))
+      initial_D <- initial_mu
     }
   }
   muorz <- mu || !znull
@@ -111,19 +121,25 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
 
   yy <- y
   xx <- x
-  zz <- z
+  if(SAAmethod != "MM"|| (SAAmethod=="MM" && !znull))
+    zz <- z
 
-  if(method=="SMM"){
+  # initialise loop
+  # SMM and MM are the same
+  if(method=="SMM" || SAAmethod=="MM"){
     A <- list()
     B <- list()
     Pi <- list()
     D <- list()
+    MM_mu <- list()
     Sigma <- list()
     A[[1]] <- initial_A
     B[[1]] <- initial_B
     Pi[[1]] <- A[[1]] %*% t(B[[1]])
     if(muorz)
       D[[1]] <- initial_D
+    if(SAAmethod == "MM")
+      MM_mu[[1]] <- initial_mu
     Sigma[[1]] <- initial_Sigma
 
 
@@ -152,6 +168,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
   xk <- list()
   wk <- list()
 
+  # progress bar and run time
   itr <- (N-initial_size)/addon +1
   if(ProgressBar)
     pb <- dplyr::progress_estimated(itr)
@@ -159,27 +176,30 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
 
   runtime <- vector("list",itr+1)
   runtime[[1]] <- Sys.time()
+  # loop
   for (k in seq_len(itr)) {
+    # assign different data each itreation
     if(k==1){
       y <- t(yy[seq(1, k*initial_size), ])
       x <- t(xx[seq(1, k*initial_size), ])
-      if(muorz)
+      if(muorz && (SAAmethod != "MM" || (SAAmethod=="MM" && !znull)))
         z <- t(zz[seq(1, k*initial_size), ])
     } else {
       if(floor(itr) < itr && k==floor(itr)){
         y <- t(yy)
         x <- t(xx)
-        if(muorz)
+        if(muorz && (SAAmethod != "MM" || (SAAmethod=="MM" && !znull)))
           z <- t(zz)
       } else {
         y <- t(yy[seq(1, initial_size+(k-1)*addon),])
         x <- t(xx[seq(1, initial_size+(k-1)*addon),])
-        if(muorz)
+        if(muorz && (SAAmethod != "MM" || (SAAmethod=="MM" && !znull)))
           z <- t(zz[seq(1, initial_size+(k-1)*addon),])
       }
     }
     N <- ncol(y)
 
+    # SMM core
     if(method == "SMM"){
       if(muorz){
         temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
@@ -238,6 +258,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
       obj[[k]] <- 1/2 * log(det(Sigma[[k]])) +(1+P)/(2*(N)) * sum(log(1+xk[[k]]))
 
     } else if(method=="SAA"){
+      # SAA-optim core
       if(SAAmethod == "optim"){
         if(muorz){
           ne_log_likihood_loss <- function(para){
@@ -274,10 +295,51 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
           }
         }
 
+
         sub_res <- optim(para[[k]], ne_log_likihood_loss, ...)
         para[[k+1]] <- sub_res$par
-        if(k==1){
 
+
+        obj[[k+1]] <- sub_res$value
+      } else if(SAAmethod == "MM"){
+        # SAA-MM core
+        if(!znull){
+          # warning(str(D[[k]]))
+          # warning(str(z))
+          # warning(str(x))
+          sub_res <- RRRR(y=t(y), x=t(x), z = t(z), mu = mu, r=r,
+                          initial_A = A[[k]],
+                          initial_B = B[[k]],
+                          initial_D = D[[k]],
+                          initial_mu = MM_mu[[k]],
+                          initial_Sigma = Sigma[[k]],
+                          itr = RRRR_argument$itr,
+                          earlystop = RRRR_argument$earlystop)
+          D[[k+1]] <- sub_res$D
+
+        } else {
+          sub_res <- RRRR(y=t(y), x=t(x), mu = mu, r=r,
+                          initial_A = A[[k]],
+                          initial_B = B[[k]],
+                          initial_D = NULL,
+                          initial_mu = MM_mu[[k]],
+                          initial_Sigma = Sigma[[k]],
+                          itr = RRRR_argument$itr,
+                          earlystop = RRRR_argument$earlystop)
+        }
+        MM_mu[[k+1]] <- sub_res$mu
+        A[[k+1]] <- sub_res$A
+        B[[k+1]] <- sub_res$B
+        # D[[k+1]] <- sub_res$D
+        Sigma[[k+1]] <- sub_res$Sigma
+
+        obj[[k+1]] <- sub_res$obj
+      }
+
+      # for SAA
+      # assign the first obj value
+      if(k==1){
+        if(SAAmethod != "MM"){
           initial_Pi <- initial_A %*% t(initial_B)
           if(muorz){
             temp <- t(y - initial_Pi %*% x - initial_D %*% z) %>% split(seq_len(nrow(.)))
@@ -287,9 +349,21 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
           xk <- sapply(temp, function(tem) t(tem) %*% solve(initial_Sigma) %*% tem)
 
           obj[[1]] <- 1/2 * log(det(initial_Sigma)) +(1+P)/(2*(N)) * sum(log(1+xk))
-        }
+        } else {
+          initial_Pi <- initial_A %*% t(initial_B)
+          if(mu && znull){
+            # stop(paste("y",dim(y),"PI", dim(initial_Pi),"x", dim(x), "mu", dim(initial_mu)))
+            temp <- t(y - initial_Pi %*% x - initial_mu %*% matrix(rep(1, ncol(x)), nrow = 1)) %>% split(seq_len(nrow(.)))
+          } else if(!mu && !znull){
+            temp <- t(y - initial_Pi %*% x - initial_D %*% z) %>% split(seq_len(nrow(.)))
 
-        obj[[k+1]] <- sub_res$value
+          } else {
+            temp <- t(y - initial_Pi %*% x ) %>% split(seq_len(nrow(.)))
+          }
+          xk <- sapply(temp, function(tem) t(tem) %*% solve(initial_Sigma) %*% tem)
+
+          obj[[1]] <- 1/2 * log(det(initial_Sigma)) +(1+P)/(2*(N)) * sum(log(1+xk))
+        }
       }
     }
     if(ProgressBar)
@@ -297,6 +371,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
     runtime[[k+1]] <- Sys.time()
   }
 
+  # calculate obj value for SMM
   if(method == "SMM"){
     if(muorz){
       temp <- t(y - Pi[[k+1]] %*% x - D[[k+1]] %*% z) %>% split(seq_len(nrow(.)))
@@ -307,6 +382,7 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
     obj[[k+1]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xkk))
 
   } else if(method == "SAA"){
+    # recover parameters from SAA-optim
     if(SAAmethod == "optim"){
       A <- lapply(para, function(para) matrix(para[1:(P*r)], nrow = P))
       B <- lapply(para, function(para) matrix(para[(P*r+1):(2*P*r)], nrow = P))
@@ -331,18 +407,32 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
       }
     }
   }
-  if(mu){
-    mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
-    if(!znull)
-      D <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,seq_len(ncol(x)-1)])
+  # seperate mu and D
+  # when it's not SAA-MM
+  if(SAAmethod != "MM"){
+    if(mu){
+      mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
+      if(!znull)
+        D <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,seq_len(ncol(x)-1)])
+    } else {
+      mu <- NULL
+    }
   } else {
-    mu <- NULL
+    # recover mu for SAA-MM
+    if(mu){
+      mu <- MM_mu
+    } else {
+      mu <- NULL
+    }
   }
   if(znull){
     D <- NULL
   }
+
+  # arrange output
   history <- list(mu = mu, A = A, B = B, D = D, Sigma = Sigma, obj = obj, runtime = c(0,diff(do.call(base::c,runtime))))
   output <- list(method = method,
+                 SAAmethod = SAAmethod,
                  spec = list(N = N, P = P, R = R, r = r),
                  history = history,
                  mu = mu[[length(mu)]],

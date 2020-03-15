@@ -1,6 +1,6 @@
-#' Robust Reduced-Rank Regression using Majorization-Minimization
+#' Robust Reduced-Rank Regression using Majorisation-Minimisation
 #'
-#' Majorization-Minimization based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption
+#' Majorisation-Minimisation based Estimation for Reduced-Rank Regression with a Cauchy Distribution Assumption.
 #' This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution
 #' for the innovations. This method is an iterative optimization algorithm. See \code{source} for a similar setting.
 #'
@@ -52,7 +52,7 @@
 #' res <- RRRR(y=data$y, x=data$x, z = data$z)
 #' res
 #'
-#' @author Yangzhuoran Fin Yang
+#' @author Yangzhuoran Yang
 #' @source Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 #' @importFrom magrittr %>%
 #' @export
@@ -61,10 +61,13 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
                  initial_A = matrix(rnorm(P*r), ncol =  r),
                  initial_B = matrix(rnorm(Q*r), ncol =  r),
                  initial_D = matrix(rnorm(P*R), ncol =  R),
+                 initial_mu = matrix(rnorm(P)),
                  initial_Sigma = diag(P)){
+  # warning(str(initial_D))
 
   N <- nrow(y)
-
+  P <- ncol(y)
+  Q <- ncol(x)
   # check if z is NULL
   # add column of ones for mu
   if(!is.null(z)){
@@ -73,7 +76,7 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
     z <- t(z)
     if(mu){
       z <- rbind(z, 1)
-      initial_D <- cbind(initial_D, rnorm(P))
+      initial_D <- cbind(initial_D, initial_mu)
     }
 
     znull <- FALSE
@@ -82,7 +85,7 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
     znull <- TRUE
     if (mu){
       z <- matrix(rep(1, N), nrow = 1)
-      initial_D <- matrix(rnorm(P))
+      initial_D <- as.matrix(initial_mu)
     }
   }
   muorz <- mu || !znull
@@ -92,8 +95,7 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
       stop("The numbers of realizations are not consistant in the inputs.")
   }
 
-  P <- ncol(y)
-  Q <- ncol(x)
+
 
 
   ##
@@ -124,6 +126,8 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   x <- t(x)
   # z <- t(z)
   # z <- rbind(z, 1)
+  # warning(str(D))
+  # warning(str(z))
   for (k in seq_len(itr)) {
     if(muorz){
       temp <- t(y - Pi[[k]] %*% x - D[[k]] %*% z) %>% split(seq_len(nrow(.)))
@@ -199,7 +203,7 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
   }
   xkk <- sapply(temp, function(tem) t(tem) %*% solve(Sigma[[k+1]]) %*% tem)
   obj[[k+1]] <- 1/2 * log(det(Sigma[[k+1]])) +(1+P)/(2*(N)) * sum(log(1+xkk))
-
+  # warning(str(D))
   if(mu){
     mu <- lapply(D[sapply(D, function(x) !is.null(x))], function(x) x[,ncol(x)])
     if(!znull)
