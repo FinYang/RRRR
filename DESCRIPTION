@@ -23,5 +23,8 @@ Imports:
     mvtnorm, 
     stats 
 Suggests:
-    dplyr
+    dplyr,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.0.2
+VignetteBuilder: knitr

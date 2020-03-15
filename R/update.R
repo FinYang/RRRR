@@ -97,6 +97,11 @@ update.RRRR <- function(object, y, x, z=NULL,
   } else {
     z <- NULL
   }
+
+  if(!"ORRRR" %in% class(object)){
+    if(is.null(addon)) addon <- 10
+    if(is.null(method)) method <- "SMM"
+  }
   res <- ORRRR(y=y, x=x, z=z,
                mu = "mu" %in% colnames(coef(object)),
                r = object$spec$r,
