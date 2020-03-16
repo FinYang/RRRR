@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Methods for estimating online Robust Reduced-Rank Regression. 
     The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (1991) <doi:10.2307/2938278>.
     The Majorisation-Minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. (2017) <doi:10.1109/GlobalSIP.2017.8309093>.
-    The description of the generic Stochastic Succesive Upper-bound Minimisation method
+    The description of the generic Stochastic Successive Upper-bound Minimisation method
     and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. (2016) <doi:10.1007/s10107-016-1021-7>.
 License: GPL-3
 Encoding: UTF-8

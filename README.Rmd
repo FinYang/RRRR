@@ -47,8 +47,8 @@ The R package *RRRR* provides the following estimation methods.
 1. Reduced-Rank Regression using Gaussian MLE: `RRR`
 2. Robust Reduced-Rank Regression using Majorisation-Minimisation: `RRRR`
 3. Online Robust Reduced-Rank Regression: `ORRRR`
-  - SMM: Stochastic Majorisation-Minimisation
-  - SAA: Sample Average Approximation
+    - SMM: Stochastic Majorisation-Minimisation
+    - SAA: Sample Average Approximation
 4. Online update of the above model (except `RRR`): `update.RRRR`
 
 See the vignette for a more detailed illustration.
