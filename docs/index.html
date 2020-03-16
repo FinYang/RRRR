@@ -14,8 +14,8 @@
 <meta property="og:title" content="Online Robust Reduced-Rank Regression Estimation">
 <meta property="og:description" content="Methods for estimating online Robust Reduced-Rank Regression. 
     The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (1991) &lt;doi:10.2307/2938278&gt;.
-    The Majorisation-Minimisation estimation method is partly described in Zhao, Z., &amp; Palomar, D. P. (2017) &lt;doi:10.1109/GlobalSIP.2017.8309093&gt;.
-    The description of the generic Stochastic Succesive Upper-bound Minimisation method
+    The Majorization-Minimization estimation method is partly described in Zhao, Z., &amp; Palomar, D. P. (2017) &lt;doi:10.1109/GlobalSIP.2017.8309093&gt;.
+    The description of the generic Stochastic Successive Upper-bound Minimisation method
     and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., &amp; Luo, Z. Q. (2016) &lt;doi:10.1007/s10107-016-1021-7&gt;.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -99,7 +99,7 @@
 <p>The <strong>stable</strong> version on R CRAN is coming soon.</p>
 <p>You can install the <strong>development</strong> version from <a href="https://github.com/FinYang/RRRR">Github</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"FinYang/RRRR"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"FinYang/RRRR"</span>)</a></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -111,13 +111,11 @@
 <li>Robust Reduced-Rank Regression using Majorisation-Minimisation: <code>RRRR</code>
 </li>
 <li>Online Robust Reduced-Rank Regression: <code>ORRRR</code>
-</li>
-</ol>
-<!-- end list --><ul>
+<ul>
 <li>SMM: Stochastic Majorisation-Minimisation</li>
 <li>SAA: Sample Average Approximation</li>
 </ul>
-<!-- end list --><ol>
+</li>
 <li>Online update of the above model (except <code>RRR</code>): <code>update.RRRR</code>
 </li>
 </ol>
