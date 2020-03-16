@@ -113,7 +113,7 @@ Argument `aes_x` can set the x axis to be the number of iteration or the run tim
 
 ## Online Robust Reduced-Rank Regression: `ORRRR`
 
-The description of the generic Stochastic Succesive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. ([2016](#ref)).
+The description of the generic Stochastic Successive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. ([2016](#ref)).
 
 There are two major estimation methods supported:
 * SMM: Stochastic Majorisation-Minimisation
