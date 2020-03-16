@@ -28,9 +28,9 @@
 #'
 #'
 #' @param object A model with class \code{RRRR}(\code{ORRRR})
-#' @param y Matrix of dimension N*P, the new data y. The matrix for the response variables. See \code{Detail}.
-#' @param x Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See \code{Detail}.
-#' @param z Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See \code{Detail}.
+#' @param newy Matrix of dimension N*P, the new data y. The matrix for the response variables. See \code{Detail}.
+#' @param newx Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See \code{Detail}.
+#' @param newz Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See \code{Detail}.
 #' @param addon Integer. The number of data points to be added in the algorithm in each iteration after the first.
 #' @param method Character. The estimation method. Either "SMM" or "SAA". See \code{Description}.
 #' @param SAAmethod Character. The sub solver used in each iteration when the \code{methid} is chosen to be "SAA". See \code{Detail}.
@@ -65,42 +65,42 @@
 #' data <- RRR_sim()
 #' newdata <- RRR_sim()
 #' res <- ORRRR(y=data$y, x=data$x, z = data$z)
-#' res <- update(res, y=newdata$y, x=newdata$x, z=newdata$z)
+#' res <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 #' res
 #' }
 #' @author Yangzhuoran Yang
 #' @importFrom magrittr %>%
 #' @importFrom stats update
 #' @export
-update.RRRR <- function(object, y, x, z=NULL,
+update.RRRR <- function(object, newy, newx, newz=NULL,
                         addon = object$spec$addon,
                         method = object$method,
                         SAAmethod = object$SAAmethod,
                         ...,
                         ProgressBar = requireNamespace("dplyr")){
-  if(!identical(ncol(object$data$y), ncol(y)))
+  if(!identical(ncol(object$data$y), ncol(newy)))
     stop("The dimension of the new data y is not the same as the data stored in model")
-  if(!identical(ncol(object$data$x), ncol(x)))
+  if(!identical(ncol(object$data$x), ncol(newx)))
     stop("The dimension of the new data x is not the same as the data stored in model")
-  if(!is.null(object$data$z) && is.null(z))
+  if(!is.null(object$data$z) && is.null(newz))
     stop("New data z not supplied.")
-  if(is.null(object$data$z) && !is.null(z))
+  if(is.null(object$data$z) && !is.null(newz))
     stop("New data z ignored.")
-  if(!is.null(object$data$z) && !identical(ncol(object$data$z), ncol(z)))
+  if(!is.null(object$data$z) && !identical(ncol(object$data$z), ncol(newz)))
     stop("The dimension of the new data z is not the same as the data stored in model")
-  y <- rbind(object$data$y, y)
-  x <- rbind(object$data$x, x)
+  newy <- rbind(object$data$y, newy)
+  newx <- rbind(object$data$x, newx)
   if(!is.null(object$data$z)){
-    z <- rbind(as.matrix(object$data$z), as.matrix(z))
+    newz <- rbind(as.matrix(object$data$z), as.matrix(newz))
   } else {
-    z <- NULL
+    newz <- NULL
   }
 
   if(!"ORRRR" %in% class(object)){
     if(is.null(addon)) addon <- 10
     if(is.null(method)) method <- "SMM"
   }
-  res <- ORRRR(y=y, x=x, z=z,
+  res <- ORRRR(y=newy, x=newx, z=newz,
                mu = "mu" %in% colnames(coef(object)),
                r = object$spec$r,
                initial_size = object$spec$N+addon,

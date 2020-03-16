@@ -168,7 +168,7 @@ With the result from `ORRRR`, user can still update it with newly achieved data 
 
 ```{r}
 newdata <- RRR_sim()
-res2_smm <- update(res_smm, y=newdata$y, x=newdata$x, z=newdata$z)
+res2_smm <- update(res_smm, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 res2_smm
 ```
 

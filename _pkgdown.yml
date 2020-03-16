@@ -13,3 +13,27 @@ authors:
     href: https://yangzhuoranyang.com
   Ziping Zhao:
     href: https://zipingzhao.github.io/
+
+reference:
+- title: Package
+  desc: ~
+  contents:
+  - '`RRRR-package`'
+- title: Simulation function
+  desc: ~
+  contents:
+  - '`RRR_sim`'
+- title: Estimation functions
+  desc: ~
+  contents:
+  - '`RRR`'
+  - '`RRRR`'
+  - '`ORRRR`'
+- title: Update function
+  desc: ~
+  contents:
+  - '`update.RRRR`'
+- title: Plot method
+  desc: ~
+  contents:
+  - '`plot.RRRR`'

@@ -146,9 +146,9 @@ Estimation methods:</p><dl class='dl-horizontal'>
     <pre class="usage"><span class='co'># S3 method for RRRR</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(
   <span class='no'>object</span>,
-  <span class='no'>y</span>,
-  <span class='no'>x</span>,
-  <span class='kw'>z</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>newy</span>,
+  <span class='no'>newx</span>,
+  <span class='kw'>newz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>addon</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>spec</span>$<span class='no'>addon</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>method</span>,
   <span class='kw'>SAAmethod</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>SAAmethod</span>,
@@ -164,15 +164,15 @@ Estimation methods:</p><dl class='dl-horizontal'>
       <td><p>A model with class <code>RRRR</code>(<code>ORRRR</code>)</p></td>
     </tr>
     <tr>
-      <th>y</th>
+      <th>newy</th>
       <td><p>Matrix of dimension N*P, the new data y. The matrix for the response variables. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
-      <th>x</th>
+      <th>newx</th>
       <td><p>Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
-      <th>z</th>
+      <th>newz</th>
       <td><p>Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See <code>Detail</code>.</p></td>
     </tr>
     <tr>
@@ -247,7 +247,7 @@ the innovation's distribution.</p>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>()
 <span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>()
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ORRRR.html'>ORRRR</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>y</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>x</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>z</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>res</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>y</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>x</span>, <span class='kw'>z</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>z</span>)
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>res</span>, <span class='kw'>newy</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>y</span>, <span class='kw'>newx</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>x</span>, <span class='kw'>newz</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>z</span>)
 <span class='no'>res</span></div><div class='output co'>#&gt; Online Robust Reduced-Rank Regression
 #&gt; ------
 #&gt; Stochastic Majorisation-Minimisation

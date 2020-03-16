@@ -6,9 +6,9 @@
 \usage{
 \method{update}{RRRR}(
   object,
-  y,
-  x,
-  z = NULL,
+  newy,
+  newx,
+  newz = NULL,
   addon = object$spec$addon,
   method = object$method,
   SAAmethod = object$SAAmethod,
@@ -19,11 +19,11 @@
 \arguments{
 \item{object}{A model with class \code{RRRR}(\code{ORRRR})}
 
-\item{y}{Matrix of dimension N*P, the new data y. The matrix for the response variables. See \code{Detail}.}
+\item{newy}{Matrix of dimension N*P, the new data y. The matrix for the response variables. See \code{Detail}.}
 
-\item{x}{Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See \code{Detail}.}
+\item{newx}{Matrix of dimension N*Q, the new data x. The matrix for the explanatory variables to be projected. See \code{Detail}.}
 
-\item{z}{Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See \code{Detail}.}
+\item{newz}{Matrix of dimension N*R, the new data z. The matrix for the explanatory variables not to be projected. See \code{Detail}.}
 
 \item{addon}{Integer. The number of data points to be added in the algorithm in each iteration after the first.}
 
@@ -90,7 +90,7 @@ set.seed(2222)
 data <- RRR_sim()
 newdata <- RRR_sim()
 res <- ORRRR(y=data$y, x=data$x, z = data$z)
-res <- update(res, y=newdata$y, x=newdata$x, z=newdata$z)
+res <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 res
 }
 }
