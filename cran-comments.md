@@ -1,3 +1,9 @@
+## Resubmission
+
+This is a resubmission.
+In this version I did not capitalise the required words in the Description field in the DESCRIPTION file.
+
+
 ## Test environments
 * local Windows 10 install, R 3.6.3
 * Ubuntu Xenial 16.04 (on travis-ci), R 3.6.2
@@ -18,7 +24,7 @@ There was 1 NOTE:
   Possibly mis-spelled words in DESCRIPTION:
     Luo (13:89)
     Johansen (10:71)
-    Majorisation (11:9)
+    majorisation (11:9)
     Razaviyayn (13:58)
     Sanjabi (13:74)
     Zhao (11:76)

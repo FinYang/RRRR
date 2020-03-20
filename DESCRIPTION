@@ -6,11 +6,11 @@ Authors@R: c(
      person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1232-8017")), 
      person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut"), comment = c(ORCID = "0000-0002-8668-6263"))
      )
-Description: Methods for estimating online Robust Reduced-Rank Regression. 
-    The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (1991) <doi:10.2307/2938278>.
-    The Majorisation-Minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. (2017) <doi:10.1109/GlobalSIP.2017.8309093>.
-    The description of the generic Stochastic Successive Upper-bound Minimisation method
-    and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. (2016) <doi:10.1007/s10107-016-1021-7>.
+Description: Methods for estimating online robust reduced-rank regression. 
+    The Gaussian maximum likelihood estimation method is described in Johansen, S. (1991) <doi:10.2307/2938278>.
+    The majorisation-minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. (2017) <doi:10.1109/GlobalSIP.2017.8309093>.
+    The description of the generic stochastic successive upper-bound minimisation method
+    and the sample average approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. (2016) <doi:10.1007/s10107-016-1021-7>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
