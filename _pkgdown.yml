@@ -1,12 +1,16 @@
 destination: docs
 
 development:
-  mode: auto
+  mode: release
+  destination: ""
+  version_label: warning
+  version_tooltip: In-development version
 
 template:
   params:
     ganalytics: UA-129140417-1
     bootswatch: flatly
+    noindex: false
 
 authors:
   Yangzhuoran Yang:
