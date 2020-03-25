@@ -85,7 +85,7 @@ res_gmle <- RRR(y=data$y, x=data$x, z=NULL, mu = FALSE)
 
 
 
-## Robust Reduced-Rank Regression using Majorisation-Minimisation: `RRRR`
+## Robust Reduced-Rank Regression using Cauchy distribution and Majorisation-Minimisation: `RRRR`
 
 The Majorisation-Minimisation estimation method is partly described in Zhao, Z., & Palomar, D. P. ([2017](#ref)). This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution for the innovations. 
 As before the matrix $z$ and the constant term $\mu$ are optional.
@@ -116,6 +116,7 @@ Argument `aes_x` can set the x axis to be the number of iteration or the run tim
 The description of the generic Stochastic Successive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. ([2016](#ref)).
 
 There are two major estimation methods supported:
+
 * SMM: Stochastic Majorisation-Minimisation
 * SAA: Sample Average Approximation
 
@@ -145,6 +146,7 @@ plot(res_smm)
 ### SAA: Sample Average Approximation
 
 When using SAA, there are two sub solver supported in each iteration.
+
 * optim: the `optim` function from the `stats` package, and
 * MM: Majorisation-Minimisation method with ten subiterations by default.
 
