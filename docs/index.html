@@ -100,7 +100,7 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"RRRR"</span>)</a></code></pre></div>
 <p>You can install the <strong>development</strong> version from <a href="https://github.com/FinYang/RRRR">Github</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"FinYang/RRRR"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"FinYang/RRRR"</span>)</a></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -142,22 +142,26 @@
 <a class="sourceLine" id="cb3-19" title="19"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(res)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png"><!-- --></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
-<a class="sourceLine" id="cb4-2" title="2">newdata &lt;-<span class="st"> </span><span class="kw"><a href="reference/RRR_sim.html">RRR_sim</a></span>()</a>
-<a class="sourceLine" id="cb4-3" title="3">res2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(res, <span class="dt">newy=</span>newdata<span class="op">$</span>y, <span class="dt">newx=</span>newdata<span class="op">$</span>x, <span class="dt">newz=</span>newdata<span class="op">$</span>z)</a>
-<a class="sourceLine" id="cb4-4" title="4">res2</a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Online Robust Reduced-Rank Regression</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; ------</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; Stochastic Majorisation-Minimisation</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; ------------</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; Specifications:</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;            N            P            R            r initial_size        addon </span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;         2000            3            1            1         1010           10 </span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;            mu        A       B        D   Sigma1   Sigma2  Sigma3</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; [1,] 0.126409 -0.33078 -1.4115 0.052945  3.31685 -0.23739 -2.0674</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; [2,] 0.133965 -0.27369 -1.1083 1.052167 -0.23739  0.85202  0.3051</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; [3,] 0.036535 -0.23098  1.4092 1.479796 -2.06742  0.30510  2.9463</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" title="2">newdata &lt;-<span class="st"> </span><span class="kw"><a href="reference/RRR_sim.html">RRR_sim</a></span>(<span class="dt">A =</span> data<span class="op">$</span>spec<span class="op">$</span>A,</a>
+<a class="sourceLine" id="cb4-3" title="3">                   <span class="dt">B =</span> data<span class="op">$</span>spec<span class="op">$</span>B,</a>
+<a class="sourceLine" id="cb4-4" title="4">                   <span class="dt">D =</span> data<span class="op">$</span>spec<span class="op">$</span>D)</a>
+<a class="sourceLine" id="cb4-5" title="5">res2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(res, <span class="dt">newy=</span>newdata<span class="op">$</span>y, <span class="dt">newx=</span>newdata<span class="op">$</span>x, <span class="dt">newz=</span>newdata<span class="op">$</span>z)</a>
+<a class="sourceLine" id="cb4-6" title="6">res2</a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; Online Robust Reduced-Rank Regression</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; ------</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; Stochastic Majorisation-Minimisation</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; ------------</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; Specifications:</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;            N            P            R            r initial_size        addon </span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;         2000            3            1            1         1010           10 </span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;            mu        A        B       D    Sigma1    Sigma2    Sigma3</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; [1,] 0.073939 -0.15981  1.52031 0.20894  0.675436 -0.021789  0.040888</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; [2,] 0.142791  0.45099  0.96270 1.11702 -0.021789  0.679136 -0.024140</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; [3,] 0.107647  0.81759 -0.67044 1.95708  0.040888 -0.024140  0.703949</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(res2)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-2.png"><!-- --></p>
 </div>
 <div id="license" class="section level2">
 <h2 class="hasAnchor">

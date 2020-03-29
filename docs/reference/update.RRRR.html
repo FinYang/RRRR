@@ -88,7 +88,7 @@ SAASample Average Approximation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RRRR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+        <span class="version label label-warning" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -248,7 +248,9 @@ the innovation's distribution.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2222</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>()
-<span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>()
+<span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='RRR_sim.html'>RRR_sim</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>spec</span>$<span class='no'>A</span>,
+                   <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>spec</span>$<span class='no'>B</span>,
+                   <span class='kw'>D</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>spec</span>$<span class='no'>D</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ORRRR.html'>ORRRR</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>y</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>data</span>$<span class='no'>x</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>data</span>$<span class='no'>z</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>res</span>, <span class='kw'>newy</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>y</span>, <span class='kw'>newx</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>x</span>, <span class='kw'>newz</span><span class='kw'>=</span><span class='no'>newdata</span>$<span class='no'>z</span>)
 <span class='no'>res</span></div><div class='output co'>#&gt; Online Robust Reduced-Rank Regression
@@ -260,10 +262,10 @@ the innovation's distribution.</p>
 #&gt;         2000            3            1            1         1010           10 
 #&gt; 
 #&gt; Coefficients:
-#&gt;            mu         A        B       D    Sigma1    Sigma2    Sigma3
-#&gt; [1,] 0.084993 -0.058885  1.76058 0.41666  0.828473 -0.014158 -0.206952
-#&gt; [2,] 0.180532  0.177263  1.13197 1.69790 -0.014158  1.065701 -0.038495
-#&gt; [3,] 0.020395  0.310392 -0.56519 1.07567 -0.206952 -0.038495  1.760657</div><div class='input'># }
+#&gt;            mu        A        B       D    Sigma1    Sigma2    Sigma3
+#&gt; [1,] 0.081655 -0.15809  1.49669 0.19977  0.678863 -0.025287  0.040417
+#&gt; [2,] 0.144781  0.45746  0.95360 1.10724 -0.025287  0.673433 -0.026088
+#&gt; [3,] 0.097791  0.82678 -0.66457 1.96356  0.040417 -0.026088  0.699273</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
