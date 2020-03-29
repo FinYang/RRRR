@@ -63,7 +63,9 @@
 #' \donttest{
 #' set.seed(2222)
 #' data <- RRR_sim()
-#' newdata <- RRR_sim()
+#' newdata <- RRR_sim(A = data$spec$A,
+#'                    B = data$spec$B,
+#'                    D = data$spec$D)
 #' res <- ORRRR(y=data$y, x=data$x, z = data$z)
 #' res <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 #' res
@@ -122,6 +124,15 @@ update.RRRR <- function(object, newy, newx, newz=NULL,
   # } else {
   #   res$data$z <- NULL
   # }
+
+  res$history$mu <- c(object$history$mu, res$history$mu)
+  res$history$A <- c(object$history$A, res$history$A)
+  res$history$B <- c(object$history$B, res$history$B)
+  res$history$D <- c(object$history$D, res$history$D)
+  res$history$Sigma <- c(object$history$Sigma, res$history$Sigma)
+  res$history$obj <- c(object$history$obj, res$history$obj)
+  res$history$runtime <- c(object$history$runtime, res$history$runtime+object$history$runtime[[length(object$history$runtime)]])
+
 
   return(new_ORRRR(res))
 }

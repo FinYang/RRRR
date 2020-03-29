@@ -88,7 +88,9 @@ See \code{?ORRRR} for details about the estimation methods.
 \donttest{
 set.seed(2222)
 data <- RRR_sim()
-newdata <- RRR_sim()
+newdata <- RRR_sim(A = data$spec$A,
+                   B = data$spec$B,
+                   D = data$spec$D)
 res <- ORRRR(y=data$y, x=data$x, z = data$z)
 res <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 res

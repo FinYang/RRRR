@@ -68,9 +68,12 @@ res <- ORRRR(y=data$y, x=data$x, z=data$z)
 res
 plot(res)
 
-newdata <- RRR_sim()
+newdata <- RRR_sim(A = data$spec$A,
+                   B = data$spec$B,
+                   D = data$spec$D)
 res2 <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 res2
+plot(res2)
 ```
 
 

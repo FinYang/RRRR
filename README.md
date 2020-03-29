@@ -77,7 +77,9 @@ plot(res)
 
 ``` r
 
-newdata <- RRR_sim()
+newdata <- RRR_sim(A = data$spec$A,
+                   B = data$spec$B,
+                   D = data$spec$D)
 res2 <- update(res, newy=newdata$y, newx=newdata$x, newz=newdata$z)
 res2
 #> Online Robust Reduced-Rank Regression
@@ -89,11 +91,14 @@ res2
 #>         2000            3            1            1         1010           10 
 #> 
 #> Coefficients:
-#>            mu        A       B        D   Sigma1   Sigma2  Sigma3
-#> [1,] 0.126409 -0.33078 -1.4115 0.052945  3.31685 -0.23739 -2.0674
-#> [2,] 0.133965 -0.27369 -1.1083 1.052167 -0.23739  0.85202  0.3051
-#> [3,] 0.036535 -0.23098  1.4092 1.479796 -2.06742  0.30510  2.9463
+#>            mu        A        B       D    Sigma1    Sigma2    Sigma3
+#> [1,] 0.073939 -0.15981  1.52031 0.20894  0.675436 -0.021789  0.040888
+#> [2,] 0.142791  0.45099  0.96270 1.11702 -0.021789  0.679136 -0.024140
+#> [3,] 0.107647  0.81759 -0.67044 1.95708  0.040888 -0.024140  0.703949
+plot(res2)
 ```
+
+![](man/figures/README-unnamed-chunk-2-2.png)<!-- -->
 
 ## License
 
