@@ -69,20 +69,39 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
                  initial_mu = matrix(rnorm(P)),
                  initial_Sigma = diag(P),
                  return_data = TRUE){
+
+
   # warning(str(initial_D))
- if(return_data){
-   returned_data <- list(y=y, x=x, z=z)
- } else {
-   returned_data <- NULL
- }
+  if(return_data){
+    returned_data <- list(y=y, x=x, z=z)
+  } else {
+    returned_data <- NULL
+  }
   N <- nrow(y)
   P <- ncol(y)
   Q <- ncol(x)
+  if(NROW(initial_A) != P)
+    stop("Mismatched dimension. The row number of initial_A is not the same as P.")
+  if(NROW(initial_mu) != P)
+    stop("Mismatched dimension. The row number (length) of initial_mu is not the same as P.")
+  if(NROW(initial_B) != Q)
+    stop("Mismatched dimension. The row number of initial_B is not the same as Q.")
+  if(NCOL(initial_A) != r)
+    stop("Mismatched dimension. The column number of initial_A is not the same as r.")
+  if(NCOL(initial_B) != r)
+    stop("Mismatched dimension. The column number of initial_B is not the same as r.")
+
+
   # check if z is NULL
   # add column of ones for mu
   if(!is.null(z)){
     z <- as.matrix(z)
     R <- ncol(z)
+    if(NCOL(initial_D) != R)
+      stop("Mismatched dimension. The column number of initial_D is not the same as the column number of variable z.")
+    if(NROW(initial_D) != P)
+      stop("Mismatched dimension. The row number of initial_D is not the same as P.")
+
     z <- t(z)
     if(mu){
       z <- rbind(z, 1)

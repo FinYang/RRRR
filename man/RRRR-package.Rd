@@ -10,6 +10,6 @@ Methods for estimating online Robust Reduced-Rank Regression.
 \author{
 Yangzhuoran Yang. \email{Fin.Yang@monash.edu}
 
-Ziping Zhao. \email{zhaoziping@hanghaitech.edu.cn}
+Ziping Zhao. \email{zhaoziping@shanghaitech.edu.cn}
 }
 \keyword{package}
