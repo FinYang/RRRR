@@ -36,7 +36,7 @@ plot.RRRR <- function(x,
                       aes_x = c("iteration", "runtime"),
                       xlog10 = TRUE, ...){
 
-  plot_data <- data.frame(runtime = x$history$runtime,
+  plot_data <- data.frame(runtime = cumsum(x$history$runtime),
                           obj = x$history$obj,
                           iteration = seq_along(x$history$obj))
   if(xlog10) plot_data$runtime[[1]] <- 0.001
