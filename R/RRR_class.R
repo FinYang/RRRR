@@ -4,10 +4,25 @@ new_RRR <- function(x = list()){
   structure(x, class = "RRR")
 }
 
+fill_narow <- function(mat, n_row){
+  n_col <- NCOL(mat)
+  nrow_add <- n_row-NROW(mat)
+  rbind(as.matrix(mat), matrix(nrow = nrow_add, ncol = n_col))
+
+}
+
+cbind_na <- function(...){
+  mats <- list(...)
+  n_row <- max(sapply(mats, function(x) NROW(x)))
+  out <- lapply(mats, fill_narow, n_row = n_row)
+  do.call(base::cbind, out)
+}
+
+
 #' @importFrom stats coef
 #' @export
 coef.RRR <- function(object, ...){
-  coefficient <- with(object, cbind(mu, A, B, D, Sigma))
+  coefficient <- with(object, cbind_na(mu, A, B, D, Sigma))
   r <- object$spec$r
   P <- object$spec$P
   R <- object$spec$R

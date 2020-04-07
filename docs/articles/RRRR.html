@@ -136,10 +136,10 @@
 <a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; Specifications:</span></a>
 <a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;    N    P    Q    R    r </span></a>
 <a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; 1000    3    3    1    1 </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;       mu        A       B        D Sigma1 Sigma2 Sigma3</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; [1,] 0.1  0.74225 0.68725 -1.55716      1      0      0</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; [2,] 0.1  0.43502 0.52282  0.35465      0      1      0</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; [3,] 0.1 -0.37060 1.29274 -1.70662      0      0      1</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;       mu         A        B        D Sigma1 Sigma2 Sigma3</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; [1,] 0.1  0.086693 -0.36003 -2.24256      1      0      0</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; [2,] 0.1 -0.055629  0.15834  0.78784      0      1      0</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; [3,] 0.1  0.266590  0.39520  0.65357      0      0      1</span></a></code></pre></div>
 <p>A number of parameters can be specified. See <code><a href="../reference/RRR_sim.html">?RRR_sim</a></code>. The default arguments are set in such a way that the matrix resulted from <span class="math inline">\(AB'\)</span> will be a reduced rank coefficient matrix with rank of <span class="math inline">\(r\)</span>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(data)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; List of 4</span></a>
@@ -148,16 +148,16 @@
 <a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt;   ..$ N    : num 1000</span></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;   ..$ Q    : num 3</span></a>
 <a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt;   ..$ R    : num 1</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   ..$ A    : num [1:3, 1] 0.742 0.435 -0.371</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   ..$ B    : num [1:3, 1] 0.687 0.523 1.293</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   ..$ A    : num [1:3, 1] 0.0867 -0.0556 0.2666</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   ..$ B    : num [1:3, 1] -0.36 0.158 0.395</span></a>
 <a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   ..$ mu   : num [1:3] 0.1 0.1 0.1</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   ..$ D    : num [1:3, 1] -1.557 0.355 -1.707</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   ..$ D    : num [1:3, 1] -2.243 0.788 0.654</span></a>
 <a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   ..$ r    : num 1</span></a>
 <a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   ..$ Sigma: num [1:3, 1:3] 1 0 0 0 1 0 0 0 1</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] -1.2173 -0.4838 0.0107 0.0778 0.9328 ...</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;  $ y   : num [1:1000, 1:3] 1.947 -1.477 -1.381 -1.229 -0.196 ...</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt;  $ x   : num [1:1000, 1:3] -1.781 -1.779 -1.174 -0.429 -1.203 ...</span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;  $ z   : num [1:1000] -1.789 0.481 0.385 0.384 0.71 ...</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] 0.14 -1.707 -1.108 0.772 -0.121 ...</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;  $ y   : num [1:1000, 1:3] 1.509 -2.773 -0.049 2.617 -1.218 ...</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt;  $ x   : num [1:1000, 1:3] -0.904 0.763 -0.614 1.943 1.641 ...</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;  $ z   : num [1:1000] -0.568 0.51 -0.416 -0.802 0.532 ...</span></a>
 <a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "RRR_data" "list"</span></a></code></pre></div>
 <p>The returned list of <code>RRR_sim</code> contains the input specifications and the data points <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>.</p>
 </div>
@@ -175,10 +175,10 @@
 <a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 1000    3    3    1    1 </span></a>
 <a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;            mu        A       B        D   Sigma1   Sigma2   Sigma3</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1,] 0.135535  1.15977 0.40648 -1.52920  2.23754 -0.18237 -0.20750</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; [2,] 0.129302  0.69725 0.32835  0.44172 -0.18237  2.72440  0.31704</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; [3,] 0.073182 -0.54686 0.84981 -1.77316 -0.20750  0.31704  2.49236</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;           mu         A        B        D  Sigma1  Sigma2  Sigma3</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1,] 0.11030 -0.106491  0.56889 -2.20098 2.49764 0.25221 0.25855</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; [2,] 0.21469  0.054104  0.24335  0.74180 0.25221 3.30430 1.01668</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; [3,] 0.19401 -0.080625 -0.74723  0.54232 0.25855 1.01668 3.50061</span></a></code></pre></div>
 <p>The matrix <span class="math inline">\(z\)</span> and the constant <span class="math inline">\(\mu\)</span> term are optional.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">res_gmle &lt;-<span class="st"> </span><span class="kw"><a href="../reference/RRR.html">RRR</a></span>(<span class="dt">y=</span>data<span class="op">$</span>y, <span class="dt">x=</span>data<span class="op">$</span>x, <span class="dt">z=</span>data<span class="op">$</span>z, <span class="dt">mu =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2">res_gmle &lt;-<span class="st"> </span><span class="kw"><a href="../reference/RRR.html">RRR</a></span>(<span class="dt">y=</span>data<span class="op">$</span>y, <span class="dt">x=</span>data<span class="op">$</span>x, <span class="dt">z=</span><span class="ot">NULL</span>, <span class="dt">mu =</span> <span class="ot">TRUE</span>)</a>
@@ -202,10 +202,10 @@
 <a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; 1000    3    3    1    1 </span></a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;            mu        A        B        D    Sigma1    Sigma2    Sigma3</span></a>
-<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; [1,] 0.058836 -0.53522 -0.88154 -1.53621  0.624011 -0.038661 -0.031257</span></a>
-<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; [2,] 0.106561 -0.34578 -0.63394  0.39277 -0.038661  0.689091  0.053542</span></a>
-<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; [3,] 0.095238  0.27852 -1.76207 -1.74103 -0.031257  0.053542  0.720720</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;           mu          A        B        D    Sigma1    Sigma2    Sigma3</span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; [1,] 0.12786 -0.0386597  1.40152 -2.21077  0.679190 -0.019801 -0.027860</span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; [2,] 0.15107  0.0045978 -0.67362  0.76081 -0.019801  0.681089  0.019321</span></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; [3,] 0.11696 -0.0600210 -1.09251  0.61280 -0.027860  0.019321  0.705139</span></a></code></pre></div>
 <p>Additional arguments that are worth noticing are <code>itr</code>, which control the maximum number of iteration, and <code>earlystop</code>, which is the criteria to stop the algorithm early. The algorithm will stop if the improvement on objective value is small than <code>earlystop</code> <span class="math inline">\(\times\ objective\_from\_last\_iteration\)</span>.</p>
 <p>This method is an iterative optimization algorithm so we can use the inbuilt <code>plot.RRRR</code> method to see the convergence plot of the algorithm.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(res_mm, <span class="dt">aes_x =</span> <span class="st">"iteration"</span>, <span class="dt">xlog10 =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
@@ -240,10 +240,10 @@
 <a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;         1000            3            1            1          100           10 </span></a>
 <a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;            mu        A       B        D    Sigma1    Sigma2   Sigma3</span></a>
-<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; [1,] 0.059484  0.53999 0.87424 -1.53543  0.634907 -0.039024 -0.03186</span></a>
-<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; [2,] 0.104492  0.34865 0.62611  0.39299 -0.039024  0.701179  0.05492</span></a>
-<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; [3,] 0.095133 -0.28034 1.75265 -1.74091 -0.031860  0.054920  0.73396</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;           mu          A        B        D    Sigma1    Sigma2    Sigma3</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; [1,] 0.13033 -0.0416755  1.40906 -2.20673  0.695300 -0.020003 -0.028749</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; [2,] 0.15288  0.0050473 -0.61529  0.75738 -0.020003  0.698847  0.020301</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; [3,] 0.11487 -0.0591289 -1.08557  0.61390 -0.028749  0.020301  0.724629</span></a></code></pre></div>
 <p>The simulated data set is of size 1000. In the above command, in the first iteration 100 realisations are used in the estimation with 10 more data points in each of the following iteration. Because of the increasing data size, the estimation will be slower the longer the algorithm run. Therefore, the estimated time left in the progress bar is not very accurate in this sense.</p>
 <p>The output from <code>ORRRR</code> can also plotted using <code>plot.RRRR</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(res_smm)</a></code></pre></div>
@@ -281,10 +281,10 @@
 <a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt;         2000            3            1            1         1010           10 </span></a>
 <a class="sourceLine" id="cb11-11" title="11"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb11-12" title="12"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb11-13" title="13"><span class="co">#&gt;           mu         A       B        D Sigma1   Sigma2   Sigma3</span></a>
-<a class="sourceLine" id="cb11-14" title="14"><span class="co">#&gt; [1,] 0.12464  0.776539 1.51475 -0.65345 3.6547 0.295997 1.016854</span></a>
-<a class="sourceLine" id="cb11-15" title="15"><span class="co">#&gt; [2,] 0.17385  0.280644 1.22286  0.37535 0.2960 0.883385 0.043297</span></a>
-<a class="sourceLine" id="cb11-16" title="16"><span class="co">#&gt; [3,] 0.12656 -0.088716 0.87212 -0.91176 1.0169 0.043297 1.483516</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-13" title="13"><span class="co">#&gt;           mu          A        B        D   Sigma1    Sigma2    Sigma3</span></a>
+<a class="sourceLine" id="cb11-14" title="14"><span class="co">#&gt; [1,] 0.12842 -0.0042929 -0.35363 -0.90648  1.81276 -0.818548 -0.107168</span></a>
+<a class="sourceLine" id="cb11-15" title="15"><span class="co">#&gt; [2,] 0.12058 -0.0849906 -1.27064 -0.26894 -0.81855  1.381379  0.070159</span></a>
+<a class="sourceLine" id="cb11-16" title="16"><span class="co">#&gt; [3,] 0.12373  0.0144727  1.46092  0.44219 -0.10717  0.070159  0.749029</span></a></code></pre></div>
 <p>Without other arguments specified, <code>update</code> will just take the original specification in the model. If it applies to output of <code>RRRR</code>, then the default would be the default arguments in <code>ORRRR</code>, i.e., with <code>method</code> set to “SMM” and <code>addon</code> set to 10.</p>
 </div>
 <div id="ref" class="section level2">
