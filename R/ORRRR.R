@@ -100,11 +100,11 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
                   initial_D = matrix(rnorm(P*R), ncol =  R),
                   initial_mu = matrix(rnorm(P)),
                   initial_Sigma = diag(P),
-                  ProgressBar = requireNamespace("dplyr"),
+                  ProgressBar = requireNamespace("lazybar"),
                   return_data = TRUE){
 
-  if (ProgressBar && !requireNamespace("dplyr", quietly = TRUE)) {
-    stop("Package \"dplyr\" needed for progress bar to work. Please install it.",
+  if (ProgressBar && !requireNamespace("lazybar", quietly = TRUE)) {
+    stop("Package \"lazybar\" needed for progress bar to work. Please install it.",
          call. = FALSE)
   }
   method <- method[[1]]
@@ -225,11 +225,11 @@ ORRRR <- function(y, x, z = NULL, mu = TRUE, r = 1,
 
   # progress bar and run time
   itr <- (N-initial_size)/addon +1
-  if(ProgressBar)
-    pb <- dplyr::progress_estimated(itr)
   obj <- numeric(itr+1)
 
   runtime <- vector("list",itr+1)
+  if(ProgressBar)
+    pb <- lazybar::lazyProgressBar(itr, method = "drift")
   runtime[[1]] <- Sys.time()
   # loop
   for (k in seq_len(itr)) {

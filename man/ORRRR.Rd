@@ -20,7 +20,7 @@ ORRRR(
   initial_D = matrix(rnorm(P * R), ncol = R),
   initial_mu = matrix(rnorm(P)),
   initial_Sigma = diag(P),
-  ProgressBar = requireNamespace("dplyr"),
+  ProgressBar = requireNamespace("lazybar"),
   return_data = TRUE
 )
 }

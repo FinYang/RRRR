@@ -5,6 +5,7 @@
 * Improved safety: added more checks in RRRR and ORRRR
 * Bug fix: plot.RRRR run time x aes wrong labels are now fixed.
 * Bug fix: coef.RRR method now handles different Q and R
+* The package support of the progress bar is now changed from package `dplyr` to package `lazybar`. The progress bar functionality will be deprecated in `dplyr` 1.0.0. `lazybar` provide a better estimated remaining time using drift forecast method.
 
 
 # RRRR 1.0.0
