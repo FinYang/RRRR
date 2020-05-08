@@ -20,7 +20,6 @@ Imports:
     matrixcalc,
     expm, 
     ggplot2, 
-    graphics,
     magrittr,
     mvtnorm, 
     stats 

@@ -30,7 +30,6 @@ print.RRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
 #' data <- RRR_sim()
 #' res <- RRRR(y=data$y, x=data$x, z = data$z)
 #' plot(res)
-#' @importFrom graphics plot
 #' @export
 plot.RRRR <- function(x,
                       aes_x = c("iteration", "runtime"),
