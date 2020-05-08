@@ -22,7 +22,7 @@ print.ORRRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   cat("Specifications:\n")
   print(do.call(base::c, x$spec))
   cat("\nCoefficients:\n")
-  print.default(coef(x), digits = digits)
+  print(coef(x), digits = digits)
 }
 
 

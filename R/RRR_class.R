@@ -18,6 +18,17 @@ cbind_na <- function(...){
   do.call(base::cbind, out)
 }
 
+format.RRR_coef <- function(x, ..., na_chr = "<unspecified>"){
+  na_pos <- is.na(x)
+  out <- NextMethod()
+  out[na_pos] <- na_chr
+  return(as.data.frame(out))
+}
+
+#' @export
+print.RRR_coef <- function(x, ...){
+  print(format(x, ...))
+}
 
 #' @importFrom stats coef
 #' @export
@@ -34,8 +45,12 @@ coef.RRR <- function(object, ...){
   )
   )
   colnames(coefficient) <- name
+  class(coefficient) <- c("RRR_coef", class(coefficient))
   return(coefficient)
 }
+
+
+
 
 #' @importFrom stats coef
 #' @export
@@ -45,7 +60,7 @@ print.RRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
   cat("Specifications:\n")
   print(do.call(base::c, x$spec))
   cat("\nCoefficients:\n")
-  print.default(coef(x), digits = digits)
+  print(coef(x), digits = digits)
 }
 
 # summary.RRR <- function(object, ...){
@@ -65,7 +80,7 @@ print.RRR <- function(x,  digits = max(3L, getOption("digits") - 2L), ...){
 
 #' @export
 print.RRR_data <- function(x, digits = max(3L, getOption("digits") - 2L), ...){
-  coefficient <- with(x$spec, cbind(mu, A, B, D, Sigma))
+  coefficient <- with(x$spec, cbind_na(mu, A, B, D, Sigma))
   r <- x$spec$r
   P <- x$spec$P
   R <- x$spec$R
@@ -78,9 +93,11 @@ print.RRR_data <- function(x, digits = max(3L, getOption("digits") - 2L), ...){
   )
   spec <- with(x$spec, c(N = N, P =P, Q = Q,R = R,r= r))
   colnames(coefficient) <- name
+  class(coefficient) <- c("RRR_coef", class(coefficient))
   cat("Simulated Data for Reduced-Rank Regression\n")
   cat("------------\n")
   cat("Specifications:\n")
   print(spec)
-  print.default(coefficient, digits = digits)
+  cat("\nCoefficients:\n")
+  print(coefficient, digits = digits)
 }
