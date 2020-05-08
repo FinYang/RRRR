@@ -1,4 +1,4 @@
-# RRRR 1.0.0.9000
+# RRRR 1.1.0
 
 * Improved documentation
 * Bug fix: update.RRRR now includes previous history
