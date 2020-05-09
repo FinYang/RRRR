@@ -29,7 +29,7 @@ The R package *RRRR* provides methods for estimating online Robust Reduced-Rank 
 
 To cite package ‘RRRR’ in publications use:
 
->  Yangzhuoran Fin Yang and Ziping Zhao (2020). RRRR: Online Robust   Reduced-Rank Regression Estimation. R package version 1.0.0. https://pkg.yangzhuoranyang.com/RRRR/.
+>  Yangzhuoran Fin Yang and Ziping Zhao (2020). RRRR: Online Robust   Reduced-Rank Regression Estimation. R package version 1.1.0. https://pkg.yangzhuoranyang.com/RRRR/.
 
 ## Installation
 

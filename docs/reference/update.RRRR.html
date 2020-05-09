@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,7 +50,6 @@ SAASample Average Approximation
 
 
 " />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -74,7 +77,7 @@ SAASample Average Approximation
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +91,7 @@ SAASample Average Approximation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RRRR</a>
-        <span class="version label label-warning" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9000</span>
+        <span class="version label label-warning" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.0.9000</span>
       </span>
     </div>
 
@@ -112,7 +115,7 @@ SAASample Average Approximation
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/FinYang/RRRR">
+  <a href="https://github.com/FinYang/RRRR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -138,7 +141,7 @@ SAASample Average Approximation
     <div class="ref-description">
     <p><code>update.RRRR</code> will update online robust reduced-rank regression model with class <code>RRRR</code>(<code>ORRRR</code>) using newly added data
 to achieve online estimation.
-Estimation methods:</p><dl class='dl-horizontal'>
+Estimation methods:</p><dl'>
 <dt>SMM</dt><dd><p>Stochastic Majorisation-Minimisation</p></dd>
 <dt>SAA</dt><dd><p>Sample Average Approximation</p></dd>
 
@@ -192,7 +195,7 @@ Estimation methods:</p><dl class='dl-horizontal'>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to function</p><dl class='dl-horizontal'>
+      <td><p>Additional arguments to function</p><dl'>
 <dt><code>optim</code></dt><dd><p>when the <code>method</code> is "SAA" and the <code>SAAmethod</code> is "optim"</p></dd>
 <dt><code>RRRR</code></dt><dd><p>when the <code>method</code> is "SAA" and the <code>SAAmethod</code> is "MM"</p></dd>
 
@@ -207,7 +210,7 @@ The proress bar requires package <code>dplyr</code> to work.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the estimated parameters of class <code>ORRRR</code>.</p><dl class='dl-horizontal'>
+    <p>A list of the estimated parameters of class <code>ORRRR</code>.</p><dl'>
 <dt>method</dt><dd><p>The estimation method being used</p></dd>
 <dt>SAAmethod</dt><dd><p>If SAA is the major estimation method, what is the sub solver in each iteration.</p></dd>
 <dt>spec</dt><dd><p>The input specifications. \(N\) is the sample size.</p></dd>
@@ -262,24 +265,16 @@ the innovation's distribution.</p>
 #&gt;         2000            3            1            1         1010           10 
 #&gt; 
 #&gt; Coefficients:
-#&gt;            mu        A        B       D    Sigma1    Sigma2    Sigma3
-#&gt; [1,] 0.081655 -0.15809  1.49669 0.19977  0.678863 -0.025287  0.040417
-#&gt; [2,] 0.144781  0.45746  0.95360 1.10724 -0.025287  0.673433 -0.026088
-#&gt; [3,] 0.097791  0.82678 -0.66457 1.96356  0.040417 -0.026088  0.699273</div><div class='input'># }
+#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3
+#&gt; 1  0.081655 -0.158088  1.496688  0.199765  0.678863 -0.025287  0.040417
+#&gt; 2  0.144781  0.457460  0.953595  1.107235 -0.025287  0.673433 -0.026088
+#&gt; 3  0.097791  0.826780 -0.664568  1.963563  0.040417 -0.026088  0.699273</div><div class='input'># }
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Yangzhuoran Yang</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -290,7 +285,7 @@ the innovation's distribution.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
