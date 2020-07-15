@@ -186,10 +186,10 @@ RRRR <- function(y, x, z = NULL, mu = TRUE, r=1,
     S_00 <- 1/N * R_0 %*% t(R_0)
     S_11 <- 1/N * R_1 %*% t(R_1)
 
-    SSSSS <- solve(expm::sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(expm::sqrtm(S_11))
+    SSSSS <- solve(pracma_sqrtm(S_11)) %*% S_10 %*% solve(S_00) %*% S_01 %*% solve(pracma_sqrtm(S_11))
     V <- eigen(SSSSS)$vectors[, seq_len(r)]
 
-    B[[k + 1]] <- solve(expm::sqrtm(S_11)) %*% V
+    B[[k + 1]] <- solve(pracma_sqrtm(S_11)) %*% V
     # beta_hat <- beta_hat * (1/beta_hat[[1]])
 
     # alpha_hat <- S_01 %*% (beta_hat) %*% solve(t(beta_hat) %*% S_11 %*% (beta_hat))

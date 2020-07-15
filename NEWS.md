@@ -1,5 +1,7 @@
 # RRRR 1.1.0.9000
 
+* Dependency of `expm` changed to `pracma`. The package is used for calculating the square root of a matrix. `expm` is scheduled for archival on 2020-07-29 for unfixed check problem.
+
 # RRRR 1.1.0
 
 * Improved documentation
