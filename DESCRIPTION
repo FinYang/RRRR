@@ -18,7 +18,7 @@ URL: https://pkg.yangzhuoranyang.com/RRRR/, https://github.com/FinYang/RRRR
 BugReports: https://github.com/FinYang/RRRR/issues/
 Imports:
     matrixcalc,
-    pracma, 
+    expm, 
     ggplot2, 
     magrittr,
     mvtnorm, 
@@ -27,6 +27,6 @@ Suggests:
     lazybar,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.0
 Language: en-AU
 VignetteBuilder: knitr

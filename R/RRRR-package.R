@@ -12,7 +12,3 @@
 NULL
 
 utils::globalVariables(c("."))
-
-pracma_sqrtm <- function(m){
-  pracma::sqrtm(m)$B
-}
