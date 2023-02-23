@@ -26,6 +26,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RRRR</a>
-        <span class="version label label-warning" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.0.9000</span>
+        <span class="version label label-warning" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/RRRR.html">Get started</a>
 </li>
@@ -62,8 +58,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/FinYang/RRRR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/FinYang/RRRR/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,224 +79,323 @@
       <h1 data-toc-skip>Introduction to RRRR</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/FinYang/RRRR/blob/master/vignettes/RRRR.Rmd"><code>vignettes/RRRR.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/FinYang/RRRR/blob/HEAD/vignettes/RRRR.Rmd" class="external-link"><code>vignettes/RRRR.Rmd</code></a></small>
       <div class="hidden name"><code>RRRR.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">RRRR</span>)</pre></body></html></div>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The R package <em>RRRR</em> provides methods for estimating online Robust Reduced-Rank Regression.</p>
-<p>If you use any code from the <code>RRRR</code> package in a publication, please use the following citation:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.yangzhuoranyang.com/RRRR/" class="external-link">RRRR</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The R package <em>RRRR</em> provides methods for estimating online
+Robust Reduced-Rank Regression.</p>
+<p>If you use any code from the <code>RRRR</code> package in a
+publication, please use the following citation:</p>
 <blockquote>
-<p>Yangzhuoran Yang and Ziping Zhao (2020). RRRR: Online Robust Reduced-Rank Regression Estimation. R package version 1.1.0. <a href="https://pkg.yangzhuoranyang.com/RRRR/" class="uri">https://pkg.yangzhuoranyang.com/RRRR/</a>.</p>
+<p>Yangzhuoran Yang and Ziping Zhao (2020). RRRR: Online Robust
+Reduced-Rank Regression Estimation. R package version 1.1.0. <a href="https://pkg.yangzhuoranyang.com/RRRR/" class="external-link uri">https://pkg.yangzhuoranyang.com/RRRR/</a>.</p>
 </blockquote>
-<p>This vignette aims to provide illustrations to estimate and update (Online) Reduced-Rank Regression using various methods contained in the package.</p>
+<p>This vignette aims to provide illustrations to estimate and update
+(Online) Reduced-Rank Regression using various methods contained in the
+package.</p>
 </div>
-<div id="formulation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#formulation" class="anchor"></a>Formulation</h2>
-<p>The formulation of the reduced-rank regression is as follow: <span class="math display">\[y = \mu +AB'  x + D z+innov,\]</span> where for each realization</p>
+<div class="section level2">
+<h2 id="formulation">Formulation<a class="anchor" aria-label="anchor" href="#formulation"></a>
+</h2>
+<p>The formulation of the reduced-rank regression is as follow: <span class="math display">\[y = \mu +AB'  x + D z+innov,\]</span> where
+for each realization</p>
 <ul>
 <li>
-<span class="math inline">\(y\)</span> is a vector of dimension <span class="math inline">\(P\)</span> for the <span class="math inline">\(P\)</span> response variables,</li>
+<span class="math inline">\(y\)</span> is a vector of dimension
+<span class="math inline">\(P\)</span> for the <span class="math inline">\(P\)</span> response variables,</li>
 <li>
-<span class="math inline">\(x\)</span> is a vector of dimension <span class="math inline">\(Q\)</span> for the <span class="math inline">\(Q\)</span> explanatory variables that will be projected to reduce the rank,</li>
+<span class="math inline">\(x\)</span> is a vector of dimension
+<span class="math inline">\(Q\)</span> for the <span class="math inline">\(Q\)</span> explanatory variables that will be
+projected to reduce the rank,</li>
 <li>
-<span class="math inline">\(z\)</span> is a vector of dimension <span class="math inline">\(R\)</span> for the <span class="math inline">\(R\)</span> explanatory variables that will not be projected,</li>
+<span class="math inline">\(z\)</span> is a vector of dimension
+<span class="math inline">\(R\)</span> for the <span class="math inline">\(R\)</span> explanatory variables that will not be
+projected,</li>
 <li>
-<span class="math inline">\(\mu\)</span> is the constant vector of dimension <span class="math inline">\(P\)</span>,</li>
+<span class="math inline">\(\mu\)</span> is the constant vector of
+dimension <span class="math inline">\(P\)</span>,</li>
 <li>
-<span class="math inline">\(innov\)</span> is the innovation vector of dimension <span class="math inline">\(P\)</span>,</li>
+<span class="math inline">\(innov\)</span> is the innovation vector
+of dimension <span class="math inline">\(P\)</span>,</li>
 <li>
-<span class="math inline">\(D\)</span> is a coefficient matrix for <span class="math inline">\(z\)</span> with dimension <span class="math inline">\(P*R\)</span>,</li>
+<span class="math inline">\(D\)</span> is a coefficient matrix for
+<span class="math inline">\(z\)</span> with dimension <span class="math inline">\(P*R\)</span>,</li>
 <li>
-<span class="math inline">\(A\)</span> is the so called exposure matrix with dimension <span class="math inline">\(P*r\)</span>, and</li>
+<span class="math inline">\(A\)</span> is the so called exposure
+matrix with dimension <span class="math inline">\(P*r\)</span>, and</li>
 <li>
-<span class="math inline">\(B\)</span> is the so called factor matrix with dimension <span class="math inline">\(Q*r\)</span>.</li>
+<span class="math inline">\(B\)</span> is the so called factor
+matrix with dimension <span class="math inline">\(Q*r\)</span>.</li>
 </ul>
-<p>The matrix resulted from <span class="math inline">\(AB'\)</span> will be a reduced rank coefficient matrix with rank of <span class="math inline">\(r\)</span>. The function estimates parameters <span class="math inline">\(\mu\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(D\)</span>, and <span class="math inline">\(Sigma\)</span>, the covariance matrix of the innovation’s distribution.</p>
+<p>The matrix resulted from <span class="math inline">\(AB'\)</span>
+will be a reduced rank coefficient matrix with rank of <span class="math inline">\(r\)</span>. The function estimates parameters
+<span class="math inline">\(\mu\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(D\)</span>, and <span class="math inline">\(Sigma\)</span>, the covariance matrix of the
+innovation’s distribution.</p>
 </div>
-<div id="simulation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#simulation" class="anchor"></a>Simulation</h2>
-<p>To simulate example data that can be used to estimate reduced-rank regression, use function <code>RRR_sim</code>.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR_sim.html">RRR_sim</a></span>()
-<span class="no">data</span>
-<span class="co">#&gt; Simulated Data for Reduced-Rank Regression</span>
-<span class="co">#&gt; ------------</span>
-<span class="co">#&gt; Specifications:</span>
-<span class="co">#&gt;    N    P    Q    R    r </span>
-<span class="co">#&gt; 1000    3    3    1    1 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span>
-<span class="co">#&gt; 1  0.100000 -0.912728 -1.053396 -0.959006  1.000000  0.000000  0.000000</span>
-<span class="co">#&gt; 2  0.100000 -0.458783 -0.055563  0.348002  0.000000  1.000000  0.000000</span>
-<span class="co">#&gt; 3  0.100000  1.145210  0.414796 -1.057068  0.000000  0.000000  1.000000</span></pre></body></html></div>
-<p>A number of parameters can be specified. See <code><a href="../reference/RRR_sim.html">?RRR_sim</a></code>. The default arguments are set in such a way that the matrix resulted from <span class="math inline">\(AB'\)</span> will be a reduced rank coefficient matrix with rank of <span class="math inline">\(r\)</span>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">data</span>)
-<span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ spec:List of 11</span>
-<span class="co">#&gt;   ..$ P    : num 3</span>
-<span class="co">#&gt;   ..$ N    : num 1000</span>
-<span class="co">#&gt;   ..$ Q    : num 3</span>
-<span class="co">#&gt;   ..$ R    : num 1</span>
-<span class="co">#&gt;   ..$ A    : num [1:3, 1] -0.913 -0.459 1.145</span>
-<span class="co">#&gt;   ..$ B    : num [1:3, 1] -1.0534 -0.0556 0.4148</span>
-<span class="co">#&gt;   ..$ mu   : num [1:3] 0.1 0.1 0.1</span>
-<span class="co">#&gt;   ..$ D    : num [1:3, 1] -0.959 0.348 -1.057</span>
-<span class="co">#&gt;   ..$ r    : num 1</span>
-<span class="co">#&gt;   ..$ Sigma: num [1:3, 1:3] 1 0 0 0 1 0 0 0 1</span>
-<span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] 1.2326 -0.451 0.0953 -1.0221 -0.0941 ...</span>
-<span class="co">#&gt;  $ y   : num [1:1000, 1:3] 0.257 -3.282 -0.313 -0.23 -2.116 ...</span>
-<span class="co">#&gt;  $ x   : num [1:1000, 1:3] -0.432 -0.935 -0.864 -1.721 -0.428 ...</span>
-<span class="co">#&gt;  $ z   : num [1:1000] 0.681 2.106 -0.564 -1.52 1.567 ...</span>
-<span class="co">#&gt;  - attr(*, "class")= chr [1:2] "RRR_data" "list"</span></pre></body></html></div>
-<p>The returned list of <code>RRR_sim</code> contains the input specifications and the data points <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>.</p>
-</div>
-<div id="reduced-rank-regression-using-gaussian-mle-rrr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reduced-rank-regression-using-gaussian-mle-rrr" class="anchor"></a>Reduced-Rank Regression using Gaussian MLE : <code>RRR</code>
+<div class="section level2">
+<h2 id="simulation">Simulation<a class="anchor" aria-label="anchor" href="#simulation"></a>
 </h2>
-<p>The Gaussian Maximum Likelihood Estimation method is described in Johansen, S. (<a href="#ref">1991</a>). This method is not robust in the sense that it assumes a Gaussian distribution for the innovations which does not take into account the heavy-tailedness of the true distribution and outliers.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">res_gmle</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="no">data</span>$<span class="no">z</span>)
-<span class="no">res_gmle</span>
-<span class="co">#&gt; Reduced-Rank Regression</span>
-<span class="co">#&gt; ------------</span>
-<span class="co">#&gt; Specifications:</span>
-<span class="co">#&gt;    N    P    Q    R    r </span>
-<span class="co">#&gt; 1000    3    3    1    1 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span>
-<span class="co">#&gt; 1  0.126372  1.024873  0.891214 -0.934592  2.622808  0.066015  0.114690</span>
-<span class="co">#&gt; 2  0.057212  0.524635  0.058963  0.250266  0.066015  2.964781 -0.117965</span>
-<span class="co">#&gt; 3  0.076175 -1.379085 -0.421274 -1.049623  0.114690 -0.117965  2.837209</span></pre></body></html></div>
-<p>The matrix <span class="math inline">\(z\)</span> and the constant <span class="math inline">\(\mu\)</span> term are optional.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">res_gmle</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="no">data</span>$<span class="no">z</span>, <span class="kw">mu</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="no">res_gmle</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="kw">NULL</span>, <span class="kw">mu</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">res_gmle</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="kw">NULL</span>, <span class="kw">mu</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<p>To simulate example data that can be used to estimate reduced-rank
+regression, use function <code>RRR_sim</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR_sim.html">RRR_sim</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">data</span></span>
+<span><span class="co">#&gt; Simulated Data for Reduced-Rank Regression</span></span>
+<span><span class="co">#&gt; ------------</span></span>
+<span><span class="co">#&gt; Specifications:</span></span>
+<span><span class="co">#&gt;    N    P    Q    R    r </span></span>
+<span><span class="co">#&gt; 1000    3    3    1    1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;         mu        A        B        D   Sigma1   Sigma2   Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.10000  1.14636  0.99109  0.74407  1.00000  0.00000  0.00000</span></span>
+<span><span class="co">#&gt; 2  0.10000  1.00652  0.42605 -0.10607  0.00000  1.00000  0.00000</span></span>
+<span><span class="co">#&gt; 3  0.10000 -0.79348 -0.61589 -2.07056  0.00000  0.00000  1.00000</span></span></code></pre></div>
+<p>A number of parameters can be specified. See <code><a href="../reference/RRR_sim.html">?RRR_sim</a></code>.
+The default arguments are set in such a way that the matrix resulted
+from <span class="math inline">\(AB'\)</span> will be a reduced rank
+coefficient matrix with rank of <span class="math inline">\(r\)</span>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of 4</span></span>
+<span><span class="co">#&gt;  $ spec:List of 11</span></span>
+<span><span class="co">#&gt;   ..$ P    : num 3</span></span>
+<span><span class="co">#&gt;   ..$ N    : num 1000</span></span>
+<span><span class="co">#&gt;   ..$ Q    : num 3</span></span>
+<span><span class="co">#&gt;   ..$ R    : num 1</span></span>
+<span><span class="co">#&gt;   ..$ A    : num [1:3, 1] 1.146 1.007 -0.793</span></span>
+<span><span class="co">#&gt;   ..$ B    : num [1:3, 1] 0.991 0.426 -0.616</span></span>
+<span><span class="co">#&gt;   ..$ mu   : num [1:3] 0.1 0.1 0.1</span></span>
+<span><span class="co">#&gt;   ..$ D    : num [1:3, 1] 0.744 -0.106 -2.071</span></span>
+<span><span class="co">#&gt;   ..$ r    : num 1</span></span>
+<span><span class="co">#&gt;   ..$ Sigma: num [1:3, 1:3] 1 0 0 0 1 0 0 0 1</span></span>
+<span><span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] -0.0538 1.4716 2.1471 -0.4684 -0.2708 ...</span></span>
+<span><span class="co">#&gt;  $ y   : num [1:1000, 1:3] 1.14 4.1 2.03 -1.43 3.19 ...</span></span>
+<span><span class="co">#&gt;  $ x   : num [1:1000, 1:3] 0.692 2.025 0.534 -1.342 2.118 ...</span></span>
+<span><span class="co">#&gt;  $ z   : num [1:1000] 0.4231 -0.7525 0.3752 0.0879 0.4275 ...</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "RRR_data" "list"</span></span></code></pre></div>
+<p>The returned list of <code>RRR_sim</code> contains the input
+specifications and the data points <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span>
+and <span class="math inline">\(z\)</span>.</p>
 </div>
-<div id="robust-reduced-rank-regression-using-cauchy-distribution-and-majorisation-minimisation-rrrr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#robust-reduced-rank-regression-using-cauchy-distribution-and-majorisation-minimisation-rrrr" class="anchor"></a>Robust Reduced-Rank Regression using Cauchy distribution and Majorisation-Minimisation: <code>RRRR</code>
+<div class="section level2">
+<h2 id="reduced-rank-regression-using-gaussian-mle-rrr">Reduced-Rank Regression using Gaussian MLE : <code>RRR</code><a class="anchor" aria-label="anchor" href="#reduced-rank-regression-using-gaussian-mle-rrr"></a>
 </h2>
-<p>The Majorisation-Minimisation estimation method is partly described in Zhao, Z., &amp; Palomar, D. P. (<a href="#ref">2017</a>). This method is robust in the sense that it assumes a heavy-tailed Cauchy distribution for the innovations. As before the matrix <span class="math inline">\(z\)</span> and the constant term <span class="math inline">\(\mu\)</span> are optional.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">res_mm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRRR.html">RRRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span> <span class="kw">=</span> <span class="no">data</span>$<span class="no">z</span>,
-               <span class="kw">itr</span> <span class="kw">=</span> <span class="fl">100</span>,
-               <span class="kw">earlystop</span> <span class="kw">=</span> <span class="fl">1e-4</span>)
-<span class="no">res_mm</span>
-<span class="co">#&gt; Robust Reduced-Rank Regression</span>
-<span class="co">#&gt; ------</span>
-<span class="co">#&gt; Majorisation-Minimisation</span>
-<span class="co">#&gt; ------------</span>
-<span class="co">#&gt; Specifications:</span>
-<span class="co">#&gt;    N    P    Q    R    r </span>
-<span class="co">#&gt; 1000    3    3    1    1 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;           mu          A          B          D     Sigma1     Sigma2     Sigma3</span>
-<span class="co">#&gt; 1  0.1075724  0.5155024  1.8281610 -1.0163317  0.7221273 -0.0031805  0.0329807</span>
-<span class="co">#&gt; 2  0.1157375  0.2259829  0.0738263  0.3250376 -0.0031805  0.7492083 -0.0456303</span>
-<span class="co">#&gt; 3  0.0917840 -0.6470619 -0.7948998 -1.0679659  0.0329807 -0.0456303  0.7439557</span></pre></body></html></div>
-<p>Additional arguments that are worth noticing are <code>itr</code>, which control the maximum number of iteration, and <code>earlystop</code>, which is the criteria to stop the algorithm early. The algorithm will stop if the improvement on objective value is small than <code>earlystop</code> <span class="math inline">\(\times\ objective\_from\_last\_iteration\)</span>.</p>
-<p>This method is an iterative optimization algorithm so we can use the inbuilt <code>plot.RRRR</code> method to see the convergence plot of the algorithm.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">res_mm</span>, <span class="kw">aes_x</span> <span class="kw">=</span> <span class="st">"iteration"</span>, <span class="kw">xlog10</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<p>The Gaussian Maximum Likelihood Estimation method is described in
+Johansen, S. (<a href="#ref">1991</a>). This method is not robust in the
+sense that it assumes a Gaussian distribution for the innovations which
+does not take into account the heavy-tailedness of the true distribution
+and outliers.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_gmle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">z</span><span class="op">)</span></span>
+<span><span class="va">res_gmle</span></span>
+<span><span class="co">#&gt; Reduced-Rank Regression</span></span>
+<span><span class="co">#&gt; ------------</span></span>
+<span><span class="co">#&gt; Specifications:</span></span>
+<span><span class="co">#&gt;    N    P    Q    R    r </span></span>
+<span><span class="co">#&gt; 1000    3    3    1    1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.207224  1.510163  0.777482  0.788478  2.865616 -0.230273 -0.147770</span></span>
+<span><span class="co">#&gt; 2  0.098706  1.209982  0.304700 -0.033111 -0.230273  2.971265 -0.227550</span></span>
+<span><span class="co">#&gt; 3  0.158389 -0.950443 -0.507343 -2.091100 -0.147770 -0.227550  2.926070</span></span></code></pre></div>
+<p>The matrix <span class="math inline">\(z\)</span> and the constant
+<span class="math inline">\(\mu\)</span> term are optional.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_gmle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">z</span>, mu <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">res_gmle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="cn">NULL</span>, mu <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">res_gmle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR.html">RRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="cn">NULL</span>, mu <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="robust-reduced-rank-regression-using-cauchy-distribution-and-majorisation-minimisation-rrrr">Robust Reduced-Rank Regression using Cauchy distribution and
+Majorisation-Minimisation: <code>RRRR</code><a class="anchor" aria-label="anchor" href="#robust-reduced-rank-regression-using-cauchy-distribution-and-majorisation-minimisation-rrrr"></a>
+</h2>
+<p>The Majorisation-Minimisation estimation method is partly described
+in Zhao, Z., &amp; Palomar, D. P. (<a href="#ref">2017</a>). This method
+is robust in the sense that it assumes a heavy-tailed Cauchy
+distribution for the innovations. As before the matrix <span class="math inline">\(z\)</span> and the constant term <span class="math inline">\(\mu\)</span> are optional.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_mm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRRR.html">RRRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">z</span>, </span>
+<span>               itr <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>               earlystop <span class="op">=</span> <span class="fl">1e-4</span><span class="op">)</span></span>
+<span><span class="va">res_mm</span></span>
+<span><span class="co">#&gt; Robust Reduced-Rank Regression</span></span>
+<span><span class="co">#&gt; ------</span></span>
+<span><span class="co">#&gt; Majorisation-Minimisation</span></span>
+<span><span class="co">#&gt; ------------</span></span>
+<span><span class="co">#&gt; Specifications:</span></span>
+<span><span class="co">#&gt;    N    P    Q    R    r </span></span>
+<span><span class="co">#&gt; 1000    3    3    1    1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;            mu           A           B           D      Sigma1      Sigma2</span></span>
+<span><span class="co">#&gt; 1  0.11714343  0.72757082  1.59790360  0.74900386  0.72124102 -0.00019413</span></span>
+<span><span class="co">#&gt; 2  0.03442934  0.62791201  0.64349226 -0.04189931 -0.00019413  0.75733622</span></span>
+<span><span class="co">#&gt; 3  0.14176927 -0.47104985 -1.01613403 -2.05860566 -0.04916971  0.00862340</span></span>
+<span><span class="co">#&gt;        Sigma3</span></span>
+<span><span class="co">#&gt; 1 -0.04916971</span></span>
+<span><span class="co">#&gt; 2  0.00862340</span></span>
+<span><span class="co">#&gt; 3  0.71858383</span></span></code></pre></div>
+<p>Additional arguments that are worth noticing are <code>itr</code>,
+which control the maximum number of iteration, and
+<code>earlystop</code>, which is the criteria to stop the algorithm
+early. The algorithm will stop if the improvement on objective value is
+small than <code>earlystop</code> <span class="math inline">\(\times\
+objective\_from\_last\_iteration\)</span>.</p>
+<p>This method is an iterative optimization algorithm so we can use the
+inbuilt <code>plot.RRRR</code> method to see the convergence plot of the
+algorithm.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_mm</span>, aes_x <span class="op">=</span> <span class="st">"iteration"</span>, xlog10 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RRRR_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>Argument <code>aes_x</code> can set the x axis to be the number of iteration or the run time. Argument <code>xlog10</code> can indicate whether the scale of x axis is log 10 transformed.</p>
+<p>Argument <code>aes_x</code> can set the x axis to be the number of
+iteration or the run time. Argument <code>xlog10</code> can indicate
+whether the scale of x axis is log 10 transformed.</p>
 </div>
-<div id="online-robust-reduced-rank-regression-orrrr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#online-robust-reduced-rank-regression-orrrr" class="anchor"></a>Online Robust Reduced-Rank Regression: <code>ORRRR</code>
+<div class="section level2">
+<h2 id="online-robust-reduced-rank-regression-orrrr">Online Robust Reduced-Rank Regression: <code>ORRRR</code><a class="anchor" aria-label="anchor" href="#online-robust-reduced-rank-regression-orrrr"></a>
 </h2>
-<p>The description of the generic Stochastic Successive Upper-bound Minimisation method and the Sample Average Approximation can be found in Razaviyayn, M., Sanjabi, M., &amp; Luo, Z. Q. (<a href="#ref">2016</a>).</p>
+<p>The description of the generic Stochastic Successive Upper-bound
+Minimisation method and the Sample Average Approximation can be found in
+Razaviyayn, M., Sanjabi, M., &amp; Luo, Z. Q. (<a href="#ref">2016</a>).</p>
 <p>There are two major estimation methods supported:</p>
 <ul>
 <li>SMM: Stochastic Majorisation-Minimisation</li>
 <li>SAA: Sample Average Approximation</li>
 </ul>
-<p>The algorithm is online in the sense that the data is continuously incorporated and the algorithm can update the parameters accordingly. As before the matrix <span class="math inline">\(z\)</span> and the constant term <span class="math inline">\(\mu\)</span> are optional.</p>
-<p>At each iteration of SAA, a new realisation of the parameters is achieved by solving the minimisation problem of the sample average of the desired objective function using the data currently incorporated. This can be computationally expensive when the objective function is highly nonconvex. The SMM method overcomes this difficulty by replacing the objective function by a well-chosen majorising surrogate function which can be much easier to optimise.</p>
-<div id="smm-stochastic-majorisation-minimisation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#smm-stochastic-majorisation-minimisation" class="anchor"></a>SMM: Stochastic Majorisation-Minimisation</h3>
+<p>The algorithm is online in the sense that the data is continuously
+incorporated and the algorithm can update the parameters accordingly. As
+before the matrix <span class="math inline">\(z\)</span> and the
+constant term <span class="math inline">\(\mu\)</span> are optional.</p>
+<p>At each iteration of SAA, a new realisation of the parameters is
+achieved by solving the minimisation problem of the sample average of
+the desired objective function using the data currently incorporated.
+This can be computationally expensive when the objective function is
+highly nonconvex. The SMM method overcomes this difficulty by replacing
+the objective function by a well-chosen majorising surrogate function
+which can be much easier to optimise.</p>
+<div class="section level3">
+<h3 id="smm-stochastic-majorisation-minimisation">SMM: Stochastic Majorisation-Minimisation<a class="anchor" aria-label="anchor" href="#smm-stochastic-majorisation-minimisation"></a>
+</h3>
 <p>By default the function <code>ORRRR</code> uses SMM.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">res_smm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="no">data</span>$<span class="no">z</span>,
-                 <span class="kw">initial_size</span> <span class="kw">=</span> <span class="fl">100</span>, <span class="kw">addon</span> <span class="kw">=</span> <span class="fl">10</span>)
-<span class="co">#&gt; Loading required namespace: lazybar</span>
-<span class="no">res_smm</span>
-<span class="co">#&gt; Online Robust Reduced-Rank Regression</span>
-<span class="co">#&gt; ------</span>
-<span class="co">#&gt; Stochastic Majorisation-Minimisation</span>
-<span class="co">#&gt; ------------</span>
-<span class="co">#&gt; Specifications:</span>
-<span class="co">#&gt;            N            P            R            r initial_size        addon </span>
-<span class="co">#&gt;         1000            3            1            1          100           10 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;           mu          A          B          D     Sigma1     Sigma2     Sigma3</span>
-<span class="co">#&gt; 1  0.1064044  0.5191792  1.8197789 -1.0168206  0.7329679 -0.0037616  0.0338109</span>
-<span class="co">#&gt; 2  0.1152912  0.2256964  0.0738946  0.3243414 -0.0037616  0.7623266 -0.0474689</span>
-<span class="co">#&gt; 3  0.0927323 -0.6516321 -0.7918953 -1.0663292  0.0338109 -0.0474689  0.7554183</span></pre></body></html></div>
-<p>The simulated data set is of size 1000. In the above command, in the first iteration 100 realisations are used in the estimation with 10 more data points in each of the following iteration. Because of the increasing data size, the estimation will be slower the longer the algorithm run. Therefore, the estimated time left in the progress bar is not very accurate in this sense.</p>
-<p>The output from <code>ORRRR</code> can also plotted using <code>plot.RRRR</code>.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">res_smm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_smm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">z</span>, </span>
+<span>                 initial_size <span class="op">=</span> <span class="fl">100</span>, addon <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required namespace: lazybar</span></span>
+<span><span class="va">res_smm</span></span>
+<span><span class="co">#&gt; Online Robust Reduced-Rank Regression</span></span>
+<span><span class="co">#&gt; ------</span></span>
+<span><span class="co">#&gt; Stochastic Majorisation-Minimisation</span></span>
+<span><span class="co">#&gt; ------------</span></span>
+<span><span class="co">#&gt; Specifications:</span></span>
+<span><span class="co">#&gt;            N            P            R            r initial_size        addon </span></span>
+<span><span class="co">#&gt;         1000            3            1            1          100           10 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;           mu          A          B          D     Sigma1     Sigma2     Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.1172091  0.7296235  1.5886038  0.7473637  0.7314056  0.0018036 -0.0498648</span></span>
+<span><span class="co">#&gt; 2  0.0349528  0.6330270  0.6416880 -0.0416999  0.0018036  0.7687196  0.0076366</span></span>
+<span><span class="co">#&gt; 3  0.1400180 -0.4728702 -1.0119359 -2.0569569 -0.0498648  0.0076366  0.7275063</span></span></code></pre></div>
+<p>The simulated data set is of size 1000. In the above command, in the
+first iteration 100 realisations are used in the estimation with 10 more
+data points in each of the following iteration. Because of the
+increasing data size, the estimation will be slower the longer the
+algorithm run. Therefore, the estimated time left in the progress bar is
+not very accurate in this sense.</p>
+<p>The output from <code>ORRRR</code> can also plotted using
+<code>plot.RRRR</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_smm</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RRRR_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
-<div id="saa-sample-average-approximation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#saa-sample-average-approximation" class="anchor"></a>SAA: Sample Average Approximation</h3>
-<p>When using SAA, there are two sub solver supported in each iteration.</p>
+<div class="section level3">
+<h3 id="saa-sample-average-approximation">SAA: Sample Average Approximation<a class="anchor" aria-label="anchor" href="#saa-sample-average-approximation"></a>
+</h3>
+<p>When using SAA, there are two sub solver supported in each
+iteration.</p>
 <ul>
-<li>optim: the <code>optim</code> function from the <code>stats</code> package, and</li>
-<li>MM: Majorisation-Minimisation method with ten subiterations by default.</li>
+<li>optim: the <code>optim</code> function from the <code>stats</code>
+package, and</li>
+<li>MM: Majorisation-Minimisation method with ten subiterations by
+default.</li>
 </ul>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">res_saa_optim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="no">data</span>$<span class="no">z</span>,
-                       <span class="kw">method</span> <span class="kw">=</span> <span class="st">"SAA"</span>, <span class="kw">SAAmethod</span> <span class="kw">=</span> <span class="st">"optim"</span>)
-<span class="no">res_saa_mm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="no">data</span>$<span class="no">y</span>, <span class="kw">x</span><span class="kw">=</span><span class="no">data</span>$<span class="no">x</span>, <span class="kw">z</span><span class="kw">=</span><span class="no">data</span>$<span class="no">z</span>,
-                       <span class="kw">method</span> <span class="kw">=</span> <span class="st">"SAA"</span>, <span class="kw">SAAmethod</span> <span class="kw">=</span> <span class="st">"MM"</span>)</pre></body></html></div>
-<p><code>optim</code> is a general purpose solver which means it will be quite slow for this specific problem, especially when the number of parameters is large. Embedding majorisation-minimisation into subiteration of SAA is more like a heuristic without solid theory backing up its efficiency. Due to the time constraint we do not show the estimated result here.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_saa_optim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">z</span>,</span>
+<span>                       method <span class="op">=</span> <span class="st">"SAA"</span>, SAAmethod <span class="op">=</span> <span class="st">"optim"</span><span class="op">)</span></span>
+<span><span class="va">res_saa_mm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ORRRR.html">ORRRR</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">y</span>, x<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">x</span>, z<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">z</span>,</span>
+<span>                       method <span class="op">=</span> <span class="st">"SAA"</span>, SAAmethod <span class="op">=</span> <span class="st">"MM"</span><span class="op">)</span></span></code></pre></div>
+<p><code>optim</code> is a general purpose solver which means it will be
+quite slow for this specific problem, especially when the number of
+parameters is large. Embedding majorisation-minimisation into
+subiteration of SAA is more like a heuristic without solid theory
+backing up its efficiency. Due to the time constraint we do not show the
+estimated result here.</p>
 </div>
 </div>
-<div id="truly-online-update-rrrr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#truly-online-update-rrrr" class="anchor"></a>Truly online: <code>update.RRRR</code>
+<div class="section level2">
+<h2 id="truly-online-update-rrrr">Truly online: <code>update.RRRR</code><a class="anchor" aria-label="anchor" href="#truly-online-update-rrrr"></a>
 </h2>
-<p>With the result from <code>ORRRR</code>, user can still update it with newly achieved data using function <code>update</code>. Note the result from <code>RRRR</code> can also be updated where it simply takes the result from <code>RRRR</code> as the starting point in online estimation.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">newdata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/RRR_sim.html">RRR_sim</a></span>()
-<span class="no">res2_smm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="no">res_smm</span>, <span class="kw">newy</span><span class="kw">=</span><span class="no">newdata</span>$<span class="no">y</span>, <span class="kw">newx</span><span class="kw">=</span><span class="no">newdata</span>$<span class="no">x</span>, <span class="kw">newz</span><span class="kw">=</span><span class="no">newdata</span>$<span class="no">z</span>)
-<span class="no">res2_smm</span>
-<span class="co">#&gt; Online Robust Reduced-Rank Regression</span>
-<span class="co">#&gt; ------</span>
-<span class="co">#&gt; Stochastic Majorisation-Minimisation</span>
-<span class="co">#&gt; ------------</span>
-<span class="co">#&gt; Specifications:</span>
-<span class="co">#&gt;            N            P            R            r initial_size        addon </span>
-<span class="co">#&gt;         2000            3            1            1         1010           10 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span>
-<span class="co">#&gt; 1  0.111211  0.277957  2.000850 -0.293491  1.505942 -0.340514 -0.270444</span>
-<span class="co">#&gt; 2  0.088274  0.198424  0.159417  0.017572 -0.340514  1.260649  0.260434</span>
-<span class="co">#&gt; 3  0.093911 -0.299905 -0.782485 -0.833642 -0.270444  0.260434  1.733724</span></pre></body></html></div>
-<p>Without other arguments specified, <code>update</code> will just take the original specification in the model. If it applies to output of <code>RRRR</code>, then the default would be the default arguments in <code>ORRRR</code>, i.e., with <code>method</code> set to “SMM” and <code>addon</code> set to 10.</p>
+<p>With the result from <code>ORRRR</code>, user can still update it
+with newly achieved data using function <code>update</code>. Note the
+result from <code>RRRR</code> can also be updated where it simply takes
+the result from <code>RRRR</code> as the starting point in online
+estimation.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RRR_sim.html">RRR_sim</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">res2_smm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">res_smm</span>, newy<span class="op">=</span><span class="va">newdata</span><span class="op">$</span><span class="va">y</span>, newx<span class="op">=</span><span class="va">newdata</span><span class="op">$</span><span class="va">x</span>, newz<span class="op">=</span><span class="va">newdata</span><span class="op">$</span><span class="va">z</span><span class="op">)</span></span>
+<span><span class="va">res2_smm</span></span>
+<span><span class="co">#&gt; Online Robust Reduced-Rank Regression</span></span>
+<span><span class="co">#&gt; ------</span></span>
+<span><span class="co">#&gt; Stochastic Majorisation-Minimisation</span></span>
+<span><span class="co">#&gt; ------------</span></span>
+<span><span class="co">#&gt; Specifications:</span></span>
+<span><span class="co">#&gt;            N            P            R            r initial_size        addon </span></span>
+<span><span class="co">#&gt;         2000            3            1            1         1010           10 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.092604  0.333689  1.784085  0.412598  1.157862  0.328859 -0.322302</span></span>
+<span><span class="co">#&gt; 2  0.053548  0.316102  0.760008 -0.465321  0.328859  1.116501 -0.247988</span></span>
+<span><span class="co">#&gt; 3  0.123099 -0.276064 -1.171532 -1.560770 -0.322302 -0.247988  0.977941</span></span></code></pre></div>
+<p>Without other arguments specified, <code>update</code> will just take
+the original specification in the model. If it applies to output of
+<code>RRRR</code>, then the default would be the default arguments in
+<code>ORRRR</code>, i.e., with <code>method</code> set to “SMM” and
+<code>addon</code> set to 10.</p>
 </div>
-<div id="ref" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ref" class="anchor"></a>References</h2>
-<p><a href="https://www.jstor.org/stable/2938278?origin=crossref">Johansen, S{}ren. 1991. “Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models.” Econometrica: Journal of the Econometric Society 59 (6): 1551.</a></p>
-<p><a href="https://ieeexplore.ieee.org/abstract/document/8309093/">Z. Zhao and D. P. Palomar, “Robust maximum likelihood estimation of sparse vector error correction model,” in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP), pp. 913–917,IEEE, 2017.</a></p>
-<p><a href="http://link.springer.com/10.1007/s10107-016-1021-7">Razaviyayn, Meisam, Maziar Sanjabi, and Zhi Quan Luo. 2016. “A Stochastic Successive Minimization Method for Nonsmooth Nonconvex Optimization with Applications to Transceiver Design in Wireless Communication Networks.” Mathematical Programming. A Publication of the Mathematical Programming Society 157 (2): 515–45.</a></p>
+<div class="section level2">
+<h2 id="ref">References<a class="anchor" aria-label="anchor" href="#ref"></a>
+</h2>
+<p><a href="https://www.jstor.org/stable/2938278?origin=crossref" class="external-link">Johansen,
+S{}ren. 1991. “Estimation and Hypothesis Testing of Cointegration
+Vectors in Gaussian Vector Autoregressive Models.” Econometrica: Journal
+of the Econometric Society 59 (6): 1551.</a></p>
+<p><a href="https://ieeexplore.ieee.org/abstract/document/8309093/" class="external-link">Z.
+Zhao and D. P. Palomar, “Robust maximum likelihood estimation of sparse
+vector error correction model,” in2017 IEEE Global Conferenceon Signal
+and Information Processing (GlobalSIP), pp. 913–917,IEEE, 2017.</a></p>
+<p><a href="http://link.springer.com/10.1007/s10107-016-1021-7" class="external-link">Razaviyayn,
+Meisam, Maziar Sanjabi, and Zhi Quan Luo. 2016. “A Stochastic Successive
+Minimization Method for Nonsmooth Nonconvex Optimization with
+Applications to Transceiver Design in Wireless Communication Networks.”
+Mathematical Programming. A Publication of the Mathematical Programming
+Society 157 (2): 515–45.</a></p>
 </div>
-<div id="license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#license" class="anchor"></a>License</h2>
-<p>This package is free and open source software, licensed under GPL-3</p>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>This package is free and open source software, licensed under
+GPL-3</p>
 </div>
   </div>
 
@@ -315,11 +410,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://yangzhuoranyang.com">Yangzhuoran Yang</a>, <a href="https://zipingzhao.github.io/">Ziping Zhao</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://yangzhuoranyang.com" class="external-link">Yangzhuoran Yang</a>, <a href="https://zipingzhao.github.io/" class="external-link">Ziping Zhao</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -327,6 +424,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -13,7 +13,7 @@
   method = object$method,
   SAAmethod = object$SAAmethod,
   ...,
-  ProgressBar = requireNamespace("dplyr")
+  ProgressBar = requireNamespace("lazybar")
 )
 }
 \arguments{
@@ -38,7 +38,7 @@
 }}
 
 \item{ProgressBar}{Logical. Indicating if a progress bar is shown during the estimation process.
-The proress bar requires package \code{dplyr} to work.}
+The proress bar requires package \code{lazybar} to work.}
 }
 \value{
 A list of the estimated parameters of class \code{ORRRR}.

@@ -27,6 +27,6 @@ Suggests:
     lazybar,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.3
 Language: en-AU
 VignetteBuilder: knitr

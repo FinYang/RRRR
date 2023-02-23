@@ -60,7 +60,7 @@
 #' @param initial_mu Matrix of dimension P*1. The initial value for the constant \eqn{mu}. See \code{Detail}.
 #' @param initial_Sigma Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.
 #' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
-#' The progress bar requires package \code{dplyr} to work.
+#' The progress bar requires package \code{lazybar} to work.
 #' @param return_data Logical. Indicating if the data used is return in the output.
 #' If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.
 #' Set to \code{FALSE} to save output size.

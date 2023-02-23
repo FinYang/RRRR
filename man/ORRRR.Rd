@@ -60,7 +60,7 @@ ORRRR(
 \item{initial_Sigma}{Matrix of dimension P*P. The initial value for matrix Sigma. See \code{Detail}.}
 
 \item{ProgressBar}{Logical. Indicating if a progress bar is shown during the estimation process.
-The progress bar requires package \code{dplyr} to work.}
+The progress bar requires package \code{lazybar} to work.}
 
 \item{return_data}{Logical. Indicating if the data used is return in the output.
 If set to \code{TRUE}, \code{update.RRRR} can update the model by simply provide new data.

@@ -40,7 +40,7 @@
 #' \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
 #' }
 #' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
-#' The proress bar requires package \code{dplyr} to work.
+#' The proress bar requires package \code{lazybar} to work.
 #'
 #' @return A list of the estimated parameters of class \code{ORRRR}.
 #' \describe{
@@ -79,7 +79,7 @@ update.RRRR <- function(object, newy, newx, newz=NULL,
                         method = object$method,
                         SAAmethod = object$SAAmethod,
                         ...,
-                        ProgressBar = requireNamespace("dplyr")){
+                        ProgressBar = requireNamespace("lazybar")){
   if(!identical(ncol(object$data$y), ncol(newy)))
     stop("The dimension of the new data y is not the same as the data stored in model")
   if(!identical(ncol(object$data$x), ncol(newx)))
