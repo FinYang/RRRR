@@ -5,10 +5,10 @@
 
 <!-- badges: start -->
 
-[![Build\_Status](https://travis-ci.org/FinYang/RRRR.svg?branch=master)](https://travis-ci.org/FinYang/RRRR)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RRRR)](https://cran.r-project.org/package=RRRR)
-[![Monthly\_Downloads](http://cranlogs.r-pkg.org/badges/RRRR)](https://cran.r-project.org/package=RRRR)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/RRRR)](https://cran.r-project.org/package=RRRR)
+[![Monthly_Downloads](http://cranlogs.r-pkg.org/badges/RRRR)](https://cran.r-project.org/package=RRRR)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![R-CMD-check](https://github.com/FinYang/RRRR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/FinYang/RRRR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The R package *RRRR* provides methods for estimating online Robust
@@ -16,8 +16,8 @@ Reduced-Rank Regression.
 
 To cite package ‘RRRR’ in publications use:
 
-> Yangzhuoran Fin Yang and Ziping Zhao (2020). RRRR: Online Robust
-> Reduced-Rank Regression Estimation. R package version 1.1.0.
+> Yangzhuoran Fin Yang and Ziping Zhao (2023). RRRR: Online Robust
+> Reduced-Rank Regression Estimation. R package version 1.1.1.
 > <https://pkg.yangzhuoranyang.com/RRRR/>.
 
 ## Installation
@@ -45,8 +45,8 @@ The R package *RRRR* provides the following estimation methods.
 2.  Robust Reduced-Rank Regression using Cauchy distribution and
     Majorisation-Minimisation: `RRRR`
 3.  Online Robust Reduced-Rank Regression: `ORRRR`
-      - SMM: Stochastic Majorisation-Minimisation
-      - SAA: Sample Average Approximation
+    - SMM: Stochastic Majorisation-Minimisation
+    - SAA: Sample Average Approximation
 4.  Online update of the above model (except `RRR`): `update.RRRR`
 
 See the vignette for a more detailed illustration.
@@ -92,9 +92,9 @@ res2
 #> 
 #> Coefficients:
 #>          mu         A         B         D    Sigma1    Sigma2    Sigma3
-#> 1  0.073939  0.159814 -1.520309  0.208943  0.675436 -0.021789  0.040888
-#> 2  0.142791 -0.450992 -0.962698  1.117024 -0.021789  0.679136 -0.024140
-#> 3  0.107647 -0.817590  0.670435  1.957084  0.040888 -0.024140  0.703949
+#> 1  0.073939 -0.159814  1.520309  0.208943  0.675436 -0.021789  0.040888
+#> 2  0.142791  0.450992  0.962698  1.117024 -0.021789  0.679136 -0.024140
+#> 3  0.107647  0.817590 -0.670435  1.957084  0.040888 -0.024140  0.703949
 plot(res2)
 ```
 
