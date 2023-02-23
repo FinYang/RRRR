@@ -13,7 +13,6 @@ Description: Methods for estimating online robust reduced-rank regression.
     and the sample average approximation can be found in Razaviyayn, M., Sanjabi, M., & Luo, Z. Q. (2016) <doi:10.1007/s10107-016-1021-7>.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 URL: https://pkg.yangzhuoranyang.com/RRRR/, https://github.com/FinYang/RRRR
 BugReports: https://github.com/FinYang/RRRR/issues/
 Imports:
