@@ -19,10 +19,10 @@ knitr::opts_chunk$set(
 # RRRR
 
 <!-- badges: start -->
-[![Build\_Status](https://travis-ci.org/FinYang/RRRR.svg?branch=master)](https://travis-ci.org/FinYang/RRRR)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RRRR)](https://cran.r-project.org/package=RRRR)
 [![Monthly\_Downloads](http://cranlogs.r-pkg.org/badges/RRRR)](https://cran.r-project.org/package=RRRR)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![R-CMD-check](https://github.com/FinYang/RRRR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/FinYang/RRRR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The R package *RRRR* provides methods for estimating online Robust Reduced-Rank Regression.
