@@ -184,7 +184,7 @@ Without other arguments specified, `update` will just take the original specific
 
 [Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP), pp. 913–917,IEEE, 2017.](https://ieeexplore.ieee.org/abstract/document/8309093/)
 
-[Razaviyayn, Meisam, Maziar Sanjabi, and Zhi Quan Luo. 2016. “A Stochastic Successive Minimization Method for Nonsmooth Nonconvex Optimization with Applications to Transceiver Design in Wireless Communication Networks.” Mathematical Programming. A Publication of the Mathematical Programming Society 157 (2): 515–45.](http://link.springer.com/10.1007/s10107-016-1021-7)
+[Razaviyayn, Meisam, Maziar Sanjabi, and Zhi Quan Luo. 2016. “A Stochastic Successive Minimization Method for Nonsmooth Nonconvex Optimization with Applications to Transceiver Design in Wireless Communication Networks.” Mathematical Programming. A Publication of the Mathematical Programming Society 157 (2): 515–45.](https://link.springer.com/10.1007/s10107-016-1021-7)
 
 ## License
 

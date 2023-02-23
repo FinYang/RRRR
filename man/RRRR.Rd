@@ -94,7 +94,7 @@ res
 
 }
 \references{
-Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conferenceon Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
+Z. Zhao and D. P. Palomar, "Robust maximum likelihood estimation of sparse vector error correction model," in2017 IEEE Global Conference on Signal and Information Processing (GlobalSIP),  pp. 913--917,IEEE, 2017.
 }
 \author{
 Yangzhuoran Yang

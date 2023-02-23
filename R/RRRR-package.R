@@ -5,7 +5,7 @@
 #'
 #' @name RRRR-package
 #' @docType package
-#' @author Yangzhuoran Yang. \email{Fin.Yang@@monash.edu}
+#' @author Yangzhuoran Yang. \email{yangyangzhuoran@@gmail.com}
 #' @author Ziping Zhao. \email{zhaoziping@@shanghaitech.edu.cn}
 #'
 #' @keywords package

@@ -38,7 +38,7 @@
 }}
 
 \item{ProgressBar}{Logical. Indicating if a progress bar is shown during the estimation process.
-The proress bar requires package \code{lazybar} to work.}
+The progress bar requires package \code{lazybar} to work.}
 }
 \value{
 A list of the estimated parameters of class \code{ORRRR}.

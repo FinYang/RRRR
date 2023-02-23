@@ -40,7 +40,7 @@
 #' \item{\code{RRRR}}{when the \code{method} is "SAA" and the \code{SAAmethod} is "MM"}
 #' }
 #' @param ProgressBar Logical. Indicating if a progress bar is shown during the estimation process.
-#' The proress bar requires package \code{lazybar} to work.
+#' The progress bar requires package \code{lazybar} to work.
 #'
 #' @return A list of the estimated parameters of class \code{ORRRR}.
 #' \describe{
