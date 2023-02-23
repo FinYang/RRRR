@@ -1,9 +1,9 @@
 Package: RRRR
 Type: Package
 Title: Online Robust Reduced-Rank Regression Estimation
-Version: 1.1.0.9000
+Version: 1.1.1
 Authors@R: c(
-     person("Yangzhuoran", "Yang", email = "Fin.Yang@monash.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1232-8017")), 
+     person("Yangzhuoran Fin", "Yang", email = "yangyangzhuoran@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1232-8017")), 
      person("Ziping", "Zhao", email = "ZhaoZiping@shanghaitech.edu.cn", role = c("aut"), comment = c(ORCID = "0000-0002-8668-6263"))
      )
 Description: Methods for estimating online robust reduced-rank regression. 
