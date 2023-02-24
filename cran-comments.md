@@ -1,4 +1,5 @@
-This patch aims to fix CRAN Package Check warning and note
+This patch aims to fix CRAN Package Check warning and note.
+Also updated url.
 
 ## Test environments
 * local macOS 13.2.1 (Apple M1 Pro) install, R 4.2.2
@@ -9,6 +10,7 @@ This patch aims to fix CRAN Package Check warning and note
 * ubuntu-latest (oldrel-1) x86_64-pc-linux-gnu (64-bit) (GitHub actions)
 *	Windows Server 2022, R-devel, 64 bit (on Rhub)
 * R version 4.2.2 (2022-10-31 ucrt) x86_64-w64-mingw32 (64-bit) (win-builder)
+* R Under development (unstable) (2023-02-23 r83894 ucrt) x86_64-w64-mingw32 (64-bit) (win-builder)
 
 ## R CMD check results
 
