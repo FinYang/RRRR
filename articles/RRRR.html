@@ -157,9 +157,9 @@ regression, use function <code>RRR_sim</code>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;         mu        A        B        D   Sigma1   Sigma2   Sigma3</span></span>
-<span><span class="co">#&gt; 1  0.10000  0.81409 -0.69149  0.17221  1.00000  0.00000  0.00000</span></span>
-<span><span class="co">#&gt; 2  0.10000 -0.99945 -1.28426 -1.32513  0.00000  1.00000  0.00000</span></span>
-<span><span class="co">#&gt; 3  0.10000 -0.92986 -0.66009 -0.40722  0.00000  0.00000  1.00000</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  0.10000  1.08427  0.80637  0.61341  1.00000  0.00000  0.00000</span></span>
+<span><span class="co">#&gt; 2  0.10000 -0.71361  0.22911 -0.34606  0.00000  1.00000  0.00000</span></span>
+<span><span class="co">#&gt; 3  0.10000 -1.23433  0.27142  0.37301  0.00000  0.00000  1.00000</span></span></code></pre></div>
 <p>A number of parameters can be specified. See <code><a href="../reference/RRR_sim.html">?RRR_sim</a></code>.
 The default arguments are set in such a way that the matrix resulted
 from <span class="math inline">\(AB'\)</span> will be a reduced rank
@@ -172,16 +172,16 @@ coefficient matrix with rank of <span class="math inline">\(r\)</span>.</p>
 <span><span class="co">#&gt;   ..$ N    : num 1000</span></span>
 <span><span class="co">#&gt;   ..$ Q    : num 3</span></span>
 <span><span class="co">#&gt;   ..$ R    : num 1</span></span>
-<span><span class="co">#&gt;   ..$ A    : num [1:3, 1] 0.814 -0.999 -0.93</span></span>
-<span><span class="co">#&gt;   ..$ B    : num [1:3, 1] -0.691 -1.284 -0.66</span></span>
+<span><span class="co">#&gt;   ..$ A    : num [1:3, 1] 1.084 -0.714 -1.234</span></span>
+<span><span class="co">#&gt;   ..$ B    : num [1:3, 1] 0.806 0.229 0.271</span></span>
 <span><span class="co">#&gt;   ..$ mu   : num [1:3] 0.1 0.1 0.1</span></span>
-<span><span class="co">#&gt;   ..$ D    : num [1:3, 1] 0.172 -1.325 -0.407</span></span>
+<span><span class="co">#&gt;   ..$ D    : num [1:3, 1] 0.613 -0.346 0.373</span></span>
 <span><span class="co">#&gt;   ..$ r    : num 1</span></span>
 <span><span class="co">#&gt;   ..$ Sigma: num [1:3, 1:3] 1 0 0 0 1 0 0 0 1</span></span>
-<span><span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] -1.038 0.379 1.043 -0.479 1.511 ...</span></span>
-<span><span class="co">#&gt;  $ y   : num [1:1000, 1:3] -2.112 0.121 1.523 0.483 1.089 ...</span></span>
-<span><span class="co">#&gt;  $ x   : num [1:1000, 1:3] 0.947 -0.203 0.526 0.156 0.455 ...</span></span>
-<span><span class="co">#&gt;  $ z   : num [1:1000] 0.515 0.83 0.289 0.777 -0.638 ...</span></span>
+<span><span class="co">#&gt;   ..$ innov: num [1:1000, 1:3] -0.261 0.207 0.971 0.571 -0.734 ...</span></span>
+<span><span class="co">#&gt;  $ y   : num [1:1000, 1:3] -0.389 1.165 1.671 0.614 -1.585 ...</span></span>
+<span><span class="co">#&gt;  $ x   : num [1:1000, 1:3] 0.4048 0.2184 1.2618 -0.7283 0.0706 ...</span></span>
+<span><span class="co">#&gt;  $ z   : num [1:1000] -0.6855 0.4995 -0.3019 0.0231 -0.9905 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "RRR_data" "list"</span></span></code></pre></div>
 <p>The returned list of <code>RRR_sim</code> contains the input
 specifications and the data points <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span>
@@ -206,9 +206,9 @@ and outliers.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
-<span><span class="co">#&gt; 1  0.146481  1.327350 -0.410159  0.182429  2.658987 -0.444040 -0.443237</span></span>
-<span><span class="co">#&gt; 2  0.022299 -1.515145 -0.787531 -1.314574 -0.444040  3.197600  0.134199</span></span>
-<span><span class="co">#&gt; 3  0.100401 -1.477977 -0.375371 -0.301674 -0.443237  0.134199  3.224112</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  0.012938  1.013672  0.942682  0.580991  3.345338 -0.299069 -3.038414</span></span>
+<span><span class="co">#&gt; 2  0.148413 -0.588085  0.273039 -0.323479 -0.299069  3.372916  1.709844</span></span>
+<span><span class="co">#&gt; 3  0.291647 -1.101053  0.330779  0.400010 -3.038414  1.709844 19.261569</span></span></code></pre></div>
 <p>The matrix <span class="math inline">\(z\)</span> and the constant
 <span class="math inline">\(\mu\)</span> term are optional.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -238,10 +238,10 @@ distribution for the innovations. As before the matrix <span class="math inline"
 <span><span class="co">#&gt; 1000    3    3    1    1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
-<span><span class="co">#&gt;           mu          A          B          D     Sigma1     Sigma2     Sigma3</span></span>
-<span><span class="co">#&gt; 1  0.0882130  0.6429168 -0.8770157  0.2023801  0.6116671 -0.0059146  0.0188551</span></span>
-<span><span class="co">#&gt; 2  0.0341914 -0.7646514 -1.6059323 -1.3027663 -0.0059146  0.7028833  0.0304197</span></span>
-<span><span class="co">#&gt; 3  0.0924960 -0.6926132 -0.8383183 -0.3551723  0.0188551  0.0304197  0.6334672</span></span></code></pre></div>
+<span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.053612  0.445764  1.952775  0.576112  0.653569 -0.022268 -0.020604</span></span>
+<span><span class="co">#&gt; 2  0.099420 -0.280023  0.552379 -0.322447 -0.022268  0.703277  0.014187</span></span>
+<span><span class="co">#&gt; 3  0.099396 -0.507451  0.612118  0.361631 -0.020604  0.014187  0.692843</span></span></code></pre></div>
 <p>Additional arguments that are worth noticing are <code>itr</code>,
 which control the maximum number of iteration, and
 <code>earlystop</code>, which is the criteria to stop the algorithm
@@ -298,10 +298,10 @@ which can be much easier to optimise.</p>
 <span><span class="co">#&gt;         1000            3            1            1          100           10 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
-<span><span class="co">#&gt;           mu          A          B          D     Sigma1     Sigma2     Sigma3</span></span>
-<span><span class="co">#&gt; 1  0.0910272  0.6480791 -0.8692483  0.2019537  0.6269427 -0.0068799  0.0193133</span></span>
-<span><span class="co">#&gt; 2  0.0345940 -0.7723313 -1.5909911 -1.3041306 -0.0068799  0.7179936  0.0308225</span></span>
-<span><span class="co">#&gt; 3  0.0923465 -0.6975678 -0.8326557 -0.3561242  0.0193133  0.0308225  0.6500943</span></span></code></pre></div>
+<span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
+<span><span class="co">#&gt; 1  0.054144  0.449807  1.937679  0.575796  0.671604 -0.023718 -0.020262</span></span>
+<span><span class="co">#&gt; 2  0.102738 -0.283247  0.544009 -0.323879 -0.023718  0.721810  0.012375</span></span>
+<span><span class="co">#&gt; 3  0.100835 -0.509571  0.608201  0.360788 -0.020262  0.012375  0.707851</span></span></code></pre></div>
 <p>The simulated data set is of size 1000. In the above command, in the
 first iteration 100 realisations are used in the estimation with 10 more
 data points in each of the following iteration. Because of the
@@ -360,9 +360,9 @@ estimation.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;          mu         A         B         D    Sigma1    Sigma2    Sigma3</span></span>
-<span><span class="co">#&gt; 1  0.105531  0.405278 -1.177303  0.303842  1.232420 -0.499720 -0.685873</span></span>
-<span><span class="co">#&gt; 2  0.070988 -0.476790 -1.181063 -0.850297 -0.499720  1.543809  0.968520</span></span>
-<span><span class="co">#&gt; 3  0.058743 -0.498481 -1.279081  0.326124 -0.685873  0.968520  2.172315</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  0.174109 -0.180878  1.928014  0.486495  1.786481 -0.843835 -0.102663</span></span>
+<span><span class="co">#&gt; 2  0.079571  0.200884 -0.429651 -0.075581 -0.843835  1.419247  0.132694</span></span>
+<span><span class="co">#&gt; 3  0.104804 -0.314889  1.254126  0.441822 -0.102663  0.132694  0.873581</span></span></code></pre></div>
 <p>Without other arguments specified, <code>update</code> will just take
 the original specification in the model. If it applies to output of
 <code>RRRR</code>, then the default would be the default arguments in
@@ -380,7 +380,7 @@ of the Econometric Society 59 (6): 1551.</a></p>
 Zhao and D. P. Palomar, “Robust maximum likelihood estimation of sparse
 vector error correction model,” in2017 IEEE Global Conferenceon Signal
 and Information Processing (GlobalSIP), pp. 913–917,IEEE, 2017.</a></p>
-<p><a href="https://link.springer.com/10.1007/s10107-016-1021-7" class="external-link">Razaviyayn,
+<p><a href="https://link.springer.com/article/10.1007/s10107-016-1021-7" class="external-link">Razaviyayn,
 Meisam, Maziar Sanjabi, and Zhi Quan Luo. 2016. “A Stochastic Successive
 Minimization Method for Nonsmooth Nonconvex Optimization with
 Applications to Transceiver Design in Wireless Communication Networks.”
